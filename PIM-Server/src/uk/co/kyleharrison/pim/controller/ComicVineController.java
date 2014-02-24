@@ -9,7 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import uk.co.kyleharrison.pim.service.ComicVineService;
-import uk.co.kyleharrison.pim.service.JSONService;
+import uk.co.kyleharrison.pim.utilities.JSONService;
+
 
 public class ComicVineController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
