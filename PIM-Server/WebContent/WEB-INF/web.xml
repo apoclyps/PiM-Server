@@ -15,6 +15,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>AuthenticationController</servlet-name>
+    <url-pattern>/AuthenticationController</url-pattern>  
     <url-pattern>/login</url-pattern>
     <url-pattern>/login/*</url-pattern>
   </servlet-mapping>
@@ -24,6 +25,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>RequestController</servlet-name>
+    <url-pattern>/RequestController</url-pattern>
     <url-pattern>/request</url-pattern>
     <url-pattern>/request/*</url-pattern>
     <url-pattern>/request/*/*</url-pattern>
@@ -44,6 +46,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>ComicVineController</servlet-name>
+    <url-pattern>/ComicVineController</url-pattern>
     <url-pattern>/comicvine</url-pattern>
     <url-pattern>/comicvine/*</url-pattern>
     <url-pattern>/comicvine/*/*</url-pattern>
@@ -56,6 +59,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>AmazonController</servlet-name>
+     <url-pattern>/AmazonController</url-pattern>
     <url-pattern>/amazon</url-pattern>
     <url-pattern>/amazon/*</url-pattern>
     <url-pattern>/amazon/*/*</url-pattern>
@@ -68,6 +72,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>SpotifyController</servlet-name>
+    <url-pattern>/SpotifyController</url-pattern>
     <url-pattern>/spotify</url-pattern>
     <url-pattern>/spotify/*</url-pattern>
     <url-pattern>/spotify/*/*</url-pattern>
@@ -80,6 +85,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>SteamController</servlet-name>
+    <url-pattern>/SteamController</url-pattern>
     <url-pattern>/steam</url-pattern>
     <url-pattern>/steam/*</url-pattern>
     <url-pattern>/steam/*/*</url-pattern>
@@ -92,6 +98,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>IMDBController</servlet-name>
+    <url-pattern>/IMDBController</url-pattern>
     <url-pattern>/imdb</url-pattern>
     <url-pattern>/imdb/*</url-pattern>
     <url-pattern>/imdb/*/*</url-pattern>
@@ -104,6 +111,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>ISBNDBController</servlet-name>
+    <url-pattern>/ISBNDBController</url-pattern>
     <url-pattern>/isbndb</url-pattern>
     <url-pattern>/isbndb/*</url-pattern>
     <url-pattern>/isbndb/*/*</url-pattern>
@@ -116,6 +124,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>MasterController</servlet-name>
+    <url-pattern>/MasterController</url-pattern>
     <url-pattern>/master</url-pattern>
     <url-pattern>/master/*</url-pattern>
     <url-pattern>/master/*/*</url-pattern>

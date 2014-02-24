@@ -16,67 +16,60 @@ import uk.co.kyleharrison.pim.utilities.Convertors;
 /**
  * Servlet implementation class RequestServlet
  */
-@WebServlet({"/request","/request/*","/request/*/*"})
+@WebServlet({ "/request", "/request/*", "/request/*/*" })
 public class RequestController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-    protected RequestService requestService;
-    protected User currentUserSession;
+	protected RequestService requestService;
+	protected User currentUserSession;
 
-    
-    public RequestController() {
-        super();
-        
-    }
-    
-    public void init(){
-    	this.requestService = new RequestService();
-    }
+	public RequestController() {
+		super();
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+	}
+
+	public void init() {
+		this.requestService = new RequestService();
+	}
+
+	protected void doGet(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+
 		String requestComponents[] = Convertors.SplitRequestPath(request);
 
-		System.out.print("GET : RequestController : "+new Date().toLocaleString() + "\t Path Length "+ requestComponents.length +" \t Components");
-		for(String component : requestComponents){
-			System.out.print("/"+component);
-		}
-		System.out.println();
-		
+		this.requestService.logAccess(requestComponents);
+
 		RequestDispatcher dispatcher = null;
-		
-		switch(requestComponents[requestComponents.length-1].toUpperCase()){
-		case "COMICVINE":
-			System.out.println("ComicVine");
-			String jsonResponse = this.requestService.testGrapeVine("Batman");
-			this.requestService.JSONResponse(response, jsonResponse);
-			dispatcher= request.getRequestDispatcher("ComicVineController");
-			break;
-		case "AMAZON" :
-			dispatcher= request.getRequestDispatcher("AmazonController");
-			break;
-		case "SPOTIFY" :
-			dispatcher= request.getRequestDispatcher("SpotifyController");
-			break;
-		case "STEAM" :
-			dispatcher= request.getRequestDispatcher("SteamController");
-			break;
-		case "IMDB" :
-			dispatcher= request.getRequestDispatcher("IMDBController");
-			break;
-		case "ISBNDB" :
-			dispatcher= request.getRequestDispatcher("ISBNDBController");
-			break;
-		default :
-			System.out.println("Default");
-			dispatcher= request.getRequestDispatcher("MasterController");
-			break;
+
+		switch (requestComponents[requestComponents.length - 1].toUpperCase()) {
+			case "COMICVINE":
+				dispatcher = getServletContext().getRequestDispatcher("/ComicVineController");
+				break;
+			case "AMAZON":
+				dispatcher = getServletContext().getRequestDispatcher("/AmazonController");
+				break;
+			case "SPOTIFY":
+				dispatcher = getServletContext().getRequestDispatcher("/SpotifyController");
+				break;
+			case "STEAM":
+				dispatcher = getServletContext().getRequestDispatcher("/SteamController");
+				break;
+			case "IMDB":
+				dispatcher = getServletContext().getRequestDispatcher("/IMDBController");
+				break;
+			case "ISBNDB":
+				dispatcher = getServletContext().getRequestDispatcher("/ISBNDBController");
+				break;
+			default:
+				dispatcher = getServletContext().getRequestDispatcher("/MasterController");
+				break;
 		}
-		
+
 		this.currentUserSession = null;
 		dispatcher.forward(request, response);
 	}
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
 
 	}
 

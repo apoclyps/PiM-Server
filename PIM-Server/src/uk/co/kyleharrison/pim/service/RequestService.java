@@ -2,6 +2,7 @@ package uk.co.kyleharrison.pim.service;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
@@ -39,6 +40,14 @@ import com.omertron.omdbapi.wrapper.WrapperSearch;
 
 public class RequestService extends DatabaseConnector {
 
+	public void logAccess(String [] requestComponents ){
+		System.out.print("GET : RequestController : "+new Date().toLocaleString() + "\t Path Length "+ requestComponents.length +" \t Components");
+		for(String component : requestComponents){
+			System.out.print("/"+component);
+		}
+		System.out.println();
+	}
+	
 	public void testAmazonProductAPI(String query) {
         try{
             AmazonRequest request = AmazonRequestBuilder.init()
