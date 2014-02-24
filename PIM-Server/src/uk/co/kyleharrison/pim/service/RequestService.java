@@ -1,17 +1,24 @@
 package uk.co.kyleharrison.pim.service;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
+
+import javax.servlet.http.HttpServletResponse;
+
+import net.scholnick.isbndb.BooksProxy;
+import net.scholnick.isbndb.domain.Book;
 
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.ObjectWriter;
+import org.json.simple.JSONObject;
 
-import net.scholnick.isbndb.BooksProxy;
-import net.scholnick.isbndb.domain.Book;
+import uk.co.kyleharrison.grapejuice.facade.GrapeVineFacade;
+import uk.co.kyleharrison.pim.connectors.DatabaseConnector;
 
 import com.github.koraktor.steamcondenser.exceptions.SteamCondenserException;
 import com.github.koraktor.steamcondenser.steam.community.SteamGame;
@@ -29,9 +36,6 @@ import com.omertron.omdbapi.OMDBException;
 import com.omertron.omdbapi.OmdbApi;
 import com.omertron.omdbapi.model.OmdbVideoBasic;
 import com.omertron.omdbapi.wrapper.WrapperSearch;
-
-import uk.co.kyleharrison.grapejuice.facade.GrapeVineFacade;
-import uk.co.kyleharrison.pim.connectors.DatabaseConnector;
 
 public class RequestService extends DatabaseConnector {
 
@@ -122,11 +126,14 @@ public class RequestService extends DatabaseConnector {
 		}
 	}
 	
-	public void testGrapeVine(String query){
+	public String testGrapeVine(String query){
 		GrapeVineFacade grapeVineFacade = new GrapeVineFacade();
 		
-		grapeVineFacade.PreformQuery("http://www.comicvine.com/api/search/?api_key=2736f1620710c52159ba0d0aea337c59bd273816"
-				+ "&format=json&field_list=name,id&query="+query);
+		String resources = "name,id,first_issue,last_issue,count_of_issues";
+		String queryRequest = "http://www.comicvine.com/api/search/?api_key=2736f1620710c52159ba0d0aea337c59bd273816"
+				+ "&format=json&field_list="+resources+"&resources=volume&query=";
+		
+		grapeVineFacade.PreformQuery(queryRequest+query);
 		
 		ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
 		String json = null;
@@ -137,7 +144,7 @@ public class RequestService extends DatabaseConnector {
 		}catch( IOException ioe){
 			ioe.printStackTrace();
 		}
-		//System.out.println(json);
+		return json;
 	}
 	
 	public void testSpotify(String query){
@@ -153,6 +160,44 @@ public class RequestService extends DatabaseConnector {
 			System.out.println("\n"+"Total Results : "+response.getAlbums().size());
 		} catch (IOException e) {
 			e.printStackTrace();
+		}
+	}
+	
+	public void JSONPResponse(HttpServletResponse response,
+			JSONObject jsonResponse, String callback) {
+		if (jsonResponse != null) {
+			response.setContentType("text/x-json;charset=UTF-8");
+			response.setHeader("Cache-Control", "no-cache");
+
+			PrintWriter out = null;
+			response.setContentType("application/json");
+
+			try {
+				out = response.getWriter();
+				out.print(callback + "(" + jsonResponse + ");");
+				out.flush();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	public void JSONResponse(HttpServletResponse response,
+			String jsonResponse) {
+		if (jsonResponse != null) {
+			response.setContentType("text/x-json;charset=UTF-8");
+			response.setHeader("Cache-Control", "no-cache");
+
+			PrintWriter out = null;
+			response.setContentType("application/json");
+
+			try {
+				out = response.getWriter();
+				out.print(jsonResponse);
+				out.flush();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
