@@ -17,7 +17,7 @@ import com.omertron.omdbapi.wrapper.WrapperSearch;
 
 import uk.co.kyleharrison.interfaces.ControllerServiceInterface;
 
-public class IMDBService implements ControllerServiceInterface {
+public class OMDBService implements ControllerServiceInterface {
 
 	@Override
 	public String executeQuery(String query) {

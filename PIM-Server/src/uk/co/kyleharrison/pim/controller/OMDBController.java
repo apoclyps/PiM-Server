@@ -8,19 +8,19 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import uk.co.kyleharrison.pim.service.model.IMDBService;
+import uk.co.kyleharrison.pim.service.model.OMDBService;
 import uk.co.kyleharrison.pim.utilities.JSONService;
 
 /**
  * Servlet implementation class IMDBController
  */
-public class IMDBController extends HttpServlet {
+public class OMDBController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-    private IMDBService imdbService;
+    private OMDBService imdbService;
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public IMDBController() {
+    public OMDBController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -29,7 +29,7 @@ public class IMDBController extends HttpServlet {
 	 * @see Servlet#init(ServletConfig)
 	 */
 	public void init(ServletConfig config) throws ServletException {
-		this.imdbService = new IMDBService();
+		this.imdbService = new OMDBService();
 	}
 
 	/**
