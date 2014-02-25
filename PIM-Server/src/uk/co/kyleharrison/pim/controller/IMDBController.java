@@ -1,18 +1,22 @@
 package uk.co.kyleharrison.pim.controller;
 
 import java.io.IOException;
+
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import uk.co.kyleharrison.pim.service.model.IMDBService;
+import uk.co.kyleharrison.pim.utilities.JSONService;
+
 /**
  * Servlet implementation class IMDBController
  */
 public class IMDBController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+    private IMDBService imdbService;
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -25,14 +29,15 @@ public class IMDBController extends HttpServlet {
 	 * @see Servlet#init(ServletConfig)
 	 */
 	public void init(ServletConfig config) throws ServletException {
-		// TODO Auto-generated method stub
+		this.imdbService = new IMDBService();
 	}
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		String jsonResponse = imdbService.executeQuery("Batman");
+		JSONService.JSONResponse(response,jsonResponse);
 	}
 
 	/**
