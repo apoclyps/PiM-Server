@@ -92,16 +92,19 @@
   </servlet-mapping>
   <servlet>
     <description></description>
-    <display-name>IMDBController</display-name>
-    <servlet-name>IMDBController</servlet-name>
-    <servlet-class>uk.co.kyleharrison.pim.controller.IMDBController</servlet-class>
+    <display-name>OMDBController</display-name>
+    <servlet-name>OMDBController</servlet-name>
+    <servlet-class>uk.co.kyleharrison.pim.controller.OMDBController</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>IMDBController</servlet-name>
-    <url-pattern>/IMDBController</url-pattern>
+    <servlet-name>OMDBController</servlet-name>
+    <url-pattern>/OMDBController</url-pattern>
     <url-pattern>/imdb</url-pattern>
     <url-pattern>/imdb/*</url-pattern>
     <url-pattern>/imdb/*/*</url-pattern>
+    <url-pattern>/omdb</url-pattern>
+    <url-pattern>/omdb/*</url-pattern>
+    <url-pattern>/omdb/*/*</url-pattern>
   </servlet-mapping>
   <servlet>
     <description></description>

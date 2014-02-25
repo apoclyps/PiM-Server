@@ -28,7 +28,7 @@ public class SteamController extends HttpServlet {
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String jsonResponse = steamService.testSteam("Batman");
+		String jsonResponse = steamService.testSteam("Batman","Apoclyps");
 		JSONService.JSONResponse(response,jsonResponse);
 	}
 
