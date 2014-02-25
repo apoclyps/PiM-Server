@@ -1,9 +1,12 @@
 package uk.co.kyleharrison.pim.service.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+
+import uk.co.kyleharrison.interfaces.ControllerServiceInterface;
 
 import com.mlesniak.amazon.backend.AmazonItem;
 import com.mlesniak.amazon.backend.AmazonItemConverter;
@@ -11,7 +14,7 @@ import com.mlesniak.amazon.backend.AmazonRequest;
 import com.mlesniak.amazon.backend.AmazonRequestBuilder;
 import com.mlesniak.amazon.backend.SearchIndex;
 
-public class AmazonService {
+public class AmazonService implements ControllerServiceInterface {
 
 	@SuppressWarnings("unchecked")
 	public String testAmazonProductAPI(String query) {
@@ -46,6 +49,36 @@ public class AmazonService {
         	System.out.println("No such field error ");
         }
         return null;
+	}
+
+	@Override
+	public String executeQuery(String query) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public JSONObject executeJSONQuery(String query) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean searchItemExists(String item) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean cacheItem(String item) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean cacheResults(ArrayList<Object> results) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 	
 }

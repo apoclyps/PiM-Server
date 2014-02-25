@@ -1,17 +1,20 @@
 package uk.co.kyleharrison.pim.service.model;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.ObjectWriter;
+import org.json.simple.JSONObject;
 
+import uk.co.kyleharrison.interfaces.ControllerServiceInterface;
 import net.scholnick.isbndb.BooksProxy;
 import net.scholnick.isbndb.domain.Book;
 
-public class ISBNDBService {
+public class ISBNDBService implements ControllerServiceInterface {
 
 	public String testISBNDB(String query) {
 		try {
@@ -62,6 +65,36 @@ public class ISBNDBService {
 		}
 
 		return null;
+	}
+
+	@Override
+	public String executeQuery(String query) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public JSONObject executeJSONQuery(String query) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean searchItemExists(String item) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean cacheItem(String item) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean cacheResults(ArrayList<Object> results) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

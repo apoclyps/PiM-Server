@@ -1,16 +1,19 @@
 package uk.co.kyleharrison.pim.service.model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
+import uk.co.kyleharrison.interfaces.ControllerServiceInterface;
+
 import com.github.koraktor.steamcondenser.exceptions.SteamCondenserException;
 import com.github.koraktor.steamcondenser.steam.community.SteamGame;
 import com.github.koraktor.steamcondenser.steam.community.SteamId;
 
-public class SteamService {
+public class SteamService implements ControllerServiceInterface {
 
 	// To get a lits of all available games
 	// http://api.steampowered.com/ISteamApps/GetAppList/v0001/
@@ -46,6 +49,36 @@ public class SteamService {
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	@Override
+	public String executeQuery(String query) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public JSONObject executeJSONQuery(String query) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean searchItemExists(String item) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean cacheItem(String item) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean cacheResults(ArrayList<Object> results) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }
