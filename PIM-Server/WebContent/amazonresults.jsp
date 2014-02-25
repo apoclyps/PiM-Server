@@ -44,10 +44,10 @@ body {
 	text-align: left;
 }
 </style>
-<script language="javascript" src="amazonAjax.js"></script>
+<script language="javascript" src="js/amazonAjax.js"></script>
 </head>
 
-<body>
+<body>	
 
 	<!-- Navbar
       ================================================== -->
@@ -109,24 +109,6 @@ body {
 
 	<div class="container">
 
-		<div class="starter-template">
-			<a href="${pageContext.request.contextPath}/AmazonController">Amazon
-				Product Finder API</a><br> <a
-				href="${pageContext.request.contextPath}/SpotifyController">Spotify
-				API</a><br> <a
-				href="${pageContext.request.contextPath}/SteamController">Steam
-				Condensor API</a><br> <a
-				href="${pageContext.request.contextPath}/OMDBController">OMDB
-				API</a><br> <a
-				href="${pageContext.request.contextPath}/ISBNDBController">ISBNDB
-				API</a><br> <a
-				href="${pageContext.request.contextPath}/ComicVineController">ComicVine
-				- GrapeJuice API</a><br><br>
-				<input type="button" value="Call Amazon"  onclick="$.getJSON();" /><br>
-				
-				
-		</div>
-		
 		 <!-- Tables
       ================================================== -->
       <div class="bs-docs-section">
@@ -134,7 +116,7 @@ body {
         <div class="row">
           <div class="col-lg-12">
             <div class="page-header">
-              <h1 id="tables">Results</h1>
+              <h1 id="tables">Amazon Results</h1>
             </div>
                <div id="table"></div>
           </div>

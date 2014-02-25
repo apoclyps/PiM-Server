@@ -30,7 +30,7 @@ public class AmazonService implements ControllerServiceInterface {
             
             JSONArray itemArray = new JSONArray();
             for (AmazonItem amazonItem : amazonItems) {
-                System.out.println(amazonItem);
+               // System.out.println(amazonItem);
         		JSONObject item = new JSONObject();
         		item.put("asin", amazonItem.getAsin());
         		item.put("resource_type", SearchIndex.DVD.toString());

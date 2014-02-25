@@ -41,7 +41,7 @@ public class SteamService implements ControllerServiceInterface {
 			}
 			System.out.println("Total Games" + sg.size());
 			JSONObject results = new JSONObject();
-			results.put("Amazon", itemArray);
+			results.put("Steam", itemArray);
 			return results.toString();
 
 		} catch (SteamCondenserException e) {

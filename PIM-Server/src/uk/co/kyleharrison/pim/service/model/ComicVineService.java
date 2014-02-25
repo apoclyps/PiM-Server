@@ -15,6 +15,7 @@ import uk.co.kyleharrison.pim.connectors.DatabaseConnector;
 
 public class ComicVineService extends DatabaseConnector implements ControllerServiceInterface{
 
+	@SuppressWarnings("unchecked")
 	public String testGrapeVine(String query){
 		GrapeVineFacade grapeVineFacade = new GrapeVineFacade();
 		
@@ -26,8 +27,11 @@ public class ComicVineService extends DatabaseConnector implements ControllerSer
 		
 		ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
 		String json = null;
+		JSONObject comicvineOBJ = null;
 		try {
 			json = ow.writeValueAsString(grapeVineFacade.getComicVineVolumes());
+			//comicvineOBJ= new JSONObject();
+			//comicvineOBJ.put("comicvine", ow.writeValueAsString(grapeVineFacade.getComicVineVolumes()) );
 		} catch (JsonGenerationException | JsonMappingException ex) {
 			ex.printStackTrace();
 		}catch( IOException ioe){
