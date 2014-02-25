@@ -8,8 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import uk.co.kyleharrison.pim.service.AmazonService;
-import uk.co.kyleharrison.pim.service.SteamService;
+import uk.co.kyleharrison.pim.service.model.SteamService;
 import uk.co.kyleharrison.pim.utilities.JSONService;
 
 /**

@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import uk.co.kyleharrison.pim.service.ComicVineService;
+import uk.co.kyleharrison.pim.service.model.ComicVineService;
 import uk.co.kyleharrison.pim.utilities.JSONService;
 
 

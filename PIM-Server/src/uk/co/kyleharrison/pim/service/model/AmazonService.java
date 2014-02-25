@@ -1,4 +1,4 @@
-package uk.co.kyleharrison.pim.service;
+package uk.co.kyleharrison.pim.service.model;
 
 import java.util.List;
 

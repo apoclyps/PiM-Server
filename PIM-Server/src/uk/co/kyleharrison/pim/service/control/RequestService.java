@@ -1,4 +1,4 @@
-package uk.co.kyleharrison.pim.service;
+package uk.co.kyleharrison.pim.service.control;
 
 import java.io.IOException;
 import java.io.PrintWriter;

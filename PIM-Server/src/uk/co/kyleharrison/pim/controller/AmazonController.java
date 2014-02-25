@@ -8,25 +8,21 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.json.simple.JSONObject;
-
-import uk.co.kyleharrison.pim.service.AmazonService;
+import uk.co.kyleharrison.pim.service.model.AmazonService;
 import uk.co.kyleharrison.pim.utilities.JSONService;
 
 public class AmazonController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+    private AmazonService amazonService;
     public AmazonController() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	public void init(ServletConfig config) throws ServletException {
-		// TODO Auto-generated method stub
+		this.amazonService= new AmazonService();
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		AmazonService amazonService= new AmazonService();
 		String jsonResponse = amazonService.testAmazonProductAPI("Batman");
 		JSONService.JSONResponse(response,jsonResponse);
 	}

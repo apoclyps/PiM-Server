@@ -1,4 +1,4 @@
-package uk.co.kyleharrison.pim.service;
+package uk.co.kyleharrison.pim.service.model;
 
 import java.io.IOException;
 import org.codehaus.jackson.JsonGenerationException;

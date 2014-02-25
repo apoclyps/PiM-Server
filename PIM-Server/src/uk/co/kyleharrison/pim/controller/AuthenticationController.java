@@ -11,8 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import uk.co.kyleharrison.pim.model.User;
 import uk.co.kyleharrison.pim.security.SecurityUtils;
-import uk.co.kyleharrison.pim.service.AuthenticationService;
-
+import uk.co.kyleharrison.pim.service.control.AuthenticationService;
 
 @WebServlet("/login")
 public class AuthenticationController extends HttpServlet {

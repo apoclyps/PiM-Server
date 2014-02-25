@@ -1,4 +1,4 @@
-package uk.co.kyleharrison.pim.service;
+package uk.co.kyleharrison.pim.service.control;
 
 import uk.co.kyleharrison.pim.connectors.DatabaseConnector;
 import uk.co.kyleharrison.pim.model.User;
