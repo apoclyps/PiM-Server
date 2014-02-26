@@ -17,7 +17,8 @@ import com.mlesniak.amazon.backend.SearchIndex;
 public class AmazonService implements ControllerServiceInterface {
 
 	@SuppressWarnings("unchecked")
-	public String testAmazonProductAPI(String query) {
+	@Override
+	public String executeQuery(String query) {
         try{
             AmazonRequest request = AmazonRequestBuilder.init()
                     .addKeywords(query)
@@ -30,7 +31,6 @@ public class AmazonService implements ControllerServiceInterface {
             
             JSONArray itemArray = new JSONArray();
             for (AmazonItem amazonItem : amazonItems) {
-               // System.out.println(amazonItem);
         		JSONObject item = new JSONObject();
         		item.put("asin", amazonItem.getAsin());
         		item.put("resource_type", SearchIndex.DVD.toString());
@@ -49,12 +49,6 @@ public class AmazonService implements ControllerServiceInterface {
         	System.out.println("No such field error ");
         }
         return null;
-	}
-
-	@Override
-	public String executeQuery(String query) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override

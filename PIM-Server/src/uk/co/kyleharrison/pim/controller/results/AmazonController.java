@@ -23,7 +23,7 @@ public class AmazonController extends HttpServlet {
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String jsonResponse = amazonService.testAmazonProductAPI("Batman");
+		String jsonResponse = amazonService.executeQuery("Batman");
 		JSONService.JSONResponse(response,jsonResponse);
 	}
 

@@ -7,6 +7,8 @@ import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.ObjectWriter;
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.simple.JSONObject;
 
 import uk.co.kyleharrison.grapejuice.facade.GrapeVineFacade;
@@ -15,8 +17,8 @@ import uk.co.kyleharrison.pim.interfaces.ControllerServiceInterface;
 
 public class ComicVineService extends DatabaseConnector implements ControllerServiceInterface{
 
-	@SuppressWarnings("unchecked")
-	public String testGrapeVine(String query){
+	@Override
+	public String executeQuery(String query) {
 		GrapeVineFacade grapeVineFacade = new GrapeVineFacade();
 		
 		String resources = "name,id,first_issue,last_issue,count_of_issues";
@@ -26,23 +28,25 @@ public class ComicVineService extends DatabaseConnector implements ControllerSer
 		grapeVineFacade.PreformQuery(queryRequest+query);
 		
 		ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+		JSONObject jso = new JSONObject();
 		String json = null;
-		JSONObject comicvineOBJ = null;
 		try {
 			json = ow.writeValueAsString(grapeVineFacade.getComicVineVolumes());
-			//comicvineOBJ= new JSONObject();
-			//comicvineOBJ.put("comicvine", ow.writeValueAsString(grapeVineFacade.getComicVineVolumes()) );
+			try {
+				JSONArray newJArray = new JSONArray(json);
+				jso.put("Results", grapeVineFacade.getComicVineVolumes().size());
+				jso.put("Query", query);
+				jso.put("COMICVINEVOLUME", newJArray);
+				return jso.toJSONString();
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		} catch (JsonGenerationException | JsonMappingException ex) {
 			ex.printStackTrace();
 		}catch( IOException ioe){
 			ioe.printStackTrace();
 		}
-		return json;
-	}
-
-	@Override
-	public String executeQuery(String query) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

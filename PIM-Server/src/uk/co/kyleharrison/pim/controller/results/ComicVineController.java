@@ -25,7 +25,7 @@ public class ComicVineController extends HttpServlet {
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String jsonResponse = this.comicVineService.testGrapeVine("Batman");
+		String jsonResponse = this.comicVineService.executeQuery("Batman");
 		JSONService.JSONResponse(response, jsonResponse);
 	}
 
