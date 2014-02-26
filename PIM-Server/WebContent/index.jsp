@@ -14,7 +14,8 @@
 
 <!-- Bootstrap core CSS -->
 <link rel="stylesheet"
-	href="${pageContext.request.contextPath}/css/bootstrap.css" type="text/css" />
+	href="${pageContext.request.contextPath}/css/bootstrap.css"
+	type="text/css" />
 
 
 <!-- Just for debugging purposes. Don't actually copy this line! -->
@@ -44,115 +45,106 @@ body {
 	text-align: left;
 }
 </style>
-<script language="javascript" src="amazonAjax.js"></script>
+<!-- <script language="javascript" src="js/amazonAjax.js"></script>-->
 </head>
 
 <body>
 
-	<!-- Navbar
-      ================================================== -->
-	<div class="navbar navbar-default navbar-fixed-top">
-		<div class="navbar-header">
-			<button type="button" class="navbar-toggle" data-toggle="collapse"
-				data-target=".navbar-responsive-collapse">
-				<span class="icon-bar"></span> <span class="icon-bar"></span> <span
-					class="icon-bar"></span>
-			</button>
-			<a class="navbar-brand" href="#">PIM</a>
-		</div>
-		<div class="navbar-collapse collapse navbar-responsive-collapse">
-			<ul class="nav navbar-nav">
-				<li class="active"><a href="#">Home</a></li>
-				<li><a href="#">Stats</a></li>
-				<li class="dropdown"><a href="#" class="dropdown-toggle"
-					data-toggle="dropdown">APIs <b class="caret"></b></a>
-					<ul class="dropdown-menu">
-					    <li class="dropdown-header">Raw JSON</li>
-						<li><a href="${pageContext.request.contextPath}/AmazonController">Amazon</a></li>
-						<li><a href="${pageContext.request.contextPath}/ComicVineController">ComicVine</a></li>
-						<li><a href="${pageContext.request.contextPath}/OMDBController">IMDB</a></li>
-						<li><a href="${pageContext.request.contextPath}/ISBNDBController">ISBNDB</a></li>
-						<li><a href="${pageContext.request.contextPath}/SteamController">Steam</a></li>
-						<li><a href="${pageContext.request.contextPath}/SpotifyController">Spotify</a></li>
-						<li class="divider"></li>
-						<li class="dropdown-header">AJAX</li>
-						<li><a href="${pageContext.request.contextPath}/AmazonController">Amazon</a></li>
-						<li><a href="${pageContext.request.contextPath}/ComicVineController">ComicVine</a></li>
-						<li><a href="${pageContext.request.contextPath}/OMDBController">IMDB</a></li>
-						<li><a href="${pageContext.request.contextPath}/ISBNDBController">ISBNDB</a></li>
-						<li><a href="${pageContext.request.contextPath}/SteamController">Steam</a></li>
-						<li><a href="${pageContext.request.contextPath}/SpotifyController">Spotify</a></li>
-
-					</ul></li>
-			</ul>
-
-			<ul class="nav navbar-nav navbar-right">
-				<li><a href="#">Link</a></li>
-				<li class="dropdown"><a href="#" class="dropdown-toggle"
-					data-toggle="dropdown">Dropdown <b class="caret"></b></a>
-					<ul class="dropdown-menu">
-						<li><a href="#">Action</a></li>
-						<li><a href="#">Another action</a></li>
-						<li><a href="#">Something else here</a></li>
-						<li class="divider"></li>
-						<li><a href="#">Separated link</a></li>
-					</ul></li>
-			</ul>
-			<form class="navbar-form navbar-right">
-				<input type="text" class="form-control col-lg-8"
-					placeholder="Search">
-			</form>
-		</div>
-		<!-- /.nav-collapse -->
-	</div>
-	<!-- /.navbar -->
+	<jsp:include page="/nav-bar.jsp" />
 
 	<div class="container">
 
-		<div class="starter-template">
-			<a href="${pageContext.request.contextPath}/AmazonController">Amazon
-				Product Finder API</a><br> <a
-				href="${pageContext.request.contextPath}/SpotifyController">Spotify
-				API</a><br> <a
-				href="${pageContext.request.contextPath}/SteamController">Steam
-				Condensor API</a><br> <a
-				href="${pageContext.request.contextPath}/OMDBController">OMDB
-				API</a><br> <a
-				href="${pageContext.request.contextPath}/ISBNDBController">ISBNDB
-				API</a><br> <a
-				href="${pageContext.request.contextPath}/ComicVineController">ComicVine
-				- GrapeJuice API</a><br><br>
-				<input type="button" value="Call Amazon"  onclick="$.getJSON();" /><br>
-				
-				
+	 <!-- Title Status
+      ================================================== -->
+		<div class="row">
+			<div class="col-lg-4">
+				<h2>API Status :</h2>
+			</div>
+			
+			<div class="col-lg-4">
+				<h2>Database Status :</h2>
+			</div>
+			
+			<div class="col-lg-4">
+				<h2>Resource Status :</h2>
+			</div>
+			
 		</div>
 		
-		 <!-- Tables
+	  <!-- Status
       ================================================== -->
-      <div class="bs-docs-section">
-
-        <div class="row">
-          <div class="col-lg-12">
-            <div class="page-header">
-              <h1 id="tables">Results</h1>
-            </div>
-               <div id="table"></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Forms
+		<div class="row">
+	  <!-- API Status
       ================================================== -->
+			<div class="col-lg-4">
+				<div class="bs-example">
+					<ul class="list-group">
+						<li class="list-group-item"><span class="badge">Active</span>
+							<a href="${pageContext.request.contextPath}/AmazonController">Amazon</a></li>
+						<li class="list-group-item"><span class="badge">Active</span>
+							<a href="${pageContext.request.contextPath}/ComicVineController">ComicVine</a></li>
+						<li class="list-group-item"><span class="badge">Active</span>
+							<a href="${pageContext.request.contextPath}/ISBNDBController">ISBNDB</a></li>	
+						<li class="list-group-item"><span class="badge">Active</span>
+							<a href="${pageContext.request.contextPath}/OMDBController">IMDB</a></li>
+						<li class="list-group-item"><span class="badge">Active</span>
+							<a href="${pageContext.request.contextPath}/SteamController">Steam</a></li>
+						<li class="list-group-item"><span class="badge">Active</span>
+							<a href="${pageContext.request.contextPath}/SpotifyController">Spotify</a></li>
+					</ul>
+				</div>
+			</div>
+			  <!-- API Status
+      ================================================== -->
+      <div class="col-lg-4">
+				<div class="bs-example">
+					<ul class="list-group">
+						<li class="list-group-item"><span class="badge">Active</span>
+							<a href="${pageContext.request.contextPath}/MySQLController">MySQL</a></li>
+						<li class="list-group-item"><span class="badge">Active</span>
+							<a href="${pageContext.request.contextPath}/CassandraController">Cassandra</a></li>
+					</ul>
+				</div>
+			</div>
+      	  <!-- API Status
+      ================================================== -->
+      <div class="col-lg-4">
+				<div class="bs-example">
+					<ul class="list-group">
+						<li class="list-group-item"><span class="badge">Active</span>
+							<a href="${pageContext.request.contextPath}/HadoopController">Hadoop</a></li>
+						<li class="list-group-item"><span class="badge">Active</span>
+							<a href="${pageContext.request.contextPath}/StormController">Storm</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		
+	  <!-- Tables
+      ================================================== -->
+		<div class="bs-docs-section">
 
-	</div>
-	<!-- /.container -->
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="page-header">
+						<h1 id="tables">Results</h1>
+					</div>
+					<div id="table">
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		
+		
+		<!-- /.container -->
+	    </div>
 
-
-	<!-- Bootstrap core JavaScript
+		<!-- Bootstrap core JavaScript
     ================================================== -->
-	<!-- Placed at the end of the document so the pages load faster -->
-	<script
-		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-	<script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
+		<!-- Placed at the end of the document so the pages load faster -->
+		<script
+			src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+		<script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
 </body>
 </html>

@@ -8,7 +8,7 @@
 	        var td3="<th><b>Resource Type</b></th></tr>";
 	
 	        $("#table").append(head+tr+td1+td2+td3+"</thead><tbody>"); 
-	        
+      
 	        for (var i in data.Amazon) {
 	             var tr="<tr>";
 	        var td1="<td>"+data.Amazon[i].title+"</td>";
