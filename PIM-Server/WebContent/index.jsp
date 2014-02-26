@@ -10,71 +10,45 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="">
 <meta name="author" content="">
-<link rel="shortcut icon" href="../../assets/ico/favicon.ico">
 
-<!-- Bootstrap core CSS -->
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/css/bootstrap.css"
-	type="text/css" />
+<jsp:include page="header.jsp" />
 
-
-<!-- Just for debugging purposes. Don't actually copy this line! -->
-<!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
-
-<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-<!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-<!-- JQuery CDN -->
-<script src="http://code.jquery.com/ui/1.10.1/jquery-ui.js"></script>
-<!-- JQueryUI CDN -->
-<link rel="stylesheet"
-	href="http://code.jquery.com/ui/1.10.1/themes/base/jquery-ui.css" />
-<!-- JQueryUI CSS -->
-
-<style type="text/css">
-body {
-	padding-top: 50px;
-}
-
-.starter-template {
-	padding: 40px 15px;
-	text-align: left;
-}
-</style>
 <!-- <script language="javascript" src="js/amazonAjax.js"></script>-->
+
+<!--  Traffic sources chart JS file -->
+<script src="${pageContext.request.contextPath}/js/trafficSources.js"></script>
 </head>
 
 <body>
-
-	<jsp:include page="/nav-bar.jsp" />
+	<jsp:include page="nav-bar.jsp" />
 
 	<div class="container">
 
-	 <!-- Title Status
+		<!-- Title Status
       ================================================== -->
 		<div class="row">
 			<div class="col-lg-4">
-				<h2>API Status :</h2>
+				<div class="page-header">
+					<h1>API Status :</h1>
+				</div>
 			</div>
-			
 			<div class="col-lg-4">
-				<h2>Database Status :</h2>
+				<div class="page-header">
+					<h1>Database Status :</h1>
+				</div>
 			</div>
-			
 			<div class="col-lg-4">
-				<h2>Resource Status :</h2>
+				<div class="page-header">
+					<h1>Resource Status :</h1>
+				</div>
 			</div>
-			
 		</div>
-		
+
 	  <!-- Status
       ================================================== -->
 		<div class="row">
-	  <!-- API Status
+
+			<!-- API Status
       ================================================== -->
 			<div class="col-lg-4">
 				<div class="bs-example">
@@ -84,7 +58,7 @@ body {
 						<li class="list-group-item"><span class="badge">Active</span>
 							<a href="${pageContext.request.contextPath}/ComicVineController">ComicVine</a></li>
 						<li class="list-group-item"><span class="badge">Active</span>
-							<a href="${pageContext.request.contextPath}/ISBNDBController">ISBNDB</a></li>	
+							<a href="${pageContext.request.contextPath}/ISBNDBController">ISBNDB</a></li>
 						<li class="list-group-item"><span class="badge">Active</span>
 							<a href="${pageContext.request.contextPath}/OMDBController">IMDB</a></li>
 						<li class="list-group-item"><span class="badge">Active</span>
@@ -94,9 +68,9 @@ body {
 					</ul>
 				</div>
 			</div>
-			  <!-- API Status
+			<!-- API Status
       ================================================== -->
-      <div class="col-lg-4">
+			<div class="col-lg-4">
 				<div class="bs-example">
 					<ul class="list-group">
 						<li class="list-group-item"><span class="badge">Active</span>
@@ -106,9 +80,9 @@ body {
 					</ul>
 				</div>
 			</div>
-      	  <!-- API Status
+			<!-- API Status
       ================================================== -->
-      <div class="col-lg-4">
+			<div class="col-lg-4">
 				<div class="bs-example">
 					<ul class="list-group">
 						<li class="list-group-item"><span class="badge">Active</span>
@@ -119,8 +93,8 @@ body {
 				</div>
 			</div>
 		</div>
-		
-	  <!-- Tables
+
+		<!-- Tables
       ================================================== -->
 		<div class="bs-docs-section">
 
@@ -129,22 +103,168 @@ body {
 					<div class="page-header">
 						<h1 id="tables">Results</h1>
 					</div>
-					<div id="table">
-					</div>
+					<div id="table"></div>
 				</div>
 			</div>
 		</div>
-		
-		
-		
-		<!-- /.container -->
-	    </div>
 
-		<!-- Bootstrap core JavaScript
-    ================================================== -->
-		<!-- Placed at the end of the document so the pages load faster -->
-		<script
-			src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-		<script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
+		<!-- Traffic Sources
+      ================================================== -->
+		<div class="col-sm-6">
+			<div class="widget-box">
+				<div class="widget-header widget-header-flat widget-header-small">
+					<h5>
+						<i class="icon-signal"></i> Traffic Sources
+					</h5>
+
+					<div class="widget-toolbar no-border">
+						<button class="btn btn-minier btn-primary dropdown-toggle"
+							data-toggle="dropdown">
+							This Week <i class="icon-angle-down icon-on-right bigger-110"></i>
+						</button>
+
+						<ul
+							class="dropdown-menu pull-right dropdown-125 dropdown-lighter dropdown-caret">
+							<li class="active"><a href="#" class="blue"> <i
+									class="icon-caret-right bigger-110">&nbsp;</i> This Week
+							</a></li>
+
+							<li><a href="#"> <i
+									class="icon-caret-right bigger-110 invisible">&nbsp;</i> Last
+									Week
+							</a></li>
+
+							<li><a href="#"> <i
+									class="icon-caret-right bigger-110 invisible">&nbsp;</i> This
+									Month
+							</a></li>
+
+							<li><a href="#"> <i
+									class="icon-caret-right bigger-110 invisible">&nbsp;</i> Last
+									Month
+							</a></li>
+						</ul>
+					</div>
+				</div>
+
+				<div class="widget-body">
+					<div class="widget-main">
+						<div id="piechart-placeholder"></div>
+
+						<div class="hr hr8 hr-double"></div>
+
+						<div class="clearfix">
+							<div class="grid3">
+								<span class="grey"> <i
+									class="icon-facebook-sign icon-2x blue"></i> &nbsp; likes
+								</span>
+								<h4 class="bigger pull-right">1,255</h4>
+							</div>
+
+							<div class="grid3">
+								<span class="grey"> <i
+									class="icon-twitter-sign icon-2x purple"></i> &nbsp; tweets
+								</span>
+								<h4 class="bigger pull-right">941</h4>
+							</div>
+
+							<div class="grid3">
+								<span class="grey"> <i
+									class="icon-pinterest-sign icon-2x red"></i> &nbsp; pins
+								</span>
+								<h4 class="bigger pull-right">1,050</h4>
+							</div>
+						</div>
+					</div>
+					<!-- /widget-main -->
+				</div>
+				<!-- /widget-body -->
+			</div>
+			<!-- /widget-box -->
+		</div>
+		<!-- /span -->
+
+		<!-- Database Cache
+      ================================================== -->
+		<div class="col-sm-6">
+			<div class="widget-box">
+				<div class="widget-header widget-header-flat widget-header-small">
+					<h5>
+						<i class="icon-signal"></i> Database Cache
+					</h5>
+
+					<div class="widget-toolbar no-border">
+						<button class="btn btn-minier btn-primary dropdown-toggle"
+							data-toggle="dropdown">
+							This Week <i class="icon-angle-down icon-on-right bigger-110"></i>
+						</button>
+
+						<ul
+							class="dropdown-menu pull-right dropdown-125 dropdown-lighter dropdown-caret">
+							<li class="active"><a href="#" class="blue"> <i
+									class="icon-caret-right bigger-110">&nbsp;</i> This Week
+							</a></li>
+
+							<li><a href="#"> <i
+									class="icon-caret-right bigger-110 invisible">&nbsp;</i> Last
+									Week
+							</a></li>
+
+							<li><a href="#"> <i
+									class="icon-caret-right bigger-110 invisible">&nbsp;</i> This
+									Month
+							</a></li>
+
+							<li><a href="#"> <i
+									class="icon-caret-right bigger-110 invisible">&nbsp;</i> Last
+									Month
+							</a></li>
+						</ul>
+					</div>
+				</div>
+
+				<div class="widget-body">
+					<div class="widget-main">
+						<div id="piechart-cache"></div>
+
+						<div class="hr hr8 hr-double"></div>
+
+						<div class="clearfix">
+							<div class="grid3">
+								<span class="grey"> <i
+									class="icon-facebook-sign icon-2x blue"></i> &nbsp; likes
+								</span>
+								<h4 class="bigger pull-right">1,255</h4>
+							</div>
+
+							<div class="grid3">
+								<span class="grey"> <i
+									class="icon-twitter-sign icon-2x purple"></i> &nbsp; tweets
+								</span>
+								<h4 class="bigger pull-right">941</h4>
+							</div>
+
+							<div class="grid3">
+								<span class="grey"> <i
+									class="icon-pinterest-sign icon-2x red"></i> &nbsp; pins
+								</span>
+								<h4 class="bigger pull-right">1,050</h4>
+							</div>
+						</div>
+					</div>
+					<!-- /widget-main -->
+				</div>
+				<!-- /widget-body -->
+			</div>
+			<!-- /widget-box -->
+		</div>
+		<!-- /span -->
+
+		<!-- /.container -->
+	</div>
+
+	<!--  Javascript files included in footer to make page load faster -->
+	<jsp:include page="footer.jsp" />
+
 </body>
 </html>
