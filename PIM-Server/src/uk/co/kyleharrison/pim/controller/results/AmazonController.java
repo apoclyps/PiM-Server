@@ -1,4 +1,4 @@
-package uk.co.kyleharrison.pim.controller;
+package uk.co.kyleharrison.pim.controller.results;
 
 import java.io.IOException;
 
@@ -8,27 +8,22 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import uk.co.kyleharrison.pim.service.model.SteamService;
+import uk.co.kyleharrison.pim.service.model.AmazonService;
 import uk.co.kyleharrison.pim.utilities.JSONService;
 
-/**
- * Servlet implementation class SteamController
- */
-public class SteamController extends HttpServlet {
+public class AmazonController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private SteamService steamService;
-       
-    public SteamController() {
+    private AmazonService amazonService;
+    public AmazonController() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	public void init(ServletConfig config) throws ServletException {
-		this.steamService = new SteamService();
+		this.amazonService= new AmazonService();
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String jsonResponse = steamService.testSteam("Batman","Apoclyps");
+		String jsonResponse = amazonService.testAmazonProductAPI("Batman");
 		JSONService.JSONResponse(response,jsonResponse);
 	}
 

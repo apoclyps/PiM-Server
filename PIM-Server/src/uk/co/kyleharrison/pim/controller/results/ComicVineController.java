@@ -1,4 +1,4 @@
-package uk.co.kyleharrison.pim.controller;
+package uk.co.kyleharrison.pim.controller.results;
 
 import java.io.IOException;
 

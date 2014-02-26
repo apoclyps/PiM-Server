@@ -7,7 +7,7 @@ import java.util.Map.Entry;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
-import uk.co.kyleharrison.interfaces.ControllerServiceInterface;
+import uk.co.kyleharrison.pim.interfaces.ControllerServiceInterface;
 
 import com.github.koraktor.steamcondenser.exceptions.SteamCondenserException;
 import com.github.koraktor.steamcondenser.steam.community.SteamGame;

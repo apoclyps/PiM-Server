@@ -1,4 +1,4 @@
-package uk.co.kyleharrison.interfaces;
+package uk.co.kyleharrison.pim.interfaces;
 
 import java.util.ArrayList;
 

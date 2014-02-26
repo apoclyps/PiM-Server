@@ -17,7 +17,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.ObjectWriter;
 import org.json.simple.JSONObject;
 
-import uk.co.kyleharrison.interfaces.ControllerServiceInterface;
+import uk.co.kyleharrison.pim.interfaces.ControllerServiceInterface;
 
 import com.mixtape.spotify.api.RequestType;
 import com.mixtape.spotify.api.Response;

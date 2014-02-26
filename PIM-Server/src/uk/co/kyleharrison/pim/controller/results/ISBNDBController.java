@@ -1,4 +1,4 @@
-package uk.co.kyleharrison.pim.controller;
+package uk.co.kyleharrison.pim.controller.results;
 
 import java.io.IOException;
 
@@ -8,22 +8,24 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import uk.co.kyleharrison.pim.service.model.AmazonService;
+import uk.co.kyleharrison.pim.service.model.ISBNDBService;
 import uk.co.kyleharrison.pim.utilities.JSONService;
 
-public class AmazonController extends HttpServlet {
+public class ISBNDBController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-    private AmazonService amazonService;
-    public AmazonController() {
+    private ISBNDBService isbndbService;
+    
+    public ISBNDBController() {
         super();
+        // TODO Auto-generated constructor stub
     }
 
 	public void init(ServletConfig config) throws ServletException {
-		this.amazonService= new AmazonService();
+		this.isbndbService = new ISBNDBService();
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String jsonResponse = amazonService.testAmazonProductAPI("Batman");
+		String jsonResponse = isbndbService.testISBNDB("Batman");
 		JSONService.JSONResponse(response,jsonResponse);
 	}
 

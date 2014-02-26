@@ -15,7 +15,7 @@ import com.omertron.omdbapi.OmdbApi;
 import com.omertron.omdbapi.model.OmdbVideoBasic;
 import com.omertron.omdbapi.wrapper.WrapperSearch;
 
-import uk.co.kyleharrison.interfaces.ControllerServiceInterface;
+import uk.co.kyleharrison.pim.interfaces.ControllerServiceInterface;
 
 public class OMDBService implements ControllerServiceInterface {
 

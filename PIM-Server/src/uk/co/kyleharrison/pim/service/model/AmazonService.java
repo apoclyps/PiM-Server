@@ -6,7 +6,7 @@ import java.util.List;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
-import uk.co.kyleharrison.interfaces.ControllerServiceInterface;
+import uk.co.kyleharrison.pim.interfaces.ControllerServiceInterface;
 
 import com.mlesniak.amazon.backend.AmazonItem;
 import com.mlesniak.amazon.backend.AmazonItemConverter;

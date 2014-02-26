@@ -11,7 +11,7 @@
   </welcome-file-list>
   <servlet>
     <servlet-name>AuthenticationController</servlet-name>
-    <servlet-class>uk.co.kyleharrison.pim.controller.AuthenticationController</servlet-class>
+    <servlet-class>uk.co.kyleharrison.pim.controller.results.AuthenticationController</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>AuthenticationController</servlet-name>
@@ -21,7 +21,7 @@
   </servlet-mapping>
   <servlet>
     <servlet-name>RequestController</servlet-name>
-    <servlet-class>uk.co.kyleharrison.pim.controller.RequestController</servlet-class>
+    <servlet-class>uk.co.kyleharrison.pim.controller.results.RequestController</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>RequestController</servlet-name>
@@ -42,7 +42,7 @@
     <description></description>
     <display-name>ComicVineController</display-name>
     <servlet-name>ComicVineController</servlet-name>
-    <servlet-class>uk.co.kyleharrison.pim.controller.ComicVineController</servlet-class>
+    <servlet-class>uk.co.kyleharrison.pim.controller.results.ComicVineController</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>ComicVineController</servlet-name>
@@ -55,7 +55,7 @@
     <description></description>
     <display-name>AmazonController</display-name>
     <servlet-name>AmazonController</servlet-name>
-    <servlet-class>uk.co.kyleharrison.pim.controller.AmazonController</servlet-class>
+    <servlet-class>uk.co.kyleharrison.pim.controller.results.AmazonController</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>AmazonController</servlet-name>
@@ -68,7 +68,7 @@
     <description></description>
     <display-name>SpotifyController</display-name>
     <servlet-name>SpotifyController</servlet-name>
-    <servlet-class>uk.co.kyleharrison.pim.controller.SpotifyController</servlet-class>
+    <servlet-class>uk.co.kyleharrison.pim.controller.results.SpotifyController</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>SpotifyController</servlet-name>
@@ -81,7 +81,7 @@
     <description></description>
     <display-name>SteamController</display-name>
     <servlet-name>SteamController</servlet-name>
-    <servlet-class>uk.co.kyleharrison.pim.controller.SteamController</servlet-class>
+    <servlet-class>uk.co.kyleharrison.pim.controller.results.SteamController</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>SteamController</servlet-name>
@@ -94,7 +94,7 @@
     <description></description>
     <display-name>OMDBController</display-name>
     <servlet-name>OMDBController</servlet-name>
-    <servlet-class>uk.co.kyleharrison.pim.controller.OMDBController</servlet-class>
+    <servlet-class>uk.co.kyleharrison.pim.controller.results.OMDBController</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>OMDBController</servlet-name>
@@ -110,7 +110,7 @@
     <description></description>
     <display-name>ISBNDBController</display-name>
     <servlet-name>ISBNDBController</servlet-name>
-    <servlet-class>uk.co.kyleharrison.pim.controller.ISBNDBController</servlet-class>
+    <servlet-class>uk.co.kyleharrison.pim.controller.results.ISBNDBController</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>ISBNDBController</servlet-name>
@@ -123,7 +123,7 @@
     <description></description>
     <display-name>MasterController</display-name>
     <servlet-name>MasterController</servlet-name>
-    <servlet-class>uk.co.kyleharrison.pim.controller.MasterController</servlet-class>
+    <servlet-class>uk.co.kyleharrison.pim.controller.results.MasterController</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>MasterController</servlet-name>

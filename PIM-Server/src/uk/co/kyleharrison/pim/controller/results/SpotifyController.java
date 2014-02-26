@@ -1,4 +1,4 @@
-package uk.co.kyleharrison.pim.controller;
+package uk.co.kyleharrison.pim.controller.results;
 
 import java.io.IOException;
 
@@ -8,35 +8,35 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import uk.co.kyleharrison.pim.service.model.OMDBService;
+import uk.co.kyleharrison.pim.service.model.SpotifyService;
 import uk.co.kyleharrison.pim.utilities.JSONService;
 
 /**
- * Servlet implementation class IMDBController
+ * Servlet implementation class SpotifyController
  */
-public class OMDBController extends HttpServlet {
+public class SpotifyController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-    private OMDBService imdbService;
+    private SpotifyService spotifyService;
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public OMDBController() {
+    public SpotifyController() {
         super();
-        // TODO Auto-generated constructor stub
+        this.spotifyService = new SpotifyService();
     }
 
 	/**
 	 * @see Servlet#init(ServletConfig)
 	 */
 	public void init(ServletConfig config) throws ServletException {
-		this.imdbService = new OMDBService();
+		// TODO Auto-generated method stub
 	}
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String jsonResponse = imdbService.executeQuery("Batman");
+		String jsonResponse = spotifyService.testSpotify("Batman");
 		JSONService.JSONResponse(response,jsonResponse);
 	}
 

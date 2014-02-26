@@ -10,8 +10,8 @@ import org.codehaus.jackson.map.ObjectWriter;
 import org.json.simple.JSONObject;
 
 import uk.co.kyleharrison.grapejuice.facade.GrapeVineFacade;
-import uk.co.kyleharrison.interfaces.ControllerServiceInterface;
 import uk.co.kyleharrison.pim.connectors.DatabaseConnector;
+import uk.co.kyleharrison.pim.interfaces.ControllerServiceInterface;
 
 public class ComicVineService extends DatabaseConnector implements ControllerServiceInterface{
 
