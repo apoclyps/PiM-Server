@@ -7,7 +7,7 @@
 				<span class="icon-bar"></span> <span class="icon-bar"></span> <span
 					class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="#">PIM</a>
+			<a class="navbar-brand" href="${pageContext.request.contextPath}/index.jsp">PIM</a>
 		</div>
 		<div class="navbar-collapse collapse navbar-responsive-collapse">
 			<ul class="nav navbar-nav">
@@ -30,12 +30,12 @@
 					<ul class="dropdown-menu">
 						<li class="dropdown-header">Dynamic Tables</li>
 						<li class="divider"></li>
-						<li><a href="${pageContext.request.contextPath}/AmazonController">Amazon</a></li>
-						<li><a href="${pageContext.request.contextPath}/ComicVineController">ComicVine</a></li>
-						<li><a href="${pageContext.request.contextPath}/OMDBController">IMDB</a></li>
-						<li><a href="${pageContext.request.contextPath}/ISBNDBController">ISBNDB</a></li>
-						<li><a href="${pageContext.request.contextPath}/SteamController">Steam</a></li>
-						<li><a href="${pageContext.request.contextPath}/SpotifyController">Spotify</a></li>
+						<li><a href="${pageContext.request.contextPath}/results/amazonresults.jsp">Amazon</a></li>
+						<li><a href="${pageContext.request.contextPath}/results/comicvineresults.jsp">ComicVine</a></li>
+						<li><a href="${pageContext.request.contextPath}/results/omdbresults.jsp">IMDB</a></li>
+						<li><a href="${pageContext.request.contextPath}/results/imdberesults.jsp">ISBNDB</a></li>
+						<li><a href="${pageContext.request.contextPath}/results/steamresults.jsp">Steam</a></li>
+						<li><a href="${pageContext.request.contextPath}/results/spotifyresults.jsp">Spotify</a></li>
 					</ul></li>
 			</ul>
 

@@ -10,7 +10,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="">
 <meta name="author" content="">
-<link rel="shortcut icon" href="../../assets/ico/favicon.ico">
+<link rel="shortcut icon" href="${pageContext.request.contextPath}/assets/ico/favicon.ico">
 
 <!-- Bootstrap core CSS -->
 <link rel="stylesheet"
@@ -44,7 +44,22 @@ body {
 	text-align: left;
 }
 </style>
-<script language="javascript" src="js/comicvineresults.js"></script>
+
+<c:choose>
+      <c:when test="${param.resource=='comicvine'}">
+          <script type="text/javascript">
+        	<%@include file="/js/comicvineresults.js" %>
+        </script> 
+      </c:when>
+      
+      <c:when test="${param.resource=='amazon'}">
+     	 <script type="text/javascript">
+    		<%@include file="/js/amazonAjax.js" %>
+    	</script>
+      </c:when>
+
+</c:choose>
+
 </head>
 
 <body>	
@@ -111,14 +126,17 @@ body {
 
 		 <!-- Tables
       ================================================== -->
- 
+      <div class="bs-docs-section">
 
         <div class="row">
-
-              <h1 id="tables">ComicVine Results</h1>
+          <div class="col-lg-12">
+            <div class="page-header">
+              <h1 id="tables">Amazon Results</h1>
             </div>
                <div id="table"></div>
-
+          </div>
+        </div>
+      </div>
 
       <!-- Forms
       ================================================== -->
