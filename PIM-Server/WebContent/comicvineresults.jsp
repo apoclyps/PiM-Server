@@ -111,17 +111,14 @@ body {
 
 		 <!-- Tables
       ================================================== -->
-      <div class="bs-docs-section">
+ 
 
         <div class="row">
-          <div class="col-lg-12">
-            <div class="page-header">
+
               <h1 id="tables">ComicVine Results</h1>
             </div>
                <div id="table"></div>
-          </div>
-        </div>
-      </div>
+
 
       <!-- Forms
       ================================================== -->

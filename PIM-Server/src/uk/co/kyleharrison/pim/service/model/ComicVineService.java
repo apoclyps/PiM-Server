@@ -41,7 +41,8 @@ public class ComicVineService extends DatabaseConnector implements ControllerSer
 			JSONArray cvvResults = new JSONArray(generatedJson);
 			jsonResponse.put("Results", cvv.size());
 			jsonResponse.put("Query", query);
-			jsonResponse.put("COMICVINEVOLUME", cvvResults);
+			jsonResponse.put("COMICVINE", cvvResults);
+			jsonResponse.put("ResourceType", "Volume");
 			
 			long endTime = System.currentTimeMillis();
 			long duration = endTime - startTime;
