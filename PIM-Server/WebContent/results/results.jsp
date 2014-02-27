@@ -10,11 +10,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="">
 <meta name="author" content="">
-<link rel="shortcut icon" href="${pageContext.request.contextPath}/assets/ico/favicon.ico">
+<link rel="shortcut icon"
+	href="${pageContext.request.contextPath}/assets/ico/favicon.ico">
 
 <!-- Bootstrap core CSS -->
 <link rel="stylesheet"
-	href="${pageContext.request.contextPath}/css/bootstrap.css" type="text/css" />
+	href="${pageContext.request.contextPath}/css/bootstrap.css"
+	type="text/css" />
 
 
 <!-- Just for debugging purposes. Don't actually copy this line! -->
@@ -46,23 +48,55 @@ body {
 </style>
 
 <c:choose>
-      <c:when test="${param.resource=='comicvine'}">
-          <script type="text/javascript">
-        	<%@include file="/js/comicvineresults.js" %>
-        </script> 
-      </c:when>
-      
-      <c:when test="${param.resource=='amazon'}">
-     	 <script type="text/javascript">
-    		<%@include file="/js/amazonAjax.js" %>
-    	</script>
-      </c:when>
+	<c:when test="${param.resource=='comicvine'}">
+		<script type="text/javascript">
+			
+		<%@include file="/js/comicvine.js" %>
+			
+		</script>
+	</c:when>
+	
+	<c:when test="${param.resource=='amazon'}">
+		<script type="text/javascript">
+			
+		<%@include file="/js/amazonAjax.js" %>
+			
+		</script>
+	</c:when>
+	<c:when test="${param.resource=='spotify'}">
+		<script type="text/javascript">
+			
+		<%@include file="/js/amazonAjax.js" %>
+			
+		</script>
+	</c:when>
+	<c:when test="${param.resource=='steam'}">
+		<script type="text/javascript">
+			
+		<%@include file="/js/amazonAjax.js" %>
+			
+		</script>
+	</c:when>
+	<c:when test="${param.resource=='isbndb'}">
+		<script type="text/javascript">
+			
+		<%@include file="/js/amazonAjax.js" %>
+			
+		</script>
+	</c:when>
+	<c:when test="${param.resource=='imdb'}">
+		<script type="text/javascript">
+			
+		<%@include file="/js/amazonAjax.js" %>
+			
+		</script>
+	</c:when>
 
 </c:choose>
 
 </head>
 
-<body>	
+<body>
 
 	<!-- Navbar
       ================================================== -->
@@ -82,21 +116,33 @@ body {
 				<li class="dropdown"><a href="#" class="dropdown-toggle"
 					data-toggle="dropdown">APIs <b class="caret"></b></a>
 					<ul class="dropdown-menu">
-					    <li class="dropdown-header">Raw JSON</li>
-						<li><a href="${pageContext.request.contextPath}/AmazonController">Amazon</a></li>
-						<li><a href="${pageContext.request.contextPath}/ComicVineController">ComicVine</a></li>
-						<li><a href="${pageContext.request.contextPath}/OMDBController">IMDB</a></li>
-						<li><a href="${pageContext.request.contextPath}/ISBNDBController">ISBNDB</a></li>
-						<li><a href="${pageContext.request.contextPath}/SteamController">Steam</a></li>
-						<li><a href="${pageContext.request.contextPath}/SpotifyController">Spotify</a></li>
+						<li class="dropdown-header">Raw JSON</li>
+						<li><a
+							href="${pageContext.request.contextPath}/AmazonController">Amazon</a></li>
+						<li><a
+							href="${pageContext.request.contextPath}/ComicVineController">ComicVine</a></li>
+						<li><a
+							href="${pageContext.request.contextPath}/OMDBController">IMDB</a></li>
+						<li><a
+							href="${pageContext.request.contextPath}/ISBNDBController">ISBNDB</a></li>
+						<li><a
+							href="${pageContext.request.contextPath}/SteamController">Steam</a></li>
+						<li><a
+							href="${pageContext.request.contextPath}/SpotifyController">Spotify</a></li>
 						<li class="divider"></li>
 						<li class="dropdown-header">AJAX</li>
-						<li><a href="${pageContext.request.contextPath}/AmazonController">Amazon</a></li>
-						<li><a href="${pageContext.request.contextPath}/ComicVineController">ComicVine</a></li>
-						<li><a href="${pageContext.request.contextPath}/OMDBController">IMDB</a></li>
-						<li><a href="${pageContext.request.contextPath}/ISBNDBController">ISBNDB</a></li>
-						<li><a href="${pageContext.request.contextPath}/SteamController">Steam</a></li>
-						<li><a href="${pageContext.request.contextPath}/SpotifyController">Spotify</a></li>
+						<li><a
+							href="${pageContext.request.contextPath}/AmazonController">Amazon</a></li>
+						<li><a
+							href="${pageContext.request.contextPath}/ComicVineController">ComicVine</a></li>
+						<li><a
+							href="${pageContext.request.contextPath}/OMDBController">IMDB</a></li>
+						<li><a
+							href="${pageContext.request.contextPath}/ISBNDBController">ISBNDB</a></li>
+						<li><a
+							href="${pageContext.request.contextPath}/SteamController">Steam</a></li>
+						<li><a
+							href="${pageContext.request.contextPath}/SpotifyController">Spotify</a></li>
 
 					</ul></li>
 			</ul>
@@ -124,21 +170,21 @@ body {
 
 	<div class="container">
 
-		 <!-- Tables
+		<!-- Tables
       ================================================== -->
-      <div class="bs-docs-section">
+		<div class="bs-docs-section">
 
-        <div class="row">
-          <div class="col-lg-12">
-            <div class="page-header">
-              <h1 id="tables">Amazon Results</h1>
-            </div>
-               <div id="table"></div>
-          </div>
-        </div>
-      </div>
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="page-header">
+						<h1 id="tables">${param.resource} Results</h1>
+					</div>
+					<div id="table"></div>
+				</div>
+			</div>
+		</div>
 
-      <!-- Forms
+		<!-- Forms
       ================================================== -->
 
 	</div>
