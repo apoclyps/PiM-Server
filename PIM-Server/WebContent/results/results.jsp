@@ -50,48 +50,34 @@ body {
 <c:choose>
 	<c:when test="${param.resource=='comicvine'}">
 		<script type="text/javascript">
-			
-		<%@include file="/js/comicvine.js" %>
-			
+		<%@include file="/js/ComicVineAjax.js" %>
 		</script>
 	</c:when>
-	
 	<c:when test="${param.resource=='amazon'}">
-		<script type="text/javascript">
-			
-		<%@include file="/js/amazonAjax.js" %>
-			
+		
+			<%@include file="/js/AmazonAjax.js" %>
 		</script>
 	</c:when>
 	<c:when test="${param.resource=='spotify'}">
 		<script type="text/javascript">
-			
-		<%@include file="/js/amazonAjax.js" %>
-			
+		<%@include file="/js/SpotifyAjax.js" %>
 		</script>
 	</c:when>
 	<c:when test="${param.resource=='steam'}">
 		<script type="text/javascript">
-			
-		<%@include file="/js/amazonAjax.js" %>
-			
+		<%@include file="/js/SteamAjax.js" %>
 		</script>
 	</c:when>
 	<c:when test="${param.resource=='isbndb'}">
 		<script type="text/javascript">
-			
-		<%@include file="/js/amazonAjax.js" %>
-			
+		<%@include file="/js/IsbndbAjax.js" %>
 		</script>
 	</c:when>
 	<c:when test="${param.resource=='imdb'}">
 		<script type="text/javascript">
-			
-		<%@include file="/js/amazonAjax.js" %>
-			
+		<%@include file="/js/ImdbAjax.js" %>
 		</script>
 	</c:when>
-
 </c:choose>
 
 </head>
