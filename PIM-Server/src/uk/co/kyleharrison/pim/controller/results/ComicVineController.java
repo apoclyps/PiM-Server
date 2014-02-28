@@ -26,7 +26,9 @@ public class ComicVineController extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String jsonResponse = this.comicVineService.executeQuery("Batman");
-		JSONService.JSONResponse(response, jsonResponse);
+		//response.setHeader("Access-Control-Allow-Origin","http://127.0.0.1:8080/PIM-Server");
+		//JSONService.JSONResponse(response, jsonResponse);
+		JSONService.JSONPResponse(response, jsonResponse, "comicvine");
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

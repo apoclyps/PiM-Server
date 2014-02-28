@@ -46,4 +46,23 @@ public class JSONService {
 			}
 		}
 	}
+
+	public static void JSONPResponse(HttpServletResponse response,
+			String jsonResponse, String callback) {
+		if (jsonResponse != null) {
+			response.setContentType("text/x-json;charset=UTF-8");
+			response.setHeader("Cache-Control", "no-cache");
+
+			PrintWriter out = null;
+			response.setContentType("application/json");
+
+			try {
+				out = response.getWriter();
+				out.print(callback + "(" + jsonResponse + ");");
+				out.flush();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 }

@@ -44,7 +44,7 @@ body {
 	text-align: left;
 }
 </style>
-<script language="javascript" src="${pageContext.request.contextPath}/js/comicvineresults.js"></script>
+<script language="javascript" src="/js/comicvineresults.js"></script>
 </head>
 
 <body>	
