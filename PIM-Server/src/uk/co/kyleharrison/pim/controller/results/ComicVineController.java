@@ -25,10 +25,17 @@ public class ComicVineController extends HttpServlet {
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
 		String jsonResponse = this.comicVineService.executeQuery("Batman");
-		//response.setHeader("Access-Control-Allow-Origin","http://127.0.0.1:8080/PIM-Server");
-		//JSONService.JSONResponse(response, jsonResponse);
-		JSONService.JSONPResponse(response, jsonResponse, "comicvine");
+		
+		try{
+			if(!request.getParameter("callback").equals(null)){
+				JSONService.JSONPResponse(response, jsonResponse, request.getParameter("callback"));
+			}
+		}catch(Exception e){
+			//e.printStackTrace();
+			JSONService.JSONResponse(response, jsonResponse);
+		}
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

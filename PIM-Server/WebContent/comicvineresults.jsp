@@ -106,12 +106,9 @@ placeholder="Search">
  <button onClick="callServer('http://192.168.0.17:8080/PIM-Server/comicvine?callback=?')"> Click me </button>
 
         <div class="row">
-
               <h1 id="tables">ComicVine Results</h1>
             </div>
                <div id="table"></div>
-
-
       <!-- Forms
 ================================================== -->
 
