@@ -26,8 +26,19 @@ public class ComicVineController extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		String jsonResponse = this.comicVineService.executeQuery("Batman");
+		String jsonResponse = null;
 		try{
+		if(request.getParameterMap().containsKey("query")){
+			jsonResponse = this.comicVineService.executeQuery(request.getParameter("query"));
+		}else{
+			jsonResponse = this.comicVineService.executeQuery("Batman");
+		}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
+		try{
+		
 			if(request.getParameterMap().containsKey("callback")){
 				JSONService.JSONPResponse(response, jsonResponse, request.getParameter("callback"));
 			}else{
