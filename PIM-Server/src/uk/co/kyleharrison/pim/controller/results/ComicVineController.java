@@ -27,14 +27,14 @@ public class ComicVineController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		String jsonResponse = this.comicVineService.executeQuery("Batman");
-		
 		try{
-			if(!request.getParameter("callback").equals(null)){
+			if(request.getParameterMap().containsKey("callback")){
 				JSONService.JSONPResponse(response, jsonResponse, request.getParameter("callback"));
+			}else{
+				JSONService.JSONResponse(response, jsonResponse);
 			}
 		}catch(Exception e){
-			//e.printStackTrace();
-			JSONService.JSONResponse(response, jsonResponse);
+			e.printStackTrace();
 		}
 	}
 
