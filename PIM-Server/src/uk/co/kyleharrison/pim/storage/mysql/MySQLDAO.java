@@ -3,6 +3,7 @@ package uk.co.kyleharrison.pim.storage.mysql;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Map;
 
 import uk.co.kyleharrison.grapejuice.comicvine.ComicVineVolume;
 
@@ -12,6 +13,32 @@ public class MySQLDAO extends MySQLConnector {
 
 	public MySQLDAO() {
 		super();
+	}
+	
+	public boolean insertAsylumRecords(Map<String, String> entry) throws SQLException {
+		if (this.checkConnection()) {
+			preparedStatement = connection
+					.prepareStatement("INSERT IGNORE into comicdb.asylum"
+							+ "(productID,title,issue,publisher,volume,quantity,cost)"
+							+ " values  (?,?,?,?,?,?,?)");
+
+			preparedStatement.setInt(1, Integer.parseInt(entry.get("id")));
+			preparedStatement.setString(2, (String) entry.get("title"));
+			preparedStatement.setString(3, (String) entry.get("issue"));
+			preparedStatement.setString(4, (String) entry.get("publisher"));
+			preparedStatement.setString(5, (String) entry.get("volume"));
+			preparedStatement.setInt(6, Integer.parseInt(entry.get("quantity")));
+			preparedStatement.setFloat(7, Float.parseFloat(entry.get("cost")));
+
+			preparedStatement.executeUpdate();
+			return true;
+		} else {
+			System.out.println("MYSQLDOA : Insert Channel : Connection Failed");
+		}
+		if (connection != null) {
+			connection.close();
+		}
+		return false;
 	}
 
 	public void insertVolume(int volumeID, String volumeName) throws SQLException {

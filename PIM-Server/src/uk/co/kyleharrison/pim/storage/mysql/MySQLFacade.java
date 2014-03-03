@@ -2,6 +2,7 @@ package uk.co.kyleharrison.pim.storage.mysql;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Map;
 
 import uk.co.kyleharrison.grapejuice.comicvine.ComicVineVolume;
 
@@ -50,6 +51,17 @@ public class MySQLFacade implements MySQLInterface {
 			e.printStackTrace();
 		}
 		System.out.println("Inserting Failed");
+		return false;
+	}
+	
+	public boolean insertAsylumRecord(Map<String, String> entry){
+		
+		try {
+			return this.mySQLDAO.insertAsylumRecords(entry);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return false;
 	}
 
