@@ -92,7 +92,7 @@ public class ISBNDBService implements ControllerServiceInterface {
 	}
 
 	@Override
-	public boolean cacheResults(ArrayList<Object> results) {
+	public boolean cacheResults() {
 		// TODO Auto-generated method stub
 		return false;
 	}

@@ -2,15 +2,6 @@ package uk.co.kyleharrison.pim.service.model;
 
 import java.io.IOException;
 
-
-
-
-
-
-
-
-import java.util.ArrayList;
-
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -77,7 +68,7 @@ public class SpotifyService implements ControllerServiceInterface {
 	}
 
 	@Override
-	public boolean cacheResults(ArrayList<Object> results) {
+	public boolean cacheResults() {
 		// TODO Auto-generated method stub
 		return false;
 	}

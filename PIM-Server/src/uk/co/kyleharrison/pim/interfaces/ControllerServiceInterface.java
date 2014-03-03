@@ -10,6 +10,6 @@ public interface ControllerServiceInterface {
 	public JSONObject executeJSONQuery(String query);
 	public boolean searchItemExists(String item);
 	public boolean cacheItem(String item);
-	public boolean cacheResults(ArrayList<Object> results);
+	public boolean cacheResults();
 	
 }

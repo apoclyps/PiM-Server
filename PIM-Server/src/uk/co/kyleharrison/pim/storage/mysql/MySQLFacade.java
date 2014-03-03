@@ -1,28 +1,21 @@
 package uk.co.kyleharrison.pim.storage.mysql;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+
+import uk.co.kyleharrison.grapejuice.comicvine.ComicVineVolume;
 
 public class MySQLFacade implements MySQLInterface {
 
-	private MySQLDAO connection;
+	private MySQLDAO mySQLDAO;
 
 	public MySQLFacade() {
 		super();
 		this.setNewConnection();
 	}
 
-	public boolean insertVolume(int volumeID, String volumeName) {
-		
-		try {
-			connection.insertVolume(volumeID,volumeName);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return false;
-	}
-
 	public MySQLDAO getConnection() {
-		return connection;
+		return this.mySQLDAO;
 	}
 
 	public void setNewConnection() {
@@ -31,11 +24,33 @@ public class MySQLFacade implements MySQLInterface {
 		} catch (NullPointerException e) {
 			System.out.println("No connection to close | Connection closing problem");
 		}*/
-		this.connection = new MySQLDAO();
+		this.mySQLDAO = new MySQLDAO();
 	}
 
 	public void closeConnection() {
-		this.connection.close();
+		this.mySQLDAO.close();
+	}
+
+	public boolean insertVolume(int volumeID, String volumeName) {
+		
+		try {
+			this.mySQLDAO.insertVolume(volumeID,volumeName);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
+	public boolean insertVolumes(ArrayList<ComicVineVolume> comicVineVolumes) {
+		try {
+			System.out.println("Inserting Attempt");
+			return this.mySQLDAO.insertComicVineVolumes(comicVineVolumes);
+		} catch (SQLException e) {
+			System.out.println("Exception caught in MySQLFacade for Insert Volumes");
+			e.printStackTrace();
+		}
+		System.out.println("Inserting Failed");
+		return false;
 	}
 
 }

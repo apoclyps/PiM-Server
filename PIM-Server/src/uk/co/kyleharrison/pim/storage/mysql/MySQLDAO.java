@@ -2,6 +2,9 @@ package uk.co.kyleharrison.pim.storage.mysql;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.ArrayList;
+
+import uk.co.kyleharrison.grapejuice.comicvine.ComicVineVolume;
 
 public class MySQLDAO extends MySQLConnector {
 
@@ -14,7 +17,7 @@ public class MySQLDAO extends MySQLConnector {
 	public void insertVolume(int volumeID, String volumeName) throws SQLException {
 		if (this.checkConnection()) {
 			preparedStatement = connection
-					.prepareStatement("insert into comicdb.volumes"
+					.prepareStatement("INSERT IGNORE into comicdb.volumes"
 							+ "(volumeID,volumeName)"
 							+ " values  (?,?)");
 
@@ -37,6 +40,36 @@ public class MySQLDAO extends MySQLConnector {
 		if (connection != null) {
 			connection.close();
 		}
+	}
+	
+	public boolean insertComicVineVolumes(ArrayList<ComicVineVolume> volumeList) throws SQLException {
+		System.out.println("Batch Insert : "+volumeList.size());
+		if(volumeList.equals(null)){
+			System.out.println("Empty Volume List");
+			return false;
+		}
+		if (this.checkConnection()) {
+			System.out.println("Attempting Insert iccv");
+			preparedStatement = connection.prepareStatement("INSERT IGNORE into comicdb.volumes"
+							+ "(volumeID,volumeName,issue_count)"
+							+ " values  (?,?,?)");
+
+			for(ComicVineVolume cvv : volumeList){
+				preparedStatement.setInt(1, cvv.getId());
+				preparedStatement.setString(2, cvv.getName());
+				preparedStatement.setInt(3,cvv.getCount_of_issues());
+				preparedStatement.addBatch();
+			}
+			
+			int [] results = preparedStatement.executeBatch();
+			return true;
+		} else {
+			System.out.println("MYSQLDOA : Insert Channel : Connection Failed");
+		}
+		if (connection != null) {
+			connection.close();
+		}
+		return false;
 	}
 	
 }

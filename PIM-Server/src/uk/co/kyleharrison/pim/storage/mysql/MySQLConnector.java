@@ -102,5 +102,5 @@ public class MySQLConnector {
 	public void setDatabase_name(String database_name) {
 		this.database_name = database_name;
 	}
-	
+
 }

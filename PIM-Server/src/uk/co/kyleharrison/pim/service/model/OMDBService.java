@@ -1,11 +1,8 @@
 package uk.co.kyleharrison.pim.service.model;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
-import org.codehaus.jackson.JsonGenerationException;
-import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.ObjectWriter;
 import org.json.JSONArray;
@@ -17,7 +14,6 @@ import com.omertron.omdbapi.OmdbApi;
 import com.omertron.omdbapi.model.OmdbVideoBasic;
 import com.omertron.omdbapi.wrapper.WrapperSearch;
 
-import uk.co.kyleharrison.grapejuice.comicvine.ComicVineVolume;
 import uk.co.kyleharrison.pim.enums.RequestTypes;
 import uk.co.kyleharrison.pim.interfaces.ControllerServiceInterface;
 
@@ -99,7 +95,7 @@ public class OMDBService implements ControllerServiceInterface {
 	}
 
 	@Override
-	public boolean cacheResults(ArrayList<Object> results) {
+	public boolean cacheResults() {
 		// TODO Auto-generated method stub
 		return false;
 	}

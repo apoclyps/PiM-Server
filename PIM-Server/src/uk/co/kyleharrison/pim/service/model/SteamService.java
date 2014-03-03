@@ -1,6 +1,5 @@
 package uk.co.kyleharrison.pim.service.model;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
@@ -101,7 +100,7 @@ public class SteamService implements ControllerServiceInterface {
 	}
 
 	@Override
-	public boolean cacheResults(ArrayList<Object> results) {
+	public boolean cacheResults() {
 		// TODO Auto-generated method stub
 		return false;
 	}

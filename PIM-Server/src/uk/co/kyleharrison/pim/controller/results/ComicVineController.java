@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import uk.co.kyleharrison.pim.service.model.ComicVineService;
+import uk.co.kyleharrison.pim.storage.mysql.MySQLFacade;
 import uk.co.kyleharrison.pim.utilities.JSONService;
 
 
@@ -27,6 +28,7 @@ public class ComicVineController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		String jsonResponse = null;
+		// Preforms a query based upon if the query parameter is set or not
 		try{
 		if(request.getParameterMap().containsKey("query")){
 			jsonResponse = this.comicVineService.executeQuery(request.getParameter("query"));
@@ -36,9 +38,9 @@ public class ComicVineController extends HttpServlet {
 		}catch(Exception e){
 			e.printStackTrace();
 		}
-		
+	
+		// Returns prefered JSON as the response.
 		try{
-		
 			if(request.getParameterMap().containsKey("callback")){
 				JSONService.JSONPResponse(response, jsonResponse, request.getParameter("callback"));
 			}else{
