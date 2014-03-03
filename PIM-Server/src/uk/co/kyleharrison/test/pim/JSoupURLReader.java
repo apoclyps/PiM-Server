@@ -15,9 +15,10 @@ import uk.co.kyleharrison.pim.storage.mysql.MySQLFacade;
 public class JSoupURLReader {
 
 	private static int pages = 5005;
-	private static int page_counter =10;
-	private static int page_stop=100;
+	private static int page_counter =500;
+	private static int page_stop=1000;
 	private static int saved = 0;
+	private static int sleepTime = 5000;
 	private static MySQLFacade mysqlFacade = new MySQLFacade();
 	static int count =0;
 	static boolean priceBol = false, detailsBol = false, quantityBol = false;
@@ -159,7 +160,7 @@ public class JSoupURLReader {
 				//page_counter--;
 				System.out.println("Time Out : Page "+page_counter);
 				try {
-					Thread.sleep(5000);
+					Thread.sleep(sleepTime);
 				} catch (InterruptedException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
