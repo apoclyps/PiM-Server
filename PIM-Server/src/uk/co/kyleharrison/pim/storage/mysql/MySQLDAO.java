@@ -22,6 +22,8 @@ public class MySQLDAO extends MySQLConnector {
 							+ "(productID,title,issue,publisher,volume,quantity,cost)"
 							+ " values  (?,?,?,?,?,?,?)");
 
+			System.out.println("id "+entry.get("id"));
+			
 			preparedStatement.setInt(1, Integer.parseInt(entry.get("id")));
 			preparedStatement.setString(2, (String) entry.get("title"));
 			preparedStatement.setString(3, (String) entry.get("issue"));
