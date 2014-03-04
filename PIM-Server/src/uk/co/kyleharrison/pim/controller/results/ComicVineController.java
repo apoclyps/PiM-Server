@@ -38,6 +38,17 @@ public class ComicVineController extends HttpServlet {
 		}catch(Exception e){
 			e.printStackTrace();
 		}
+		
+		try{
+		if(request.getParameterMap().containsKey("cache")){
+			if(request.getParameter("cache").equals("true")){
+				System.out.println("Caching Results");
+				this.comicVineService.cacheResults();
+			}
+		}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 	
 		// Returns prefered JSON as the response.
 		try{

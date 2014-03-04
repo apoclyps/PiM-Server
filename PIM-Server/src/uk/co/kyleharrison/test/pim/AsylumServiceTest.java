@@ -18,13 +18,13 @@ public class AsylumServiceTest {
 
 	@Test
 	public void constructor() {
-		AsylumService as = new AsylumService(550,551);
+		AsylumService as = new AsylumService();
 		assert(!as.equals(null));
 	}
 	
 	@Test
 	public void executeQuery(){
-		AsylumService as = new AsylumService(550,551);
+		AsylumService as = new AsylumService(1000,1100);
 		boolean success = as.executeQuery();
 		assert(success==true);
 	}
