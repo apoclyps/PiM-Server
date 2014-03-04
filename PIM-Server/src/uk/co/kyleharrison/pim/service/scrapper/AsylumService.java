@@ -153,7 +153,15 @@ public class AsylumService {
 					publisher[0] = null;
 					System.out.println("publisher exception");
 					this.entry.put("publisher", "null");
-					e.printStackTrace();
+					//e.printStackTrace();
+					
+					this.entry = new HashMap<String, String>();
+					this.priceFlag = false;
+					this.quantityFlag = false;
+					this.detailsFlag = false;
+					
+					System.out.println("Skipped records : "+column.text());
+					
 				}
 			} catch (Exception e) {
 				// System.out.println("split "+column.text());
