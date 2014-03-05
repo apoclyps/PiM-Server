@@ -3,7 +3,10 @@ package uk.co.kyleharrison.pim.storage.mysql;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
+
+import com.mlesniak.amazon.backend.AmazonItem;
 
 import uk.co.kyleharrison.grapejuice.comicvine.ComicVineVolume;
 
@@ -87,6 +90,39 @@ public class MySQLDAO extends MySQLConnector {
 				preparedStatement.setInt(1, cvv.getId());
 				preparedStatement.setString(2, cvv.getName());
 				preparedStatement.setInt(3,cvv.getCount_of_issues());
+				preparedStatement.addBatch();
+			}
+			
+			int [] results = preparedStatement.executeBatch();
+			return true;
+		} else {
+			System.out.println("MYSQLDOA : Insert Channel : Connection Failed");
+		}
+		if (connection != null) {
+			connection.close();
+		}
+		return false;
+	}
+
+	public boolean insertAmazonItems(List<AmazonItem> amazonItems) throws SQLException {
+		System.out.println("Batch Insert : "+amazonItems.size());
+		if(amazonItems.equals(null)){
+			System.out.println("Empty Volume List");
+			return false;
+		}
+		if (this.checkConnection()) {
+			System.out.println("Attempting Insert iccv");
+			preparedStatement = connection.prepareStatement("INSERT IGNORE into pim.amazonitems"
+							+ "(asin,title,price,url,imageurl,reviewurl)"
+							+ " values  (?,?,?,?,?,?)");
+
+			for(AmazonItem amazonItem : amazonItems){
+				preparedStatement.setString(1, amazonItem.getAsin());
+				preparedStatement.setString(2, amazonItem.getTitle());
+				preparedStatement.setDouble(3,amazonItem.getPrice());
+				preparedStatement.setString(4,amazonItem.getURL());
+				preparedStatement.setString(5,amazonItem.getImageURL());
+				preparedStatement.setString(6,amazonItem.getReviewURL());
 				preparedStatement.addBatch();
 			}
 			

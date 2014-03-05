@@ -2,7 +2,10 @@ package uk.co.kyleharrison.pim.storage.mysql;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
+
+import com.mlesniak.amazon.backend.AmazonItem;
 
 import uk.co.kyleharrison.grapejuice.comicvine.ComicVineVolume;
 
@@ -55,11 +58,18 @@ public class MySQLFacade implements MySQLInterface {
 	}
 	
 	public boolean insertAsylumRecord(Map<String, String> entry){
-		
 		try {
 			return this.mySQLDAO.insertAsylumRecords(entry);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+	public boolean insertAmazonItems(List<AmazonItem> amazonItems) {
+		try {
+			return this.mySQLDAO.insertAmazonItems(amazonItems);
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return false;

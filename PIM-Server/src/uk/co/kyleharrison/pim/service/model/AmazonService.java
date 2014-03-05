@@ -1,12 +1,12 @@
 package uk.co.kyleharrison.pim.service.model;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import uk.co.kyleharrison.pim.interfaces.ControllerServiceInterface;
+import uk.co.kyleharrison.pim.storage.mysql.MySQLFacade;
 
 import com.mlesniak.amazon.backend.AmazonItem;
 import com.mlesniak.amazon.backend.AmazonItemConverter;
@@ -15,6 +15,15 @@ import com.mlesniak.amazon.backend.AmazonRequestBuilder;
 import com.mlesniak.amazon.backend.SearchIndex;
 
 public class AmazonService implements ControllerServiceInterface {
+
+	private MySQLFacade mySQLFacade;
+	private List<AmazonItem> amazonItems;
+	
+	public AmazonService() {
+		super();
+		this.mySQLFacade = new MySQLFacade();
+		this.amazonItems = null;
+	}
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -27,7 +36,7 @@ public class AmazonService implements ControllerServiceInterface {
                     .addMinimumPrice(1000)
                     .build();
 
-            List<AmazonItem> amazonItems = AmazonItemConverter.convertFull(request);
+            this.amazonItems = AmazonItemConverter.convertFull(request);
             
             JSONArray itemArray = new JSONArray();
             for (AmazonItem amazonItem : amazonItems) {
@@ -71,8 +80,9 @@ public class AmazonService implements ControllerServiceInterface {
 
 	@Override
 	public boolean cacheResults() {
-		// TODO Auto-generated method stub
-		return false;
+		System.out.println("Caching Results");
+		boolean cached = this.mySQLFacade.insertAmazonItems(this.amazonItems);
+		return cached;
 	}
 	
 }
