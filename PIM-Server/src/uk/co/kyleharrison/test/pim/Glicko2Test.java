@@ -50,6 +50,25 @@ public class Glicko2Test {
 		results.addResult(player3, player1); // player3 beats player 1
 		results.addResult(player4, player1); // player4 beats player 1
 		
+		sortByRank();
+		ratingSystem.updateRatings(results);
+		
+		// Testing Results - Player 5 should become top search
+		results.addResult(player5,player1);
+		results.addResult(player5,player1);
+		results.addResult(player5,player1);
+		results.addResult(player5,player1);
+		results.addResult(player5,player1);
+		
+		sortByRank();
+		ratingSystem.updateRatings(results);
+		
+		//Player 2 should increase in rank
+		results.addResult(player2,player5);
+		results.addResult(player2,player5);
+		results.addResult(player2,player5);
+		
+		sortByRank();
 		ratingSystem.updateRatings(results);
 		
 		printResults("\nAfter");
