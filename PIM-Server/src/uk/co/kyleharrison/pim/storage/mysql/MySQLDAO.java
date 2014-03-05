@@ -4,11 +4,14 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import net.scholnick.isbndb.domain.Book;
 
+import com.github.koraktor.steamcondenser.steam.community.SteamGame;
 import com.mixtape.spotify.api.Album;
 import com.mixtape.spotify.api.Artist;
 import com.mixtape.spotify.api.Response;
@@ -237,11 +240,11 @@ public class MySQLDAO extends MySQLConnector {
 					release =0;
 				}
 				
-				System.out.println(" ! : "+artist.get(0).getName());
-				System.out.println(" ! : "+album.getName());
-				System.out.println(" ! : "+album.getPopularity());
-				System.out.println(" ! : "+release);
-				System.out.println(" ! : "+album.getHref());
+				//System.out.println(" ! : "+artist.get(0).getName());
+				//System.out.println(" ! : "+album.getName());
+				//System.out.println(" ! : "+album.getPopularity());
+				//System.out.println(" ! : "+release);
+				//System.out.println(" ! : "+album.getHref());
 				
 				preparedStatement.setString(1,artist.get(0).getName());
 				preparedStatement.setString(2, album.getName());
@@ -250,6 +253,47 @@ public class MySQLDAO extends MySQLConnector {
 				preparedStatement.setString(5,album.getHref());
 				preparedStatement.addBatch();
 				
+			}
+			
+			int [] results = preparedStatement.executeBatch();
+			return true;
+		} else {
+			System.out.println("MYSQLDOA : Insert Channel : Connection Failed");
+		}
+		if (connection != null) {
+			connection.close();
+		}
+		return false;
+	}
+
+	public boolean insertSteamGames(HashMap<Integer, SteamGame> sg) throws SQLException {
+		System.out.println("Batch Insert : "+sg.size());
+		if(sg.equals(null)){
+			System.out.println("Empty Volume List");
+			return false;
+		}
+		if (this.checkConnection()) {
+			System.out.println("Attempting Insert iccv");
+			preparedStatement = connection.prepareStatement("INSERT IGNORE into pim.steamgames"
+							+ "(name,id,shortname,logothumbnail,logourl)"
+							+ " values  (?,?,?,?,?)");
+
+			for(Entry<Integer, SteamGame> entry : sg.entrySet()){
+				
+				//System.out.println(" ! : "+artist.get(0).getName());
+				//System.out.println(" ! : "+album.getName());
+				//System.out.println(" ! : "+album.getPopularity());
+				//System.out.println(" ! : "+release);
+				//System.out.println(" ! : "+album.getHref());
+				
+				SteamGame sg1 = entry.getValue();
+				
+				preparedStatement.setString(1,sg1.getName());
+				preparedStatement.setString(2, sg1.getId().toString());
+				preparedStatement.setString(3, sg1.getShortName());
+				preparedStatement.setString(4,sg1.getLogoThumbnailUrl());
+				preparedStatement.setString(5,sg1.getLogoUrl());
+				preparedStatement.addBatch();
 			}
 			
 			int [] results = preparedStatement.executeBatch();

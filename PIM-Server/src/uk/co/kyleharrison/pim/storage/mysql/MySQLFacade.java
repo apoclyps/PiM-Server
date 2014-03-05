@@ -2,11 +2,13 @@ package uk.co.kyleharrison.pim.storage.mysql;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import net.scholnick.isbndb.domain.Book;
 
+import com.github.koraktor.steamcondenser.steam.community.SteamGame;
 import com.mixtape.spotify.api.Response;
 import com.mlesniak.amazon.backend.AmazonItem;
 import com.omertron.omdbapi.model.OmdbVideoBasic;
@@ -100,6 +102,15 @@ public class MySQLFacade implements MySQLInterface {
 	public boolean insertSpotifyAlbums(Response response) {
 		try {
 			return this.mySQLDAO.insertSpotifyAlbums(response);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+	public boolean insertSteamGames(HashMap<Integer, SteamGame> sg) {
+		try {
+			return this.mySQLDAO.insertSteamGames(sg);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

@@ -28,8 +28,51 @@ public class SteamController extends HttpServlet {
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String jsonResponse = steamService.testSteam("Batman","Apoclyps");
-		JSONService.JSONResponse(response,jsonResponse);
+
+		try{
+			if(request.getParameterMap().containsKey("id")){
+				this.steamService.setSteamID(request.getParameter("id"));
+			}else{
+				this.steamService.setSteamID("Apoclyps");
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
+		String jsonResponse = null;
+		// Preforms a query based upon if the query parameter is set or not
+		try{
+			if(request.getParameterMap().containsKey("query")){
+				jsonResponse = this.steamService.executeQuery(request.getParameter("query"));
+			}else{
+				jsonResponse = this.steamService.executeQuery("Batman");
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
+		try{
+			if(request.getParameterMap().containsKey("cache")){
+				if(request.getParameter("cache").equals("true")){
+					System.out.println("Caching Results");
+					this.steamService.cacheResults();
+				}
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+	
+		// Returns prefered JSON as the response.
+		try{
+			if(request.getParameterMap().containsKey("callback")){
+				JSONService.JSONPResponse(response, jsonResponse, request.getParameter("callback"));
+			}else{
+				JSONService.JSONResponse(response, jsonResponse);
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
