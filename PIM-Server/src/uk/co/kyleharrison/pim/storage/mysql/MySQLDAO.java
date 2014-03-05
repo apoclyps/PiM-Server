@@ -288,8 +288,19 @@ public class MySQLDAO extends MySQLConnector {
 				
 				SteamGame sg1 = entry.getValue();
 				
+				String id = null;
+				try{
+					if(sg1.getId().equals(null)){
+						id = "null";
+					}else{
+						id = sg1.getId().toString();
+					}
+				}catch(Exception e){
+					id = "null";
+				}
+				
 				preparedStatement.setString(1,sg1.getName());
-				preparedStatement.setString(2, sg1.getId().toString());
+				preparedStatement.setString(2, id);
 				preparedStatement.setString(3, sg1.getShortName());
 				preparedStatement.setString(4,sg1.getLogoThumbnailUrl());
 				preparedStatement.setString(5,sg1.getLogoUrl());
