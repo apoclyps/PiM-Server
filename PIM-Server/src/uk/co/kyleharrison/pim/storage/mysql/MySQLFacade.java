@@ -8,6 +8,7 @@ import java.util.Map;
 import net.scholnick.isbndb.domain.Book;
 
 import com.mlesniak.amazon.backend.AmazonItem;
+import com.omertron.omdbapi.model.OmdbVideoBasic;
 
 import uk.co.kyleharrison.grapejuice.comicvine.ComicVineVolume;
 
@@ -80,6 +81,15 @@ public class MySQLFacade implements MySQLInterface {
 	public boolean insertISBNDBBooks(List<Book> books) {
 		try {
 			return this.mySQLDAO.insertISBNDBBooks(books);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+	public boolean insertOMDBItems(List<OmdbVideoBasic> omdbResults) {
+		try {
+			return this.mySQLDAO.insertOMDBItems(omdbResults);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

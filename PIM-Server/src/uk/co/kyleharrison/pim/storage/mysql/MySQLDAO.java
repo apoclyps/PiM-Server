@@ -9,6 +9,7 @@ import java.util.Map;
 import net.scholnick.isbndb.domain.Book;
 
 import com.mlesniak.amazon.backend.AmazonItem;
+import com.omertron.omdbapi.model.OmdbVideoBasic;
 
 import uk.co.kyleharrison.grapejuice.comicvine.ComicVineVolume;
 
@@ -159,6 +160,38 @@ public class MySQLDAO extends MySQLConnector {
 				preparedStatement.setString(5,book.getPublisher());
 				preparedStatement.setString(6,book.getSummary());
 				preparedStatement.addBatch();
+			}
+			
+			int [] results = preparedStatement.executeBatch();
+			return true;
+		} else {
+			System.out.println("MYSQLDOA : Insert Channel : Connection Failed");
+		}
+		if (connection != null) {
+			connection.close();
+		}
+		return false;
+	}
+
+	public boolean insertOMDBItems(List<OmdbVideoBasic> omdbResults) throws SQLException {
+		System.out.println("Batch Insert : "+omdbResults.size());
+		if(omdbResults.equals(null)){
+			System.out.println("Empty Volume List");
+			return false;
+		}
+		if (this.checkConnection()) {
+			System.out.println("Attempting Insert iccv");
+			preparedStatement = connection.prepareStatement("INSERT IGNORE into pim.omdb"
+							+ "(imdbid,title,type,year)"
+							+ " values  (?,?,?,?)");
+
+			for(OmdbVideoBasic omdbVideo : omdbResults){
+				preparedStatement.setString(1, omdbVideo.getImdbID());
+				preparedStatement.setString(2, omdbVideo.getTitle());
+				preparedStatement.setString(3,omdbVideo.getType());
+				preparedStatement.setString(4,omdbVideo.getYear());
+				preparedStatement.addBatch();
+				System.out.println("Batch added "+omdbVideo.getTitle());
 			}
 			
 			int [] results = preparedStatement.executeBatch();

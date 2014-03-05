@@ -9,16 +9,27 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.simple.JSONObject;
 
+import uk.co.kyleharrison.pim.enums.RequestTypes;
+import uk.co.kyleharrison.pim.interfaces.ControllerServiceInterface;
+import uk.co.kyleharrison.pim.storage.mysql.MySQLFacade;
+
 import com.omertron.omdbapi.OMDBException;
 import com.omertron.omdbapi.OmdbApi;
 import com.omertron.omdbapi.model.OmdbVideoBasic;
 import com.omertron.omdbapi.wrapper.WrapperSearch;
 
-import uk.co.kyleharrison.pim.enums.RequestTypes;
-import uk.co.kyleharrison.pim.interfaces.ControllerServiceInterface;
-
 public class OMDBService implements ControllerServiceInterface {
 
+	private MySQLFacade mySQLFacade;
+	private List<OmdbVideoBasic> OMDBResults;
+	
+	public OMDBService() {
+		super();
+		this.mySQLFacade = new MySQLFacade();
+		this.OMDBResults = null;
+	}
+
+	@SuppressWarnings("unchecked")
 	@Override
 	public String executeQuery(String query) {
 		long startTime = System.currentTimeMillis();
@@ -33,7 +44,7 @@ public class OMDBService implements ControllerServiceInterface {
 			ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
 			JSONObject jsonResponse = new JSONObject();
 			String generatedJson = null;
-			List<OmdbVideoBasic> OMDBResults = result.getResults();
+			this.OMDBResults = result.getResults();
 				
 	/*		ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
 			String json = null;
@@ -53,7 +64,7 @@ public class OMDBService implements ControllerServiceInterface {
 		return null;*/
 		
 		try {
-			generatedJson = ow.writeValueAsString(OMDBResults);
+			generatedJson = ow.writeValueAsString(this.OMDBResults);
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
@@ -61,7 +72,7 @@ public class OMDBService implements ControllerServiceInterface {
 		try {
 			JSONArray omdbJsonArray = new JSONArray(generatedJson);
 			jsonResponse.put("Service", RequestTypes.IMDB.toString());
-			jsonResponse.put("Results", OMDBResults.size());
+			jsonResponse.put("Results", this.OMDBResults.size());
 			jsonResponse.put("Query", query);
 			jsonResponse.put("IMDB", omdbJsonArray);
 			
@@ -96,8 +107,9 @@ public class OMDBService implements ControllerServiceInterface {
 
 	@Override
 	public boolean cacheResults() {
-		// TODO Auto-generated method stub
-		return false;
+		System.out.println("Caching Results");
+		boolean cached = this.mySQLFacade.insertOMDBItems(this.OMDBResults);
+		return cached;
 	}
 
 }
