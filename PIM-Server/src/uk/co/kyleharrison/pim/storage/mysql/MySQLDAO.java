@@ -3,11 +3,15 @@ package uk.co.kyleharrison.pim.storage.mysql;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
 import net.scholnick.isbndb.domain.Book;
 
+import com.mixtape.spotify.api.Album;
+import com.mixtape.spotify.api.Artist;
+import com.mixtape.spotify.api.Response;
 import com.mlesniak.amazon.backend.AmazonItem;
 import com.omertron.omdbapi.model.OmdbVideoBasic;
 
@@ -192,6 +196,60 @@ public class MySQLDAO extends MySQLConnector {
 				preparedStatement.setString(4,omdbVideo.getYear());
 				preparedStatement.addBatch();
 				System.out.println("Batch added "+omdbVideo.getTitle());
+			}
+			
+			int [] results = preparedStatement.executeBatch();
+			return true;
+		} else {
+			System.out.println("MYSQLDOA : Insert Channel : Connection Failed");
+		}
+		if (connection != null) {
+			connection.close();
+		}
+		return false;
+	}
+
+	public boolean insertSpotifyAlbums(Response response) throws SQLException {
+		System.out.println("Batch Insert : "+response.getAlbums().size());
+		if(response.equals(null)){
+			System.out.println("Empty Volume List");
+			return false;
+		}
+		if (this.checkConnection()) {
+			System.out.println("Attempting Insert iccv");
+			preparedStatement = connection.prepareStatement("INSERT IGNORE into pim.spotifyalbums"
+							+ "(artist,albumname,popularity,releaseyear,href)"
+							+ " values  (?,?,?,?,?)");
+
+			for(Album album : response.getAlbums()){
+				
+				List<Artist> artist = (List<Artist>) album.getArtists();
+				System.out.println("Batch added "+artist.get(0).getName());
+			
+				int release = 0;
+				try{
+					if(album.getReleaseYear().equals(null)){
+						release = 0;
+					}else{
+						release = album.getReleaseYear();
+					}
+				}catch(Exception e){
+					release =0;
+				}
+				
+				System.out.println(" ! : "+artist.get(0).getName());
+				System.out.println(" ! : "+album.getName());
+				System.out.println(" ! : "+album.getPopularity());
+				System.out.println(" ! : "+release);
+				System.out.println(" ! : "+album.getHref());
+				
+				preparedStatement.setString(1,artist.get(0).getName());
+				preparedStatement.setString(2, album.getName());
+				preparedStatement.setDouble(3, album.getPopularity());
+				preparedStatement.setInt(4,release);
+				preparedStatement.setString(5,album.getHref());
+				preparedStatement.addBatch();
+				
 			}
 			
 			int [] results = preparedStatement.executeBatch();

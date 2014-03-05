@@ -7,6 +7,7 @@ import java.util.Map;
 
 import net.scholnick.isbndb.domain.Book;
 
+import com.mixtape.spotify.api.Response;
 import com.mlesniak.amazon.backend.AmazonItem;
 import com.omertron.omdbapi.model.OmdbVideoBasic;
 
@@ -90,6 +91,15 @@ public class MySQLFacade implements MySQLInterface {
 	public boolean insertOMDBItems(List<OmdbVideoBasic> omdbResults) {
 		try {
 			return this.mySQLDAO.insertOMDBItems(omdbResults);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+	public boolean insertSpotifyAlbums(Response response) {
+		try {
+			return this.mySQLDAO.insertSpotifyAlbums(response);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

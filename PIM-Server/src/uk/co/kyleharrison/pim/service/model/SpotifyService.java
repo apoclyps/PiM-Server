@@ -9,6 +9,7 @@ import org.codehaus.jackson.map.ObjectWriter;
 import org.json.simple.JSONObject;
 
 import uk.co.kyleharrison.pim.interfaces.ControllerServiceInterface;
+import uk.co.kyleharrison.pim.storage.mysql.MySQLFacade;
 
 import com.mixtape.spotify.api.RequestType;
 import com.mixtape.spotify.api.Response;
@@ -16,16 +17,26 @@ import com.mixtape.spotify.api.SpotifyMetadata;
 
 public class SpotifyService implements ControllerServiceInterface {
 
-	public String testSpotify(String query){
+	private Response response;
+	private MySQLFacade mySQLFacade;
+	
+	public SpotifyService() {
+		super();
+		this.response = null;
+		mySQLFacade = new MySQLFacade();
+	}
+
+	@Override
+	public String executeQuery(String query) {
 		SpotifyMetadata metadata = new SpotifyMetadata();
 		try {
-			Response response = metadata.search(query, RequestType.album);
+			this.response = metadata.search(query, RequestType.album);
 			
 			/*for( Object artist : response.getAlbums().toArray()){
 				Album artistAlbum = (Album) artist;
 				System.out.println(artistAlbum.getName());
 			}*/
-			
+					
 			ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
 			String json = null;
 			try {
@@ -40,12 +51,6 @@ public class SpotifyService implements ControllerServiceInterface {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return null;
-	}
-
-	@Override
-	public String executeQuery(String query) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -69,8 +74,9 @@ public class SpotifyService implements ControllerServiceInterface {
 
 	@Override
 	public boolean cacheResults() {
-		// TODO Auto-generated method stub
-		return false;
+		System.out.println("Caching Results");
+		boolean cached = this.mySQLFacade.insertSpotifyAlbums(this.response);
+		return cached;
 	}
 	
 }

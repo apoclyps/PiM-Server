@@ -17,46 +17,60 @@ import uk.co.kyleharrison.pim.utilities.JSONService;
 public class SpotifyController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     private SpotifyService spotifyService;
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
+
     public SpotifyController() {
         super();
         this.spotifyService = new SpotifyService();
     }
 
-	/**
-	 * @see Servlet#init(ServletConfig)
-	 */
 	public void init(ServletConfig config) throws ServletException {
 		// TODO Auto-generated method stub
 	}
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String jsonResponse = spotifyService.testSpotify("Batman");
-		JSONService.JSONResponse(response,jsonResponse);
+		String jsonResponse = null;
+		// Preforms a query based upon if the query parameter is set or not
+		try{
+		if(request.getParameterMap().containsKey("query")){
+			jsonResponse = this.spotifyService.executeQuery(request.getParameter("query"));
+		}else{
+			jsonResponse = this.spotifyService.executeQuery("Batman");
+		}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
+		try{
+		if(request.getParameterMap().containsKey("cache")){
+			if(request.getParameter("cache").equals("true")){
+				System.out.println("Caching Results");
+				this.spotifyService.cacheResults();
+			}
+		}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+	
+		// Returns prefered JSON as the response.
+		try{
+			if(request.getParameterMap().containsKey("callback")){
+				JSONService.JSONPResponse(response, jsonResponse, request.getParameter("callback"));
+			}else{
+				JSONService.JSONResponse(response, jsonResponse);
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 	}
 
-	/**
-	 * @see HttpServlet#doPut(HttpServletRequest, HttpServletResponse)
-	 */
 	protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 	}
 
-	/**
-	 * @see HttpServlet#doDelete(HttpServletRequest, HttpServletResponse)
-	 */
 	protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 	}
