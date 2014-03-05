@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import net.scholnick.isbndb.domain.Book;
+
 import com.mlesniak.amazon.backend.AmazonItem;
 
 import uk.co.kyleharrison.grapejuice.comicvine.ComicVineVolume;
@@ -123,6 +125,39 @@ public class MySQLDAO extends MySQLConnector {
 				preparedStatement.setString(4,amazonItem.getURL());
 				preparedStatement.setString(5,amazonItem.getImageURL());
 				preparedStatement.setString(6,amazonItem.getReviewURL());
+				preparedStatement.addBatch();
+			}
+			
+			int [] results = preparedStatement.executeBatch();
+			return true;
+		} else {
+			System.out.println("MYSQLDOA : Insert Channel : Connection Failed");
+		}
+		if (connection != null) {
+			connection.close();
+		}
+		return false;
+	}
+
+	public boolean insertISBNDBBooks(List<Book> books) throws SQLException {
+		System.out.println("Batch Insert : "+books.size());
+		if(books.equals(null)){
+			System.out.println("Empty Volume List");
+			return false;
+		}
+		if (this.checkConnection()) {
+			System.out.println("Attempting Insert iccv");
+			preparedStatement = connection.prepareStatement("INSERT IGNORE into pim.isbndb"
+							+ "(title,isbn10,isbn13,deweynumber,publisher,summary)"
+							+ " values  (?,?,?,?,?,?)");
+
+			for(Book book : books){
+				preparedStatement.setString(1, book.getTitle());
+				preparedStatement.setString(2, book.getIsbn10());
+				preparedStatement.setString(3,book.getIsbn13());
+				preparedStatement.setString(4,book.getDeweyNumber());
+				preparedStatement.setString(5,book.getPublisher());
+				preparedStatement.setString(6,book.getSummary());
 				preparedStatement.addBatch();
 			}
 			

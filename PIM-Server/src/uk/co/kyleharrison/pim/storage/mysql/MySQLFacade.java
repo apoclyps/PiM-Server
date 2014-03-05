@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import net.scholnick.isbndb.domain.Book;
+
 import com.mlesniak.amazon.backend.AmazonItem;
 
 import uk.co.kyleharrison.grapejuice.comicvine.ComicVineVolume;
@@ -69,6 +71,15 @@ public class MySQLFacade implements MySQLInterface {
 	public boolean insertAmazonItems(List<AmazonItem> amazonItems) {
 		try {
 			return this.mySQLDAO.insertAmazonItems(amazonItems);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+	public boolean insertISBNDBBooks(List<Book> books) {
+		try {
+			return this.mySQLDAO.insertISBNDBBooks(books);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

@@ -1,8 +1,10 @@
 package uk.co.kyleharrison.pim.service.model;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
+
+import net.scholnick.isbndb.BooksProxy;
+import net.scholnick.isbndb.domain.Book;
 
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
@@ -11,36 +13,17 @@ import org.codehaus.jackson.map.ObjectWriter;
 import org.json.simple.JSONObject;
 
 import uk.co.kyleharrison.pim.interfaces.ControllerServiceInterface;
-import net.scholnick.isbndb.BooksProxy;
-import net.scholnick.isbndb.domain.Book;
+import uk.co.kyleharrison.pim.storage.mysql.MySQLFacade;
 
 public class ISBNDBService implements ControllerServiceInterface {
 
-	public String testISBNDB(String query) {
-		try {
-			BooksProxy.getInstance().setDeveloperKey("FB11MLN0"); // before any getBooks() calls
-			// all books with virus in the title
-			List<Book> books = BooksProxy.getInstance().getBooks(query);
-			/*
-			 * for(Book bk : books){ System.out.println(bk.getTitle()
-			 * +" : "+bk.getEdition() +" : " +bk.getPublisher()); }
-			 */
-			ObjectWriter ow = new ObjectMapper().writer()
-					.withDefaultPrettyPrinter();
-			String json = null;
-			try {
-				json = ow.writeValueAsString(books);
-			} catch (JsonGenerationException | JsonMappingException ex) {
-				ex.printStackTrace();
-			} catch (IOException ioe) {
-				ioe.printStackTrace();
-			}
-			System.out.println("\n" + "Spotify Results : " + books.size());
-			return json;
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return null;
+	private MySQLFacade mySQLFacade;
+	private List<Book> books;
+	
+	public ISBNDBService() {
+		super();
+		this.mySQLFacade = new MySQLFacade();
+		this.books = null;
 	}
 
 	public String lookupISBN(String query) {
@@ -69,7 +52,29 @@ public class ISBNDBService implements ControllerServiceInterface {
 
 	@Override
 	public String executeQuery(String query) {
-		// TODO Auto-generated method stub
+		try {
+			BooksProxy.getInstance().setDeveloperKey("FB11MLN0"); // before any getBooks() calls
+			// all books with virus in the title
+			this.books = BooksProxy.getInstance().getBooks(query);
+			/*
+			 * for(Book bk : books){ System.out.println(bk.getTitle()
+			 * +" : "+bk.getEdition() +" : " +bk.getPublisher()); }
+			 */
+			ObjectWriter ow = new ObjectMapper().writer()
+					.withDefaultPrettyPrinter();
+			String json = null;
+			try {
+				json = ow.writeValueAsString(books);
+			} catch (JsonGenerationException | JsonMappingException ex) {
+				ex.printStackTrace();
+			} catch (IOException ioe) {
+				ioe.printStackTrace();
+			}
+			System.out.println("\n" + "Spotify Results : " + books.size());
+			return json;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return null;
 	}
 
@@ -93,8 +98,9 @@ public class ISBNDBService implements ControllerServiceInterface {
 
 	@Override
 	public boolean cacheResults() {
-		// TODO Auto-generated method stub
-		return false;
+		System.out.println("Caching Results");
+		boolean cached = this.mySQLFacade.insertISBNDBBooks(this.books);
+		return cached;
 	}
 
 }
