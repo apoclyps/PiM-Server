@@ -59,7 +59,7 @@ public class MySQLDAO extends MySQLConnector {
 	public void insertVolume(int volumeID, String volumeName) throws SQLException {
 		if (this.checkConnection()) {
 			preparedStatement = connection
-					.prepareStatement("INSERT IGNORE into comicdb.volumes"
+					.prepareStatement("INSERT IGNORE into pim.comicvinevolumes"
 							+ "(volumeID,volumeName)"
 							+ " values  (?,?)");
 
