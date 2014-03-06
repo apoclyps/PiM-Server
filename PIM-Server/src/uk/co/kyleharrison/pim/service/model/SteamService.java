@@ -51,6 +51,7 @@ public class SteamService implements ControllerServiceInterface {
 		try {
 			// Queries are case sensitive
 			SteamId id = SteamId.create(steamID);
+			this.sg = null;
 			this.sg = id.getGames();
 			JSONArray itemArray = new JSONArray();
 			for (Entry<Integer, SteamGame> entry : sg.entrySet()) {
@@ -131,9 +132,11 @@ public class SteamService implements ControllerServiceInterface {
 
 	@Override
 	public boolean cacheResults() {
-		System.out.println("Caching Results");
-		boolean cached = this.mySQLFacade.insertSteamGames(this.sg);
-		return cached;
+		if(this.sg.equals(null)){
+			System.out.println("Caching Results");
+			return this.mySQLFacade.insertSteamGames(this.sg);
+		}
+		return false;
 	}
 
 }
