@@ -31,7 +31,7 @@ public class ComicVineService extends DatabaseConnector implements ControllerSer
 	public String executeQuery(String query) {
 		long startTime = System.currentTimeMillis();
 		
-		String resources = "name,id,first_issue,last_issue,count_of_issues";
+		String resources = "name,id,first_issue,last_issue,count_of_issues,image";
 		String queryRequest = "http://www.comicvine.com/api/search/?api_key=2736f1620710c52159ba0d0aea337c59bd273816"
 				+ "&format=json&field_list="+resources+"&resources=volume&query=";
 		
