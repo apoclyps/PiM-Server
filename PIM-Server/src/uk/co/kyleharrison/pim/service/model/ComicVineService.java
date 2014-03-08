@@ -1,6 +1,8 @@
 package uk.co.kyleharrison.pim.service.model;
 
 import java.io.IOException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 
 import org.codehaus.jackson.map.ObjectMapper;
@@ -26,7 +28,7 @@ public class ComicVineService extends DatabaseConnector implements ControllerSer
 		this.grapeVineFacade = new GrapeVineFacade();
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "deprecation" })
 	@Override
 	public String executeQuery(String query) {
 		long startTime = System.currentTimeMillis();
@@ -50,7 +52,7 @@ public class ComicVineService extends DatabaseConnector implements ControllerSer
 		try {
 			JSONArray cvvResults = new JSONArray(generatedJson);
 			jsonResponse.put("Results", cvv.size());
-			jsonResponse.put("Query", query);
+			jsonResponse.put("Query", URLDecoder.decode(query));
 			jsonResponse.put("COMICVINE", cvvResults);
 			jsonResponse.put("ResourceType", "Volume");
 			
@@ -62,7 +64,7 @@ public class ComicVineService extends DatabaseConnector implements ControllerSer
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
-		return null;
+		return "{ \"ComicVine\": \"No Results\" }";
 	}
 
 	@Override

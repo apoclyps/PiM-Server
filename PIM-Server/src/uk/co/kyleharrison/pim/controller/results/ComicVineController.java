@@ -1,12 +1,18 @@
 package uk.co.kyleharrison.pim.controller.results;
 
 import java.io.IOException;
+import java.net.URLEncoder;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.codec.binary.StringUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.http.client.utils.URIBuilder;
+import org.apache.http.util.TextUtils;
 
 import uk.co.kyleharrison.pim.service.model.ComicVineService;
 import uk.co.kyleharrison.pim.storage.mysql.MySQLFacade;
@@ -31,12 +37,17 @@ public class ComicVineController extends HttpServlet {
 		// Preforms a query based upon if the query parameter is set or not
 		try{
 		if(request.getParameterMap().containsKey("query")){
-			jsonResponse = this.comicVineService.executeQuery(request.getParameter("query"));
+			String query = URLEncoder.encode(request.getParameter("query"),"UTF-8");
+
+			System.out.println(query);
+			jsonResponse = this.comicVineService.executeQuery(query);
 		}else{
 			jsonResponse = this.comicVineService.executeQuery("Batman");
+			//jsonResponse =  "{ \"ComicVine\": \"No Results\" }";
 		}
 		}catch(Exception e){
 			e.printStackTrace();
+			jsonResponse =  "{ \"ComicVine\": \"No Results\" }";
 		}
 		
 		try{

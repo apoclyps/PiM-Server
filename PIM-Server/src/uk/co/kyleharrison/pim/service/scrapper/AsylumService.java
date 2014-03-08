@@ -90,7 +90,7 @@ public class AsylumService {
 			String quantity = quantityInput.attr("value");
 			// System.out.println("Quantity : " + quantity);
 			this.entry.put("quantity", quantity);
-
+		
 			Element idInput = column.select("input[type=hidden]").get(0);
 			String id = idInput.attr("value");
 			// System.out.println("Product ID : " + id);
@@ -99,8 +99,14 @@ public class AsylumService {
 			// System.out.println("id test"+ entry.get("id"));
 			this.quantityFlag = true;
 		} catch (Exception e) {
-			e.printStackTrace();
+			this.entry.put("quantity", "0");
+			//System.out.println("Quantity set to 0");
+			
+			this.entry.put("id", "unknown");
+			//System.out.println("Id set to unknown");
+			//this.quantityFlag = true;
 		}
+		
 	}
 	
 	private void parseCost(Element column){
@@ -166,18 +172,27 @@ public class AsylumService {
 			} catch (Exception e) {
 				// System.out.println("split "+column.text());
 				// name = column.text().
+				try{
 				Element title = column.select("strong").first();
 				// System.out.println("Title" + title.text());
 				// name[0] = title.text();
 				this.entry.put("title", title.text());
 				// e.printStackTrace();
+				}catch(NullPointerException ex){
+					this.entry = new HashMap<String, String>();
+					this.priceFlag = false;
+					this.quantityFlag = false;
+					this.detailsFlag = false;
+					System.out.println("Skipped records : "+column.text());
+				}
 			}
 			// Save strings
-			System.out.println("Title : \t"+ this.entry.get("title"));
-			System.out.println("Issue Number : \t"+ this.entry.get("issue"));
-			System.out.println("Publisher : \t"+ this.entry.get("publisher"));
-			System.out.println("Volume : \t"+ this.entry.get("volume"));
-
+			if(this.entry.containsKey("title")){
+				System.out.println("Title : \t"+ this.entry.get("title"));
+				System.out.println("Issue Number : \t"+ this.entry.get("issue"));
+				System.out.println("Publisher : \t"+ this.entry.get("publisher"));
+				System.out.println("Volume : \t"+ this.entry.get("volume"));
+			}
 			// Sub title, author, format
 			detailsFlag = true;
 		} catch (Exception e) {
@@ -236,5 +251,13 @@ public class AsylumService {
 		} while (pageCounter <= pageStop);
 		System.out.println("Program Completed");
 		return true;
+	}
+
+	public int getNextRequestDelay() {
+		return nextRequestDelay;
+	}
+
+	public void setNextRequestDelay(int nextRequestDelay) {
+		this.nextRequestDelay = nextRequestDelay;
 	}
 }
