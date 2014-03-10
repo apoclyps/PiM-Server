@@ -9,6 +9,8 @@ import java.util.Date;
 
 import javax.sql.DataSource;
 
+import com.mysql.jdbc.exceptions.jdbc4.CommunicationsException;
+
 public class MySQLConnector {
 	protected Connection connection = null;
 	private Statement statement = null;
@@ -28,7 +30,10 @@ public class MySQLConnector {
 			String url = "jdbc:mysql://localhost:3306/comicdb";
 			connection = DriverManager.getConnection(url, "root", "hellokitty1");
 			//connection = datasource.getConnection();
-		} catch (SQLException | ClassNotFoundException e) {
+		} catch(CommunicationsException ce){
+			System.out.println("MySQL Server : Offline");
+			ce.getMessage();
+		}catch (SQLException | ClassNotFoundException e) {
 			System.out.println("SQL Exception in DatabaseConnector.java");
 			e.printStackTrace();
 		} 
