@@ -2,7 +2,6 @@ package uk.co.kyleharrison.pim.service.model;
 
 import java.io.IOException;
 import java.net.URLDecoder;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 
 import org.codehaus.jackson.map.ObjectMapper;

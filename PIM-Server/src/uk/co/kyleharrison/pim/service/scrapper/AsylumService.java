@@ -14,6 +14,7 @@ import uk.co.kyleharrison.pim.storage.mysql.MySQLFacade;
 
 /**
  * @author apoclyps
+ * Kyle Harrison
  *
  */
 public class AsylumService {
@@ -219,7 +220,7 @@ public class AsylumService {
 				Element table = doc.select("table").get(1);
 				Elements rows = table.select("tr");
 				Elements columns = rows.select("td");
-
+				
 				parseHTML(columns);
 
 				pageCounter++;

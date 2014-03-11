@@ -9,13 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.codec.binary.StringUtils;
-import org.apache.commons.lang3.StringEscapeUtils;
-import org.apache.http.client.utils.URIBuilder;
-import org.apache.http.util.TextUtils;
-
 import uk.co.kyleharrison.pim.service.model.ComicVineService;
-import uk.co.kyleharrison.pim.storage.mysql.MySQLFacade;
 import uk.co.kyleharrison.pim.utilities.JSONService;
 
 

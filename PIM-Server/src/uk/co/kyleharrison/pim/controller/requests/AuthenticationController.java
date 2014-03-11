@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -13,7 +12,6 @@ import uk.co.kyleharrison.pim.model.User;
 import uk.co.kyleharrison.pim.security.SecurityUtils;
 import uk.co.kyleharrison.pim.service.control.AuthenticationService;
 
-@WebServlet("/login")
 public class AuthenticationController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private AuthenticationService loginService = new AuthenticationService();
