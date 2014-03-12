@@ -50,6 +50,94 @@ public class AsylumService {
 		this.pageStop = end;
 	}
 
+	public int getTotalPages() {
+		return totalPages;
+	}
+
+	public void setTotalPages(int totalPages) {
+		this.totalPages = totalPages;
+	}
+
+	public int getPageCounter() {
+		return pageCounter;
+	}
+
+	public void setPageCounter(int pageCounter) {
+		this.pageCounter = pageCounter;
+	}
+
+	public int getPageStop() {
+		return pageStop;
+	}
+
+	public void setPageStop(int pageStop) {
+		this.pageStop = pageStop;
+	}
+
+	public int getPagesSaved() {
+		return pagesSaved;
+	}
+
+	public void setPagesSaved(int pagesSaved) {
+		this.pagesSaved = pagesSaved;
+	}
+
+	public MySQLFacade getMySQLFacade() {
+		return mySQLFacade;
+	}
+
+	public void setMySQLFacade(MySQLFacade mySQLFacade) {
+		this.mySQLFacade = mySQLFacade;
+	}
+
+	public int getCount() {
+		return count;
+	}
+
+	public void setCount(int count) {
+		this.count = count;
+	}
+
+	public boolean isPriceFlag() {
+		return priceFlag;
+	}
+
+	public void setPriceFlag(boolean priceFlag) {
+		this.priceFlag = priceFlag;
+	}
+
+	public boolean isDetailsFlag() {
+		return detailsFlag;
+	}
+
+	public void setDetailsFlag(boolean detailsFlag) {
+		this.detailsFlag = detailsFlag;
+	}
+
+	public boolean isQuantityFlag() {
+		return quantityFlag;
+	}
+
+	public void setQuantityFlag(boolean quantityFlag) {
+		this.quantityFlag = quantityFlag;
+	}
+
+	public Document getDoc() {
+		return doc;
+	}
+
+	public void setDoc(Document doc) {
+		this.doc = doc;
+	}
+
+	public Map<String, String> getEntry() {
+		return entry;
+	}
+
+	public void setEntry(Map<String, String> entry) {
+		this.entry = entry;
+	}
+
 	private Document generateDocument() throws IOException{
 		return doc = Jsoup.connect("http://www.asylum-booksandgames.com/shop/index.php?page="+ pageCounter+ "&searchStr=&act=viewCat&Submit=Go").get();
 	}
