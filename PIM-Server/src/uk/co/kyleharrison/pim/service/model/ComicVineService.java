@@ -20,6 +20,7 @@ public class ComicVineService extends DatabaseConnector implements ControllerSer
 
 	private MySQLFacade mySQLFacade;
 	private GrapeVineFacade grapeVineFacade;
+	private ArrayList<ComicVineVolume> cvv = null;
 	String resources = "name,id,first_issue,last_issue,count_of_issues,image";
 	String queryRequest = "http://www.comicvine.com/api/search/?api_key=2736f1620710c52159ba0d0aea337c59bd273816"
 			+ "&format=json&field_list="+resources+"&resources=volume&query=";
@@ -107,8 +108,8 @@ public class ComicVineService extends DatabaseConnector implements ControllerSer
 		
 		grapeVineFacade.PreformQuery(queryRequest + query);
 		
-		ArrayList<ComicVineVolume> cvv = grapeVineFacade.getComicVineVolumes();
-		System.out.println("\tSize : " +cvv.size());
+		this.cvv = grapeVineFacade.getComicVineVolumes();
+		System.out.println("\tSize : " +this.cvv.size());
 
 		// OUTPUT
 		int remainder = (int) (Math.ceil(grapeVineFacade.getNumber_of_total_results() / 100)) ;
@@ -121,7 +122,7 @@ public class ComicVineService extends DatabaseConnector implements ControllerSer
 			grapeVineFacade.PreformQuery(queryRequest + query + "&page=" + (page+1));
 
 			if (grapeVineFacade.getNumber_of_page_result() != 0) {
-				cvv.addAll(grapeVineFacade.getComicVineVolumes());
+				this.cvv.addAll(grapeVineFacade.getComicVineVolumes());
 			}else{
 				exit = true;
 			}
@@ -133,12 +134,23 @@ public class ComicVineService extends DatabaseConnector implements ControllerSer
 		
 		System.out.println("Expected Size = "
 				+ grapeVineFacade.getNumber_of_total_results());
-		System.out.println("Actual Size = " + cvv.size());
+		System.out.println("Actual Size = " + this.cvv.size());
 		System.out.println("Expected Pages = " + (remainder));
-		
-		this.mySQLFacade.insertVolumes(cvv);
 		
 		return true;
 	}
+
+	@Override
+	public boolean cacheAllResults() {
+		// TODO Auto-generated method stub
+		try{
+			return this.mySQLFacade.insertVolumes(this.cvv);
+		}catch(Exception e){
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
+	
 
 }

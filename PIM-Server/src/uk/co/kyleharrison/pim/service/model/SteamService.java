@@ -145,4 +145,10 @@ public class SteamService implements ControllerServiceInterface {
 		return false;
 	}
 
+	@Override
+	public boolean cacheAllResults() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }

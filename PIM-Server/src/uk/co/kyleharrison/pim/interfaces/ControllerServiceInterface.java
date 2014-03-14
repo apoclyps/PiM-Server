@@ -12,6 +12,7 @@ public interface ControllerServiceInterface {
 	public boolean executeQueryAllResults(String query);
 	public boolean searchItemExists(String item);
 	public boolean cacheItem(String item);
+	public boolean cacheAllResults();
 	public boolean cacheResults();
 	
 }

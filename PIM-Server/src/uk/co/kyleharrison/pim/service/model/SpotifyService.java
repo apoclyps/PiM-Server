@@ -84,5 +84,11 @@ public class SpotifyService implements ControllerServiceInterface {
 		// TODO Auto-generated method stub
 		return false;
 	}
+
+	@Override
+	public boolean cacheAllResults() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 	
 }

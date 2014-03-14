@@ -90,5 +90,11 @@ public class AmazonService implements ControllerServiceInterface {
 		// TODO Auto-generated method stub
 		return false;
 	}
+
+	@Override
+	public boolean cacheAllResults() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 	
 }
