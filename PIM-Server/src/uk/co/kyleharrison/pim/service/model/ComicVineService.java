@@ -136,7 +136,9 @@ public class ComicVineService extends DatabaseConnector implements ControllerSer
 		System.out.println("Actual Size = " + cvv.size());
 		System.out.println("Expected Pages = " + (remainder));
 		
-		return false;
+		this.mySQLFacade.insertVolumes(cvv);
+		
+		return true;
 	}
 
 }
