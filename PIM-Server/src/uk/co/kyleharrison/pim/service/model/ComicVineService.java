@@ -32,16 +32,12 @@ public class ComicVineService extends DatabaseConnector implements ControllerSer
 	public String executeQuery(String query) {
 		long startTime = System.currentTimeMillis();
 		
-		String resources = "name,id,first_issue,last_issue,count_of_issues,image";
-		String queryRequest = "http://www.comicvine.com/api/search/?api_key=2736f1620710c52159ba0d0aea337c59bd273816"
-				+ "&format=json&field_list="+resources+"&resources=volume&query=";
-		
-		this.grapeVineFacade.PreformQuery(queryRequest+query);
+		ArrayList<ComicVineVolume> cvv = preformQuery(query);
 		
 		ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
 		JSONObject jsonResponse = new JSONObject();
 		String generatedJson = null;
-		ArrayList<ComicVineVolume> cvv = this.grapeVineFacade.getComicVineVolumes();
+
 		try {
 			generatedJson = ow.writeValueAsString(cvv);
 		} catch (IOException e1) {
@@ -65,7 +61,7 @@ public class ComicVineService extends DatabaseConnector implements ControllerSer
 		}
 		return "{ \"ComicVine\": \"No Results\" }";
 	}
-
+	
 	@Override
 	public JSONObject executeJSONQuery(String query) {
 		// TODO Auto-generated method stub
@@ -93,6 +89,16 @@ public class ComicVineService extends DatabaseConnector implements ControllerSer
 	
 	public void close(){
 		this.mySQLFacade.closeConnection();
+	}
+
+	public ArrayList<ComicVineVolume> preformQuery(String query) {
+		String resources = "name,id,first_issue,last_issue,count_of_issues,image";
+		String queryRequest = "http://www.comicvine.com/api/search/?api_key=2736f1620710c52159ba0d0aea337c59bd273816"
+				+ "&format=json&field_list="+resources+"&resources=volume&query=";
+		
+		this.grapeVineFacade.PreformQuery(queryRequest+query);
+		
+		return this.grapeVineFacade.getComicVineVolumes();
 	}
 
 }
