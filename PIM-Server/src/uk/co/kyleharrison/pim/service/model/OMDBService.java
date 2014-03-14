@@ -112,4 +112,10 @@ public class OMDBService implements ControllerServiceInterface {
 		return cached;
 	}
 
+	@Override
+	public boolean executeQueryAllResults(String query) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }

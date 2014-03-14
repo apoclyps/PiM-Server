@@ -78,5 +78,11 @@ public class SpotifyService implements ControllerServiceInterface {
 		boolean cached = this.mySQLFacade.insertSpotifyAlbums(this.response);
 		return cached;
 	}
+
+	@Override
+	public boolean executeQueryAllResults(String query) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 	
 }

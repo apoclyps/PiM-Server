@@ -20,6 +20,9 @@ public class ComicVineService extends DatabaseConnector implements ControllerSer
 
 	private MySQLFacade mySQLFacade;
 	private GrapeVineFacade grapeVineFacade;
+	String resources = "name,id,first_issue,last_issue,count_of_issues,image";
+	String queryRequest = "http://www.comicvine.com/api/search/?api_key=2736f1620710c52159ba0d0aea337c59bd273816"
+			+ "&format=json&field_list="+resources+"&resources=volume&query=";
 	
 	public ComicVineService() {
 		super();
@@ -92,13 +95,48 @@ public class ComicVineService extends DatabaseConnector implements ControllerSer
 	}
 
 	public ArrayList<ComicVineVolume> preformQuery(String query) {
-		String resources = "name,id,first_issue,last_issue,count_of_issues,image";
-		String queryRequest = "http://www.comicvine.com/api/search/?api_key=2736f1620710c52159ba0d0aea337c59bd273816"
-				+ "&format=json&field_list="+resources+"&resources=volume&query=";
+
 		
 		this.grapeVineFacade.PreformQuery(queryRequest+query);
 		
 		return this.grapeVineFacade.getComicVineVolumes();
+	}
+
+	@Override
+	public boolean executeQueryAllResults(String query) {
+		
+		grapeVineFacade.PreformQuery(queryRequest + query);
+		
+		ArrayList<ComicVineVolume> cvv = grapeVineFacade.getComicVineVolumes();
+		System.out.println("\tSize : " +cvv.size());
+
+		// OUTPUT
+		int remainder = (int) (Math.ceil(grapeVineFacade.getNumber_of_total_results() / 100)) ;
+		System.out.println("\tRemaining Pages : " +remainder);
+		int page = 1;
+		boolean exit = false;
+		
+		do{
+			System.out.println("\tPreforming query");
+			grapeVineFacade.PreformQuery(queryRequest + query + "&page=" + (page+1));
+
+			if (grapeVineFacade.getNumber_of_page_result() != 0) {
+				cvv.addAll(grapeVineFacade.getComicVineVolumes());
+			}else{
+				exit = true;
+			}
+			if(page==remainder ){
+				exit = true;
+			}
+			page++;
+		}while (exit==false);
+		
+		System.out.println("Expected Size = "
+				+ grapeVineFacade.getNumber_of_total_results());
+		System.out.println("Actual Size = " + cvv.size());
+		System.out.println("Expected Pages = " + (remainder));
+		
+		return false;
 	}
 
 }

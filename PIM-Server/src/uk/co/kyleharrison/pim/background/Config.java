@@ -14,7 +14,7 @@ public class Config implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent event) {
         scheduler = Executors.newSingleThreadScheduledExecutor();
-        scheduler.scheduleAtFixedRate(new UpdateCounts(), 0, 30, TimeUnit.SECONDS);
+        scheduler.scheduleAtFixedRate(new UpdateCounts(), 0, 5000, TimeUnit.SECONDS);
     }
 
     @Override

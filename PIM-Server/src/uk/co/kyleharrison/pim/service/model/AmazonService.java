@@ -84,5 +84,11 @@ public class AmazonService implements ControllerServiceInterface {
 		boolean cached = this.mySQLFacade.insertAmazonItems(this.amazonItems);
 		return cached;
 	}
+
+	@Override
+	public boolean executeQueryAllResults(String query) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 	
 }

@@ -139,4 +139,10 @@ public class SteamService implements ControllerServiceInterface {
 		return false;
 	}
 
+	@Override
+	public boolean executeQueryAllResults(String query) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }
