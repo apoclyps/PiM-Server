@@ -124,5 +124,20 @@
 			<artifactId>jsoup</artifactId>
 			<version>1.7.1</version>
 		</dependency>
+		<dependency>
+			<groupId>com.github.stephenc.eaio-uuid</groupId>
+			<artifactId>uuid</artifactId>
+			<version>3.4.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache-extras.cassandra-jdbc</groupId>
+			<artifactId>cassandra-jdbc</artifactId>
+			<version>1.2.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.cassandra</groupId>
+			<artifactId>cassandra-all</artifactId>
+			<version>1.2.1</version>
+		</dependency>
 	</dependencies>
 </project>

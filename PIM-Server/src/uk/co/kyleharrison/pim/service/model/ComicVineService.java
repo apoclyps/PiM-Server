@@ -12,6 +12,7 @@ import org.json.simple.JSONObject;
 
 import uk.co.kyleharrison.grapejuice.comicvine.ComicVineVolume;
 import uk.co.kyleharrison.grapejuice.facade.GrapeVineFacade;
+import uk.co.kyleharrison.pim.cassandra.CassandraConnector;
 import uk.co.kyleharrison.pim.connectors.DatabaseConnector;
 import uk.co.kyleharrison.pim.interfaces.ControllerServiceInterface;
 import uk.co.kyleharrison.pim.storage.mysql.MySQLFacade;
@@ -150,6 +151,19 @@ public class ComicVineService extends DatabaseConnector implements ControllerSer
 			return false;
 		}
 	}
+	
+	public boolean cacheAllResultsCassandra() {
+		// TODO Auto-generated method stub
+		try{
+			CassandraConnector cc = new CassandraConnector();
+			cc.insertComicVineVolumes(this.cvv);
+			return true;
+		}catch(Exception e){
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
 	
 	
 

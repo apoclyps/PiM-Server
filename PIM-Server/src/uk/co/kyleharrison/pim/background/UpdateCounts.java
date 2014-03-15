@@ -18,7 +18,8 @@ public class UpdateCounts implements Runnable {
         // Do your job here.
     	System.out.println("Background process "+new Date().toString());
     	this.comicVineService.executeQueryAllResults("avengers");
-    	this.comicVineService.cacheAllResults();
+    	//this.comicVineService.cacheAllResults();
+    	this.comicVineService.cacheAllResultsCassandra();
     	try {
 			Thread.sleep(1500);
 		} catch (InterruptedException e) {

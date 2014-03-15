@@ -6,6 +6,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import com.eaio.uuid.UUIDGen;
+
 import uk.co.kyleharrison.grapejuice.comicvine.ComicVineVolume;
 
 public class CassandraConnector {
@@ -75,9 +77,10 @@ public class CassandraConnector {
 	public int insertComicVineVolumes(ArrayList<ComicVineVolume> volumeList) throws SQLException {
 		String data = "BEGIN BATCH \n";
 		
-		int count =0;
 		for(ComicVineVolume cvv : volumeList){
-			data +=  "insert into comicvinevolumes (key, name, issue_count,year) values ("+cvv.getId()+",'"+cvv.getName().replaceAll("'", " ")
+			
+			
+			data +=  "insert into comicvinevolumes (created, id,name,count_of_issues,start_year) values ("+java.util.UUID.fromString(new com.eaio.uuid.UUID().toString())+","+cvv.getId()+",'"+cvv.getName().replaceAll("'", " ")
 					+"',"+cvv.getCount_of_issues()+","+ cvv.getStart_year() +") \n";
 		}
 		data += "APPLY BATCH;";
