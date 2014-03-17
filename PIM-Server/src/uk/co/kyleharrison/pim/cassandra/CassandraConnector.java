@@ -14,8 +14,8 @@ public class CassandraConnector {
 
 	protected Connection connection = null;
 
-	private String database = "PIM";
-	private String connectionString = "jdbc:cassandra://localhost:9160/PIM";
+	private String database = "ComicVine";
+	private String connectionString = "jdbc:cassandra://localhost:9160/Comicvine";
 
 	public CassandraConnector() {
 		try {
@@ -82,13 +82,13 @@ public class CassandraConnector {
 			cvv.getImage().setComicVineImages();
 			//System.out.println(cvv.getImage().getCassandraMap());
 			try{
-				data +=  "insert into comicvinevolumes (created, id,name,count_of_issues,start_year,image) values ("+java.util.UUID.fromString(new com.eaio.uuid.UUID().toString())+","+cvv.getId()+",'"+cvv.getName().replaceAll("'", " ")
+				data +=  "insert into volumes (id,name,count_of_issues,start_year,image) values ("+cvv.getId()+",'"+cvv.getName().replaceAll("'", " ")
 						+"',"+cvv.getCount_of_issues()+","+ cvv.getStart_year() +","+cvv.getImage().getCassandraMap() +") \n";
-				System.out.println("insert into comicvinevolumes (created, id,name,count_of_issues,start_year,image) values ("+java.util.UUID.fromString(new com.eaio.uuid.UUID().toString())+","+cvv.getId()+",'"+cvv.getName().replaceAll("'", " ")
-				+"',"+cvv.getCount_of_issues()+","+ cvv.getStart_year() +","+cvv.getImage().getCassandraMap() +") \n");
+				//System.out.println("insert into comicvinevolumes (created, id,name,count_of_issues,start_year,image) values ("+java.util.UUID.fromString(new com.eaio.uuid.UUID().toString())+","+cvv.getId()+",'"+cvv.getName().replaceAll("'", " ")
+				//+"',"+cvv.getCount_of_issues()+","+ cvv.getStart_year() +","+cvv.getImage().getCassandraMap() +") \n");
 			}catch(Exception e){
 				System.out.println("Failed");
-				data +=  "insert into comicvinevolumes (created, id,name,count_of_issues,start_year) values ("+java.util.UUID.fromString(new com.eaio.uuid.UUID().toString())+","+cvv.getId()+",'"+cvv.getName().replaceAll("'", " ")
+				data +=  "insert into volumes (id,name,count_of_issues,start_year) values ("+cvv.getId()+",'"+cvv.getName().replaceAll("'", " ")
 						+"',"+cvv.getCount_of_issues()+","+ cvv.getStart_year() +") \n";
 			}
 		}
