@@ -13,6 +13,7 @@ import org.json.simple.JSONObject;
 import uk.co.kyleharrison.grapejuice.comicvine.ComicVineVolume;
 import uk.co.kyleharrison.grapejuice.facade.GrapeVineFacade;
 import uk.co.kyleharrison.pim.cassandra.CassandraConnector;
+import uk.co.kyleharrison.pim.cassandra.ComicvineConnector;
 import uk.co.kyleharrison.pim.connectors.DatabaseConnector;
 import uk.co.kyleharrison.pim.interfaces.ControllerServiceInterface;
 import uk.co.kyleharrison.pim.storage.mysql.MySQLFacade;
@@ -22,8 +23,8 @@ public class ComicVineService extends DatabaseConnector implements ControllerSer
 	private MySQLFacade mySQLFacade;
 	private GrapeVineFacade grapeVineFacade;
 	private ArrayList<ComicVineVolume> cvv = null;
-	String resources = "name,id,first_issue,last_issue,count_of_issues,image";
-	String queryRequest = "http://www.comicvine.com/api/search/?api_key=2736f1620710c52159ba0d0aea337c59bd273816"
+	private String resources = "name,id,first_issue,last_issue,count_of_issues,image";
+	private String queryRequest = "http://www.comicvine.com/api/search/?api_key=2736f1620710c52159ba0d0aea337c59bd273816"
 			+ "&format=json&field_list="+resources+"&resources=volume&query=";
 	
 	public ComicVineService() {
@@ -163,19 +164,14 @@ public class ComicVineService extends DatabaseConnector implements ControllerSer
 	}
 	
 	public boolean cacheAllResultsCassandra() {
-		// TODO Auto-generated method stub
 		try{
-			CassandraConnector cc = new CassandraConnector();
-			cc.insertComicVineVolumes(this.cvv);
-			
+			ComicvineConnector comicvineConnector = new ComicvineConnector();
+			comicvineConnector.insertVolumes(this.cvv);
 			return true;
 		}catch(Exception e){
 			e.printStackTrace();
 			return false;
 		}
 	}
-	
-	
-	
 
 }

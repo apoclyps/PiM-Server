@@ -110,6 +110,8 @@ public class ComicVineBackgroundService implements Runnable {
     	//toStringStack();
     	
     	String key = this.searchStack.pop();
+    	key = this.searchStack.pop();
+    	key = this.searchStack.pop();
     	try {
 			key = URLEncoder.encode(key,"UTF-8");
 		} catch (UnsupportedEncodingException e) {

@@ -4,18 +4,12 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-
-import com.eaio.uuid.UUIDGen;
-
-import uk.co.kyleharrison.grapejuice.comicvine.ComicVineVolume;
 
 public class CassandraConnector {
 
 	protected Connection connection = null;
-
-	private String database = "ComicVine";
-	private String connectionString = "jdbc:cassandra://localhost:9160/Comicvine";
+	protected String database = "ComicVine";
+	protected String connectionString = "jdbc:cassandra://localhost:9160/Comicvine";
 
 	public CassandraConnector() {
 		try {
@@ -74,30 +68,6 @@ public class CassandraConnector {
 		
 	}
 	
-	public int insertComicVineVolumes(ArrayList<ComicVineVolume> volumeList) throws SQLException {
-		String data = "BEGIN BATCH \n";
-		
-		for(ComicVineVolume cvv : volumeList){
-			//System.out.println(""+cvv.getName());	
-			cvv.getImage().setComicVineImages();
-			//System.out.println(cvv.getImage().getCassandraMap());
-			try{
-				data +=  "insert into volumes (id,name,count_of_issues,start_year,image) values ("+cvv.getId()+",'"+cvv.getName().replaceAll("'", " ")
-						+"',"+cvv.getCount_of_issues()+","+ cvv.getStart_year() +","+cvv.getImage().getCassandraMap() +") \n";
-				//System.out.println("insert into comicvinevolumes (created, id,name,count_of_issues,start_year,image) values ("+java.util.UUID.fromString(new com.eaio.uuid.UUID().toString())+","+cvv.getId()+",'"+cvv.getName().replaceAll("'", " ")
-				//+"',"+cvv.getCount_of_issues()+","+ cvv.getStart_year() +","+cvv.getImage().getCassandraMap() +") \n");
-			}catch(Exception e){
-				System.out.println("Failed");
-				data +=  "insert into volumes (id,name,count_of_issues,start_year) values ("+cvv.getId()+",'"+cvv.getName().replaceAll("'", " ")
-						+"',"+cvv.getCount_of_issues()+","+ cvv.getStart_year() +") \n";
-			}
-		}
-		data += "APPLY BATCH;";
-		
-		Statement st = this.connection.createStatement();
-		return st.executeUpdate(data);
-	}
-
 	public String getDatabase() {
 		return database;
 	}
