@@ -4,10 +4,15 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map.Entry;
+import java.util.SortedSet;
 import java.util.Stack;
+import java.util.TreeSet;
 
 import uk.co.kyleharrison.pim.service.model.ComicVineService;
 
@@ -50,7 +55,12 @@ public class ComicVineBackgroundService implements Runnable {
 			//System.out.println(split.length);
 			if(split.length==2){
 				//System.out.print(split[0] + " : "+ split[1]);
-				storeToHashMap(split[0].substring(1, split[0].length()-1),split[1]);
+				String fullKey = split[0].substring(1, split[0].length()-1);
+				
+				// Cleans up the keys
+				String [] key = fullKey.split("Subtitle:|Author:");
+				String value = split[1];
+				storeToHashMap(key[0],value);
 			}
 		}catch(Exception e){
 			e.printStackTrace();
@@ -63,8 +73,31 @@ public class ComicVineBackgroundService implements Runnable {
 		this.resultsMap.put(key, value);
 	}
 	
+	public void convertHashMapToStack(){
+    	this.searchStack.removeAllElements();
+    	
+    	SortedSet<String> reverseTreeObject = new TreeSet<String>(new ReverseComparator());
+    	reverseTreeObject.addAll(resultsMap.keySet());
+    	
+		for(String entry : reverseTreeObject){
+    		storeToStack(entry);
+    	}
+	}
+	
+	public void toStringHashMap(){
+    	for(Entry<String, String> entry : this.resultsMap.entrySet()){
+    		System.out.println(entry.getKey());
+    	}
+	}
+	
 	public void storeToStack(String key){
 		this.searchStack.add(key);
+	}
+	
+	public void toStringStack(){
+		for(String entry : this.searchStack){
+			System.out.println(entry.toString());
+		}
 	}
 
 	@Override
@@ -72,13 +105,21 @@ public class ComicVineBackgroundService implements Runnable {
         // Do your job here.
     	System.out.println("Background process "+new Date().toString());
     	importFile();
+    	System.out.println("Loading complete");
+    	convertHashMapToStack();
+    	//toStringStack();
     	
-    	for(Entry<String, String> entry : this.resultsMap.entrySet()){
-    		System.out.println(entry.getKey());
-    	}
-    	//this.comicVineService.executeSimpleQuery("avengers");
+    	String key = this.searchStack.pop();
+    	try {
+			key = URLEncoder.encode(key,"UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	
+    	this.comicVineService.executeSimpleQuery(key);
     	//this.comicVineService.cacheAllResults();
-    	//this.comicVineService.cacheAllResultsCassandra();
+    	this.comicVineService.cacheAllResultsCassandra();
     	System.out.println("Background update complete");
     	
     }
@@ -99,5 +140,14 @@ public class ComicVineBackgroundService implements Runnable {
 		this.resultsMap = resultsMap;
 	}
 
+}
+
+class ReverseComparator implements Comparator<String>{
+	 
+    @Override
+    public int compare(String str1, String str2) {
+        return str2.compareTo(str1);
+    }
+     
 }
 
