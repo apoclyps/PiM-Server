@@ -4,11 +4,11 @@ import java.util.Date;
 
 import uk.co.kyleharrison.pim.service.model.ComicVineService;
 
-public class UpdateCounts implements Runnable {
+public class ComicVineBackgroundService implements Runnable {
 
 	private ComicVineService comicVineService;
 	
-    public UpdateCounts() {
+    public ComicVineBackgroundService() {
 		super();
 		this.comicVineService = new ComicVineService();
 	}
@@ -17,7 +17,7 @@ public class UpdateCounts implements Runnable {
     public void run() {
         // Do your job here.
     	System.out.println("Background process "+new Date().toString());
-    	this.comicVineService.executeQueryAllResults("avengers");
+    	this.comicVineService.executeSimpleQuery("avengers");
     	//this.comicVineService.cacheAllResults();
     	this.comicVineService.cacheAllResultsCassandra();
     	try {

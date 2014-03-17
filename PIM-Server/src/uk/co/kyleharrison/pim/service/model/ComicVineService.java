@@ -98,10 +98,20 @@ public class ComicVineService extends DatabaseConnector implements ControllerSer
 
 	public ArrayList<ComicVineVolume> preformQuery(String query) {
 
-		
 		this.grapeVineFacade.PreformQuery(queryRequest+query);
 		
 		return this.grapeVineFacade.getComicVineVolumes();
+	}
+	
+	
+	public boolean executeSimpleQuery(String query) {
+		
+		grapeVineFacade.PreformQuery(queryRequest + query);
+		
+		this.cvv = grapeVineFacade.getComicVineVolumes();
+		System.out.println("\tSize : " +this.cvv.size());
+
+		return true;
 	}
 
 	@Override
@@ -157,6 +167,7 @@ public class ComicVineService extends DatabaseConnector implements ControllerSer
 		try{
 			CassandraConnector cc = new CassandraConnector();
 			cc.insertComicVineVolumes(this.cvv);
+			
 			return true;
 		}catch(Exception e){
 			e.printStackTrace();

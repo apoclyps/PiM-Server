@@ -78,10 +78,19 @@ public class CassandraConnector {
 		String data = "BEGIN BATCH \n";
 		
 		for(ComicVineVolume cvv : volumeList){
-			
-			
-			data +=  "insert into comicvinevolumes (created, id,name,count_of_issues,start_year) values ("+java.util.UUID.fromString(new com.eaio.uuid.UUID().toString())+","+cvv.getId()+",'"+cvv.getName().replaceAll("'", " ")
-					+"',"+cvv.getCount_of_issues()+","+ cvv.getStart_year() +") \n";
+			//System.out.println(""+cvv.getName());	
+			cvv.getImage().setComicVineImages();
+			//System.out.println(cvv.getImage().getCassandraMap());
+			try{
+				data +=  "insert into comicvinevolumes (created, id,name,count_of_issues,start_year,image) values ("+java.util.UUID.fromString(new com.eaio.uuid.UUID().toString())+","+cvv.getId()+",'"+cvv.getName().replaceAll("'", " ")
+						+"',"+cvv.getCount_of_issues()+","+ cvv.getStart_year() +","+cvv.getImage().getCassandraMap() +") \n";
+				System.out.println("insert into comicvinevolumes (created, id,name,count_of_issues,start_year,image) values ("+java.util.UUID.fromString(new com.eaio.uuid.UUID().toString())+","+cvv.getId()+",'"+cvv.getName().replaceAll("'", " ")
+				+"',"+cvv.getCount_of_issues()+","+ cvv.getStart_year() +","+cvv.getImage().getCassandraMap() +") \n");
+			}catch(Exception e){
+				System.out.println("Failed");
+				data +=  "insert into comicvinevolumes (created, id,name,count_of_issues,start_year) values ("+java.util.UUID.fromString(new com.eaio.uuid.UUID().toString())+","+cvv.getId()+",'"+cvv.getName().replaceAll("'", " ")
+						+"',"+cvv.getCount_of_issues()+","+ cvv.getStart_year() +") \n";
+			}
 		}
 		data += "APPLY BATCH;";
 		

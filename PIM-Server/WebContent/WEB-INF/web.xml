@@ -13,7 +13,7 @@
 		<welcome-file>default.jsp</welcome-file>
 	</welcome-file-list>
 	<listener>
-		<listener-class>uk.co.kyleharrison.pim.background.Config</listener-class>
+		<listener-class>uk.co.kyleharrison.pim.background.BackgroundServiceScheduler</listener-class>
 	</listener>
 	<servlet>
 		<servlet-name>AuthenticationController</servlet-name>

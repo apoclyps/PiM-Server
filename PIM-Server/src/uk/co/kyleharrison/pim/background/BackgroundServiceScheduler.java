@@ -7,14 +7,14 @@ import java.util.concurrent.TimeUnit;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
-public class Config implements ServletContextListener {
+public class BackgroundServiceScheduler implements ServletContextListener {
 
     private ScheduledExecutorService scheduler;
 
     @Override
     public void contextInitialized(ServletContextEvent event) {
         scheduler = Executors.newSingleThreadScheduledExecutor();
-        scheduler.scheduleAtFixedRate(new UpdateCounts(), 0, 5000, TimeUnit.SECONDS);
+        scheduler.scheduleAtFixedRate(new ComicVineBackgroundService(), 0, 5000, TimeUnit.SECONDS);
     }
 
     @Override

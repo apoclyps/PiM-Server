@@ -122,6 +122,6 @@ placeholder="Search">
 <script
 src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
-<script language="javascript" src="js/comicvineresults.js"></script>
+<script src="js/comicvineresults.js"></script>
 </body>
 </html>
