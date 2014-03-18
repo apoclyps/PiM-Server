@@ -40,6 +40,7 @@ import com.omertron.omdbapi.wrapper.WrapperSearch;
 
 public class RequestService extends DatabaseConnector {
 
+	@SuppressWarnings("deprecation")
 	public void logAccess(String [] requestComponents ){
 		System.out.print("GET : RequestController : "+new Date().toLocaleString() + "\t Path Length "+ requestComponents.length +" \t Components");
 		for(String component : requestComponents){

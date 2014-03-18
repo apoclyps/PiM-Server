@@ -102,7 +102,7 @@ public class MySQLDAO extends MySQLConnector {
 				preparedStatement.addBatch();
 			}
 			
-			int [] results = preparedStatement.executeBatch();
+			preparedStatement.executeBatch();
 			return true;
 		} else {
 			System.out.println("MYSQLDOA : Insert Channel : Connection Failed");
@@ -135,7 +135,7 @@ public class MySQLDAO extends MySQLConnector {
 				preparedStatement.addBatch();
 			}
 			
-			int [] results = preparedStatement.executeBatch();
+			preparedStatement.executeBatch();
 			return true;
 		} else {
 			System.out.println("MYSQLDOA : Insert Channel : Connection Failed");
@@ -168,7 +168,7 @@ public class MySQLDAO extends MySQLConnector {
 				preparedStatement.addBatch();
 			}
 			
-			int [] results = preparedStatement.executeBatch();
+			preparedStatement.executeBatch();
 			return true;
 		} else {
 			System.out.println("MYSQLDOA : Insert Channel : Connection Failed");
@@ -200,7 +200,7 @@ public class MySQLDAO extends MySQLConnector {
 				System.out.println("Batch added "+omdbVideo.getTitle());
 			}
 			
-			int [] results = preparedStatement.executeBatch();
+			preparedStatement.executeBatch();
 			return true;
 		} else {
 			System.out.println("MYSQLDOA : Insert Channel : Connection Failed");
@@ -254,7 +254,7 @@ public class MySQLDAO extends MySQLConnector {
 				
 			}
 			
-			int [] results = preparedStatement.executeBatch();
+			preparedStatement.executeBatch();
 			return true;
 		} else {
 			System.out.println("MYSQLDOA : Insert Channel : Connection Failed");
@@ -306,7 +306,7 @@ public class MySQLDAO extends MySQLConnector {
 				preparedStatement.addBatch();
 			}
 			
-			int [] results = preparedStatement.executeBatch();
+			preparedStatement.executeBatch();
 			return true;
 		} else {
 			System.out.println("MYSQLDOA : Insert Channel : Connection Failed");

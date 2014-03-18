@@ -14,7 +14,6 @@ import org.json.simple.JSONObject;
 
 import uk.co.kyleharrison.grapejuice.comicvine.ComicVineVolume;
 import uk.co.kyleharrison.grapejuice.facade.GrapeVineFacade;
-import uk.co.kyleharrison.pim.cassandra.CassandraConnector;
 import uk.co.kyleharrison.pim.cassandra.ComicvineConnector;
 import uk.co.kyleharrison.pim.connectors.DatabaseConnector;
 import uk.co.kyleharrison.pim.interfaces.ControllerServiceInterface;

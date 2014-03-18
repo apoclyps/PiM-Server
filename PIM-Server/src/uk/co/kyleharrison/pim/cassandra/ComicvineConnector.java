@@ -3,9 +3,6 @@ package uk.co.kyleharrison.pim.cassandra;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import uk.co.kyleharrison.grapejuice.comicvine.ComicVineVolume;
 
 public class ComicvineConnector extends CassandraConnector {
