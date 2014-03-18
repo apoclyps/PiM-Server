@@ -1,7 +1,9 @@
 package uk.co.kyleharrison.pim.service.model;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 
 import org.codehaus.jackson.map.ObjectMapper;
@@ -37,6 +39,13 @@ public class ComicVineService extends DatabaseConnector implements ControllerSer
 	@Override
 	public String executeQuery(String query) {
 		long startTime = System.currentTimeMillis();
+		
+		try {
+			query = URLEncoder.encode(query,"UTF-8");
+		} catch (UnsupportedEncodingException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		
 		ArrayList<ComicVineVolume> cvv = preformQuery(query);
 		
@@ -107,10 +116,17 @@ public class ComicVineService extends DatabaseConnector implements ControllerSer
 	
 	public boolean executeSimpleQuery(String query) {
 		
+		try {
+			query = URLEncoder.encode(query,"UTF-8");
+		} catch (UnsupportedEncodingException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
 		grapeVineFacade.PreformQuery(queryRequest + query);
 		
 		this.cvv = grapeVineFacade.getComicVineVolumes();
-		System.out.println("\tSize : " +this.cvv.size());
+		System.out.println("\tResult Size : " +this.cvv.size());
 
 		return true;
 	}

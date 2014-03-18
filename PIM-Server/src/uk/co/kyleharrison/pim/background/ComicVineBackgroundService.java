@@ -112,6 +112,7 @@ public class ComicVineBackgroundService implements Runnable {
     	String key = this.searchStack.pop();
     	key = this.searchStack.pop();
     	key = this.searchStack.pop();
+    	System.out.println("ComicvineService Background : Key = " + key);
     	try {
 			key = URLEncoder.encode(key,"UTF-8");
 		} catch (UnsupportedEncodingException e) {
@@ -119,6 +120,7 @@ public class ComicVineBackgroundService implements Runnable {
 			e.printStackTrace();
 		}
     	
+    	System.out.println("Execute query");
     	this.comicVineService.executeSimpleQuery(key);
     	//this.comicVineService.cacheAllResults();
     	this.comicVineService.cacheAllResultsCassandra();
