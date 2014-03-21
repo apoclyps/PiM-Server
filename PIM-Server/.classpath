@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/Amazon-Product-API"/>
-	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/Comicvine-GrapeJuice"/>
+	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/Comicvine-GrapeJuice">
+		<attributes>
+			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/ISBNDB-API"/>
 	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/OMDB-API"/>
 	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/Spotify-API"/>

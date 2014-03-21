@@ -1,4 +1,4 @@
-package uk.co.kyleharrison.test.pim;
+package uk.co.kyleharrison.test.pim.service;
 
 import org.junit.After;
 import org.junit.Before;

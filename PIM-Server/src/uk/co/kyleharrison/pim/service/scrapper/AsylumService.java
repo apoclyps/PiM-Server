@@ -289,17 +289,6 @@ public class AsylumService {
 		}
 		}
 	
-	/**
-	 * Returns an Image object that can then be painted on the screen. 
-	 * The url argument must specify an absolute {@link URL}. The name
-	 * argument is a specifier that is relative to the url argument. 
-	 * <p>
-	 *
-	 * @param  url  an absolute URL giving the base location of the image
-	 * @param  name the location of the image, relative to the url argument
-	 * @return      the image at the specified URL
-	 * @see         Image
-	 */
 	public boolean executeQuery() {
 		do {
 			try {
