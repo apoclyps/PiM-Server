@@ -2,12 +2,22 @@ package uk.co.kyleharrison.pim.model;
 
 public class User {
 	
+	private String username;
 	private String firstName;
 	private String lastName;
 	private String email;
 	private String password;
 	private String uniqueID;
 	
+	public User() {
+		super();
+	}
+	public String getUsername() {
+		return username;
+	}
+	public void setUsername(String username) {
+		this.username = username;
+	}
 	public String getFirstName() {
 		return firstName;
 	}
