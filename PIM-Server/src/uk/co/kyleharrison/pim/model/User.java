@@ -2,12 +2,12 @@ package uk.co.kyleharrison.pim.model;
 
 public class User {
 	
-	private String username;
-	private String firstName;
-	private String lastName;
-	private String email;
-	private String password;
-	private String uniqueID;
+	protected String username;
+	protected String firstName;
+	protected String lastName;
+	protected String email;
+	protected String password;
+	protected String uniqueID;
 	
 	public User() {
 		super();

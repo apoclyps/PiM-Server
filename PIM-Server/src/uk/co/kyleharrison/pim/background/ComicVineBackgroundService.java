@@ -102,6 +102,10 @@ public class ComicVineBackgroundService implements Runnable {
 
 	@Override
     public void run() {
+		//backgroundService();
+    }
+	
+	public void backgroundService(){
         // Do your job here.
     	System.out.println("Background process "+new Date().toString());
     	importFile();
@@ -125,8 +129,7 @@ public class ComicVineBackgroundService implements Runnable {
     	//this.comicVineService.cacheAllResults();
     	this.comicVineService.cacheAllResultsCassandra();
     	System.out.println("Background update complete");
-    	
-    }
+	}
 
 	public Stack<String> getSearchStack() {
 		return searchStack;

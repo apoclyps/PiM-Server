@@ -55,5 +55,10 @@ public class UserStore extends User {
 	public void setInventory(String inventory) {
 		this.inventory = inventory;
 	}
+	
+	@Override
+	public String toString(){
+		return "{ \"username\" : \""+this.username+"\",\"password\" : \""+this.password+"\"}";
+	}
 
 }
