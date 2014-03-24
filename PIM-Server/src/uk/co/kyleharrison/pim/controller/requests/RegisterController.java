@@ -8,7 +8,15 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.map.ObjectWriter;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+
+import com.mlesniak.amazon.backend.SearchIndex;
+
 import uk.co.kyleharrison.pim.model.UserStore;
+import uk.co.kyleharrison.pim.storage.mysql.connector.UserConnectorMySQL;
 import uk.co.kyleharrison.pim.utilities.JSONService;
 
 public class RegisterController extends HttpServlet {
@@ -41,25 +49,13 @@ public class RegisterController extends HttpServlet {
 		System.out.println("Register Controller : ");
 		
 		String jsonResponse= null;
-		
-//		String reg_first_name = request.getParameter("reg_first_name");
-//		String reg_surname = request.getParameter("reg_surname");
-//		String reg_username = request.getParameter("reg_username");
-//		String reg_password = request.getParameter("reg_password");
-//		String reg_password_confirm = request
-//				.getParameter("reg_password_confirm");
-//		String reg_email = request.getParameter("reg_email");
-		
+
 		try{
 			if(request.getParameterMap().containsKey("username")){
 				String query = URLEncoder.encode(request.getParameter("username"),"UTF-8");
-
-				//System.out.println(query);
 			}
 			if(request.getParameterMap().containsKey("password")){
 				String query = URLEncoder.encode(request.getParameter("password"),"UTF-8");
-
-				System.out.println(query);
 			}
 			}catch(Exception e){
 				e.printStackTrace();
@@ -69,25 +65,27 @@ public class RegisterController extends HttpServlet {
 		UserStore activeUser = null;
 		try {
 			activeUser = new UserStore();
-
-			//activeUser.setUsername(reg_username);
-			//activeUser.setFirstName(reg_first_name);
-			//activeUser.setLastName(reg_surname);
-			//activeUser.setEmail(reg_email);
-			//activeUser.setPassword(reg_password);
+			
 			activeUser.setUsername(request.getParameter("username"));
-			activeUser.setPassword(request.getParameter("passwords"));
+			activeUser.setPassword(request.getParameter("password"));
+			activeUser.encryptPassword();
 			activeUser.setJoined();
-			activeUser.setFollowees("0");
-			activeUser.setFollowers("0");
 
-			/*UserConnector UC = new UserConnector();
-			UC.addUser(activeUser);
-			*/
+			// CODE HERE FOR Checking / Inserting to MySQL
+			UserConnectorMySQL UC = new UserConnectorMySQL();
+			// If user does not exist
+			if(UC.checkUserExists(activeUser)==false){
+				if(UC.addUser(activeUser)){
+					// return true - user added
+					activeUser.setCreated(true);
+				}
+			}else{
+				//return true - user exists
+				activeUser.setExists(true);
+			}
+			
 			System.out.println(activeUser.toString());
 			
-			// CODE HERE FOR Checking / Inserting to MySQL
-
 		} catch (Exception e) {
 			System.out.println("Error creating account " + e.getMessage());
 		}
@@ -102,7 +100,18 @@ public class RegisterController extends HttpServlet {
 			if(request.getParameterMap().containsKey("callback")){
 				JSONService.JSONPResponse(response, jsonResponse, request.getParameter("callback"));
 			}else{
-				JSONService.JSONResponse(response, activeUser.toString());
+				
+
+				ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+				String generatedJson = null;
+
+				try {
+					generatedJson = ow.writeValueAsString(activeUser);
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+				
+				JSONService.JSONResponse(response, generatedJson);
 			}
 		}catch(Exception e){
 			e.printStackTrace();

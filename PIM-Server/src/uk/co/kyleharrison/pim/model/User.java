@@ -7,7 +7,7 @@ public class User {
 	protected String lastName;
 	protected String email;
 	protected String password;
-	protected String uniqueID;
+	protected String uID;
 	
 	public User() {
 		super();
@@ -43,10 +43,10 @@ public class User {
 		this.password = password;
 	}
 	public String getUniqueID() {
-		return uniqueID;
+		return uID;
 	}
 	public void setUniqueID(String uniqueID) {
-		this.uniqueID = uniqueID;
+		this.uID = uniqueID;
 	}
 	
 }
