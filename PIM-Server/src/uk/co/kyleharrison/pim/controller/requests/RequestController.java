@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -13,10 +12,6 @@ import uk.co.kyleharrison.pim.model.User;
 import uk.co.kyleharrison.pim.service.control.RequestService;
 import uk.co.kyleharrison.pim.utilities.Convertors;
 
-/**
- * Servlet implementation class RequestServlet
- */
-@WebServlet({ "/request", "/request/*", "/request/*/*" })
 public class RequestController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	protected RequestService requestService;
