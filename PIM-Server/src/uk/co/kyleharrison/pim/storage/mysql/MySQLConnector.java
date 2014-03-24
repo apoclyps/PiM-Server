@@ -9,6 +9,8 @@ import java.util.Date;
 
 import javax.sql.DataSource;
 
+import org.mortbay.log.Log;
+
 import com.mysql.jdbc.exceptions.jdbc4.CommunicationsException;
 
 public class MySQLConnector {
@@ -34,8 +36,9 @@ public class MySQLConnector {
 			System.out.println("MySQL Server : Offline");
 			ce.getMessage();
 		}catch (SQLException | ClassNotFoundException e) {
-			System.out.println("SQL Exception in DatabaseConnector.java");
-			e.printStackTrace();
+			System.out.println("SQL Exception in MySQLConnector.java");
+			//e.printStackTrace();
+			Log.info("Connection not available or login details are incorrect");
 		} 
 	}
 
