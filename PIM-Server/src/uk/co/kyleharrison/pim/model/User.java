@@ -8,6 +8,7 @@ public class User {
 	protected String email;
 	protected String password;
 	protected String uID;
+	protected String callback;
 	
 	public User() {
 		super();
@@ -47,6 +48,18 @@ public class User {
 	}
 	public void setUniqueID(String uniqueID) {
 		this.uID = uniqueID;
+	}
+	public String getuID() {
+		return uID;
+	}
+	public void setuID(String uID) {
+		this.uID = uID;
+	}
+	public String getCallback() {
+		return callback;
+	}
+	public void setCallback(String callback) {
+		this.callback = callback;
 	}
 	
 }

@@ -28,7 +28,7 @@ public class RegisterController extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		doPost(request, response);
+		doPost(request,response);
 	}
 
 	protected void doPut(HttpServletRequest request,
@@ -43,22 +43,23 @@ public class RegisterController extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
+		String json = null;
+		try
+		{
+		    BufferedReader br = new BufferedReader(new  InputStreamReader(request.getInputStream()));
+		    json = "";
+		    if(br != null){
+		        json = br.readLine();
+		    }
+		    System.out.println("JSON : "+json);
+	}catch(NullPointerException e){
+		e.printStackTrace();
+	}
 
-		System.out.println("Register");
-		
-        // 1. get received JSON data from request
-        BufferedReader br = new BufferedReader(new InputStreamReader(request.getInputStream()));
-        String json = "";
-        if(br != null){
-            json = br.readLine();
-        }
-        System.out.println("JSON :"+json);
-        
-        ObjectMapper mapper = new ObjectMapper();
-        User user = mapper.readValue(json, User.class);
-        
-		System.out.println("Register Controller : "+user.getUsername() );
-		boolean authenticationFlag = true;
+		System.out.println(request.getParameterMap().toString());
+		System.out.println(request.getParameterMap().size());
+		System.out.println(request.getParameterMap().keySet().iterator().next());
+		json = request.getParameterMap().keySet().iterator().next();
 
 		try {
 			if (request.getParameterMap().containsKey("username")
@@ -68,6 +69,8 @@ public class RegisterController extends HttpServlet {
 						request.getParameter("username"), "UTF-8");
 				String password = URLEncoder.encode(
 						request.getParameter("password"), "UTF-8");
+				
+				System.out.println(username);
 
 				if (username == null || password == null) {
 					JSONService.JSONResponse(response, "{ success: false }");
@@ -79,13 +82,32 @@ public class RegisterController extends HttpServlet {
 			e.printStackTrace();
 		}
 		
+		
+		System.out.println("Register");
+		User user = null;
+		try{
+        System.out.println("JSON :"+json);
+        
+        ObjectMapper mapper = new ObjectMapper();
+        user = mapper.readValue(json, User.class);
+        
+		System.out.println("Register Controller : "+user.getUsername() );
+		}catch(NullPointerException e){
+			System.out.println("JSON not recieved");
+		}
+		
+		
+		boolean authenticationFlag = true;
+
 		if (authenticationFlag) {
+			System.out.println("create UserStore");
 			UserStore activeUser = null;
 			try {
+				// Userstore needs a constructor to pass in user
 				activeUser = new UserStore();
 
-				activeUser.setUsername(request.getParameter("username"));
-				activeUser.setPassword(request.getParameter("password"));
+				activeUser.setUsername(user.getUsername());
+				activeUser.setPassword(user.getPassword());
 				activeUser.encryptPassword();
 				activeUser.setJoined();
 
@@ -106,19 +128,11 @@ public class RegisterController extends HttpServlet {
 			}
 
 			// return true or false here
-			System.out.println(JSONService.objectToJSON(activeUser));
+			System.out.println("callback(" + JSONService.objectToJSON(activeUser) + ");");
 			try {
-				if (request.getParameterMap().containsKey("callback")) {
-					JSONService.JSONPResponse(response,
-							JSONService.objectToJSON(activeUser),
-							request.getParameter("callback"));
-				} else {
-					System.out.println("Response returned");
-					JSONService.JSONResponse(response,
-							JSONService.objectToJSON(activeUser));
-							Log.info("Response Returned");
-							
-				}
+				
+			JSONService.JSONPResponse(response, JSONService.objectToJSON(activeUser),"callback");
+				
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
