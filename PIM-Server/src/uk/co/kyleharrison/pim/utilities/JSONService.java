@@ -5,7 +5,11 @@ import java.io.PrintWriter;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.map.ObjectWriter;
 import org.json.simple.JSONObject;
+
+import uk.co.kyleharrison.pim.model.UserStore;
 
 public class JSONService {
 
@@ -64,5 +68,16 @@ public class JSONService {
 				e.printStackTrace();
 			}
 		}
+	}
+	
+	public static String objectToJSON(Object activeObject){
+		ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+
+		try {
+			 return ow.writeValueAsString(activeObject);
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		return null;
 	}
 }

@@ -7,6 +7,6 @@
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <property name="java-output-path" value="/PIM-Server/build/classes"/>
-        <property name="context-root" value="PIM-S"/>
+        <property name="context-root" value="PIM-Server"/>
     </wb-module>
 </project-modules>

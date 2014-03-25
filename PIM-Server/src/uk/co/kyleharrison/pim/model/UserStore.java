@@ -1,7 +1,11 @@
 package uk.co.kyleharrison.pim.model;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.map.ObjectWriter;
 
 import uk.co.kyleharrison.pim.utilities.SHAEncrypt;
 
@@ -14,6 +18,7 @@ public class UserStore extends User {
 	private String inventory = "0";
 	private boolean created = false;
 	private boolean exists = false;
+	private boolean success = false;
 
 	public UserStore() {
 		super();
@@ -68,11 +73,6 @@ public class UserStore extends User {
 		this.inventory = inventory;
 	}
 	
-	@Override
-	public String toString(){
-		return "{ \"username\" : \""+this.username+"\",\"password\" : \""+this.password+"\"}";
-	}
-
 	public boolean isCreated() {
 		return created;
 	}
@@ -87,6 +87,14 @@ public class UserStore extends User {
 
 	public void setExists(boolean exists) {
 		this.exists = exists;
+	}
+
+	public boolean isSuccess() {
+		return success;
+	}
+
+	public void setSuccess(boolean success) {
+		this.success = success;
 	}
 
 }
