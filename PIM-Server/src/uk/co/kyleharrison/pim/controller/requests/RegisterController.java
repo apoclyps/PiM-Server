@@ -1,8 +1,6 @@
 package uk.co.kyleharrison.pim.controller.requests;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.URLEncoder;
 
 import javax.servlet.ServletException;
@@ -12,12 +10,13 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.mortbay.log.Log;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import uk.co.kyleharrison.pim.model.User;
 import uk.co.kyleharrison.pim.model.UserStore;
+import uk.co.kyleharrison.pim.service.control.RegisterService;
 import uk.co.kyleharrison.pim.storage.mysql.connector.UserConnectorMySQL;
 import uk.co.kyleharrison.pim.utilities.JSONService;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class RegisterController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -28,7 +27,7 @@ public class RegisterController extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		doPost(request,response);
+		doPost(request, response);
 	}
 
 	protected void doPut(HttpServletRequest request,
@@ -43,60 +42,47 @@ public class RegisterController extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		String json = null;
-		try
-		{
-		    BufferedReader br = new BufferedReader(new  InputStreamReader(request.getInputStream()));
-		    json = "";
-		    if(br != null){
-		        json = br.readLine();
-		    }
-		    System.out.println("JSON : "+json);
-	}catch(NullPointerException e){
-		e.printStackTrace();
-	}
 
-		System.out.println(request.getParameterMap().toString());
-		System.out.println(request.getParameterMap().size());
-		System.out.println(request.getParameterMap().keySet().iterator().next());
-		json = request.getParameterMap().keySet().iterator().next();
+		String json = null;
+		RegisterService registerService = new RegisterService(request,response);
+		if(registerService.validateUserCredentials()){
+			json = registerService.getParameters();
+		}
 
 		try {
 			if (request.getParameterMap().containsKey("username")
 					&& request.getParameterMap().containsKey("password")) {
-				//authenticationFlag = true;
+				// authenticationFlag = true;
 				String username = URLEncoder.encode(
 						request.getParameter("username"), "UTF-8");
 				String password = URLEncoder.encode(
 						request.getParameter("password"), "UTF-8");
-				
+
 				System.out.println(username);
 
 				if (username == null || password == null) {
 					JSONService.JSONResponse(response, "{ success: false }");
-					//authenticationFlag = false;
+					// authenticationFlag = false;
 					Log.info("Failed Login");
 				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		
+
 		System.out.println("Register");
 		User user = null;
-		try{
-        System.out.println("JSON :"+json);
-        
-        ObjectMapper mapper = new ObjectMapper();
-        user = mapper.readValue(json, User.class);
-        
-		System.out.println("Register Controller : "+user.getUsername() );
-		}catch(NullPointerException e){
+		try {
+			System.out.println("JSON :" + json);
+
+			ObjectMapper mapper = new ObjectMapper();
+			user = mapper.readValue(json, User.class);
+
+			System.out.println("Register Controller : " + user.getUsername());
+		} catch (NullPointerException e) {
 			System.out.println("JSON not recieved");
 		}
-		
-		
+
 		boolean authenticationFlag = true;
 
 		if (authenticationFlag) {
@@ -128,11 +114,13 @@ public class RegisterController extends HttpServlet {
 			}
 
 			// return true or false here
-			System.out.println("callback(" + JSONService.objectToJSON(activeUser) + ");");
+			System.out.println("callback("
+					+ JSONService.objectToJSON(activeUser) + ");");
 			try {
-				
-			JSONService.JSONPResponse(response, JSONService.objectToJSON(activeUser),"callback");
-				
+
+				JSONService.JSONPResponse(response,
+						JSONService.objectToJSON(activeUser), "callback");
+
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
