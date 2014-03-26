@@ -4,6 +4,7 @@ public interface RegisterInterface {
 
 	public boolean userExists();
 	public boolean validateUserCredentials();
+	public boolean generateUser();
 	public boolean addUser();
 	public boolean removeUser();
 	public boolean updateUser();	

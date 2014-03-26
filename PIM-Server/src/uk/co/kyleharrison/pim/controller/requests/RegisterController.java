@@ -44,43 +44,17 @@ public class RegisterController extends HttpServlet {
 			HttpServletResponse response) throws ServletException, IOException {
 
 		String json = null;
+		User user = null;
+		
+		// 1. validate user credentials as being recieved and parsed to a user object
 		RegisterService registerService = new RegisterService(request,response);
 		if(registerService.validateUserCredentials()){
 			json = registerService.getParameters();
 		}
 
-		try {
-			if (request.getParameterMap().containsKey("username")
-					&& request.getParameterMap().containsKey("password")) {
-				// authenticationFlag = true;
-				String username = URLEncoder.encode(
-						request.getParameter("username"), "UTF-8");
-				String password = URLEncoder.encode(
-						request.getParameter("password"), "UTF-8");
-
-				System.out.println(username);
-
-				if (username == null || password == null) {
-					JSONService.JSONResponse(response, "{ success: false }");
-					// authenticationFlag = false;
-					Log.info("Failed Login");
-				}
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		System.out.println("Register");
-		User user = null;
-		try {
-			System.out.println("JSON :" + json);
-
-			ObjectMapper mapper = new ObjectMapper();
-			user = mapper.readValue(json, User.class);
-
-			System.out.println("Register Controller : " + user.getUsername());
-		} catch (NullPointerException e) {
-			System.out.println("JSON not recieved");
+		//2. parse json parameters to a user object
+		if(registerService.generateUser()){
+			user = registerService.getUser();
 		}
 
 		boolean authenticationFlag = true;
