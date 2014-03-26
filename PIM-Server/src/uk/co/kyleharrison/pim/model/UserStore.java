@@ -1,11 +1,7 @@
 package uk.co.kyleharrison.pim.model;
 
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.map.ObjectWriter;
 
 import uk.co.kyleharrison.pim.utilities.SHAEncrypt;
 
@@ -22,6 +18,13 @@ public class UserStore extends User {
 
 	public UserStore() {
 		super();
+	}
+	
+	public UserStore(User user){
+		this.setUsername(user.username);
+		this.setPassword(user.getPassword());
+		this.encryptPassword();
+		this.setJoined();
 	}
 
 	public boolean encryptPassword(){

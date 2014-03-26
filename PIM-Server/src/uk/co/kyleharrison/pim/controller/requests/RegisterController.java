@@ -45,6 +45,7 @@ public class RegisterController extends HttpServlet {
 
 		String json = null;
 		User user = null;
+		boolean authenticationFlag = false;
 		
 		// 1. validate user credentials as being recieved and parsed to a user object
 		RegisterService registerService = new RegisterService(request,response);
@@ -57,11 +58,20 @@ public class RegisterController extends HttpServlet {
 			user = registerService.getUser();
 		}
 
-		boolean authenticationFlag = true;
+		//3. Check if the user exists
+		UserStore activeUser = new UserStore(user);
+		registerService.setUserStore(activeUser);
+		if(registerService.userExists()){
+			authenticationFlag = true;
+			System.out.println("Authentication "+authenticationFlag);
+		}else{
+			authenticationFlag = false;
+		}
 
+		//4. Adding a user to the userstore
 		if (authenticationFlag) {
 			System.out.println("create UserStore");
-			UserStore activeUser = null;
+			activeUser = null;
 			try {
 				// Userstore needs a constructor to pass in user
 				activeUser = new UserStore();

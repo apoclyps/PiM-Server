@@ -13,6 +13,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import uk.co.kyleharrison.pim.interfaces.RegisterInterface;
 import uk.co.kyleharrison.pim.model.User;
+import uk.co.kyleharrison.pim.model.UserStore;
+import uk.co.kyleharrison.pim.storage.mysql.connector.UserConnectorMySQL;
 
 public class RegisterService implements RegisterInterface {
 
@@ -20,6 +22,7 @@ public class RegisterService implements RegisterInterface {
 	private HttpServletResponse response;
 	private String parameters;
 	private User user = null;
+	private UserStore userStore = null;
 	
 	public RegisterService() {
 		super();
@@ -34,7 +37,16 @@ public class RegisterService implements RegisterInterface {
 
 	@Override
 	public boolean userExists() {
-		// TODO Auto-generated method stub
+		UserConnectorMySQL UC = new UserConnectorMySQL();
+		// If user does not exist
+		if (UC.checkUserExists(this.userStore)) {
+			return true;
+			/*if (UC.addUser(this.userStore)) {
+				// return true - user added
+				this.userStore.setCreated(true);
+				return true;
+			}*/
+		}
 		return false;
 	}
 
@@ -124,6 +136,14 @@ public class RegisterService implements RegisterInterface {
 			e.printStackTrace();
 		}
 		return false;
+	}
+
+	public UserStore getUserStore() {
+		return userStore;
+	}
+
+	public void setUserStore(UserStore userStore) {
+		this.userStore = userStore;
 	}
 
 }
