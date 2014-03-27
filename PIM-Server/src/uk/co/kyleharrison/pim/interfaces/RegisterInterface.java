@@ -7,6 +7,7 @@ public interface RegisterInterface {
 	public boolean generateUser();
 	public boolean addUser();
 	public boolean removeUser();
-	public boolean updateUser();	
+	public boolean updateUser();
+	//public boolean addUser(boolean authenticationFlag);	
 	
 }

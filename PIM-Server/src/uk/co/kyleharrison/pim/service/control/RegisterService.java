@@ -84,7 +84,34 @@ public class RegisterService implements RegisterInterface {
 
 	@Override
 	public boolean addUser() {
-		// TODO Auto-generated method stub
+		//4. Adding a user to the userstore
+			System.out.println("create UserStore");
+			this.userStore = null;
+			try {
+				// Userstore needs a constructor to pass in user
+				this.userStore  = new UserStore(this.user);
+
+				//activeUser.setUsername(user.getUsername());
+			//	activeUser.setPassword(user.getPassword());
+				this.userStore.encryptPassword();
+				this.userStore.setJoined();
+
+				// CODE HERE FOR Checking / Inserting to MySQL
+				UserConnectorMySQL UC = new UserConnectorMySQL();
+				// If user does not exist
+				if (UC.checkUserExists(this.userStore) == false) {
+					if (UC.addUser(this.userStore)) {
+						// return true - user added
+						this.userStore.setCreated(true);
+						return true;
+					}
+				} else {
+					// return true - user exists
+					this.userStore.setExists(true);
+				}
+			} catch (Exception e) {
+				System.out.println("Error creating account " + e.getMessage());
+			}
 		return false;
 	}
 
@@ -144,6 +171,10 @@ public class RegisterService implements RegisterInterface {
 
 	public void setUserStore(UserStore userStore) {
 		this.userStore = userStore;
+	}
+	
+	public void setUserStoreUser(User user){
+		this.userStore = new UserStore(user);
 	}
 
 }

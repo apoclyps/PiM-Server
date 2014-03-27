@@ -43,71 +43,40 @@ public class RegisterController extends HttpServlet {
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 
-		String json = null;
+		//String json = null;
 		User user = null;
 		boolean authenticationFlag = false;
-		
-		// 1. validate user credentials as being recieved and parsed to a user object
-		RegisterService registerService = new RegisterService(request,response);
-		if(registerService.validateUserCredentials()){
-			json = registerService.getParameters();
-		}
 
-		//2. parse json parameters to a user object
-		if(registerService.generateUser()){
-			user = registerService.getUser();
-		}
+		// 1. validate user credentials as being recieved and parsed to a user
+		// object
+		RegisterService registerService = new RegisterService(request, response);
+		if (registerService.validateUserCredentials()) {
+			// 2. parse json parameters to a user object
+			if (registerService.generateUser()) {
+				user = registerService.getUser();
+			}
 
-		//3. Check if the user exists
-		UserStore activeUser = new UserStore(user);
-		registerService.setUserStore(activeUser);
-		if(registerService.userExists()){
-			authenticationFlag = true;
-			System.out.println("Authentication "+authenticationFlag);
+			// 3. Check if the user exists
+			UserStore activeUser = new UserStore(user);
+			registerService.setUserStore(activeUser);
+			if (registerService.userExists()) {
+				authenticationFlag = true;
+				System.out.println("Authentication " + authenticationFlag);
+			} else {
+				// 4. Adding a user to the userstore
+				registerService.addUser();
+			}
 		}else{
+			Log.info("Login attempt invalid : Parameters Missing");
 			authenticationFlag = false;
 		}
 
-		//4. Adding a user to the userstore
-		if (authenticationFlag) {
-			System.out.println("create UserStore");
-			activeUser = null;
-			try {
-				// Userstore needs a constructor to pass in user
-				activeUser = new UserStore();
-
-				activeUser.setUsername(user.getUsername());
-				activeUser.setPassword(user.getPassword());
-				activeUser.encryptPassword();
-				activeUser.setJoined();
-
-				// CODE HERE FOR Checking / Inserting to MySQL
-				UserConnectorMySQL UC = new UserConnectorMySQL();
-				// If user does not exist
-				if (UC.checkUserExists(activeUser) == false) {
-					if (UC.addUser(activeUser)) {
-						// return true - user added
-						activeUser.setCreated(true);
-					}
-				} else {
-					// return true - user exists
-					activeUser.setExists(true);
-				}
-			} catch (Exception e) {
-				System.out.println("Error creating account " + e.getMessage());
-			}
-
-			// return true or false here
-			System.out.println("callback("
-					+ JSONService.objectToJSON(activeUser) + ");");
-			try {
-
-				JSONService.JSONPResponse(response,
-						JSONService.objectToJSON(activeUser), "callback");
-
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+		// 5. JSON Output
+		try {
+			System.out.println("callback("+ JSONService.objectToJSON(registerService.getUserStore()) + ");");
+			JSONService.JSONPResponse(response, JSONService.objectToJSON(registerService.getUserStore()), "callback");
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 
