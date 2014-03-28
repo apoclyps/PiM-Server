@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context path="/PIM-Server">
+
+	<!-- Azure details required for database -->
+	<Resource driverClassName="com.mysql.jdbc.Driver" maxActive="500"
+		maxIdle="100" maxWait="10000" name="jdbc/remote_jdbc_db" password="Atmitwwsu007"
+		type="javax.sql.DataSource" url="jdbc:mysql://137.117.146.199:3306/pim"
+		username="admin" />
+
+</Context>

@@ -1,57 +1,96 @@
 package uk.co.kyleharrison.pim.storage.mysql;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Date;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NameNotFoundException;
+import javax.naming.NamingException;
 import javax.sql.DataSource;
 
-import org.mortbay.log.Log;
-
-import com.mysql.jdbc.exceptions.jdbc4.CommunicationsException;
 
 public class MySQLConnector {
 	protected Connection connection = null;
 	private Statement statement = null;
-	//private PreparedStatement preparedStatement = null;
+	// private PreparedStatement preparedStatement = null;
 	private ResultSet resultSet = null;
+	
 	private DataSource datasource;
-	private String database_name = "comicdb";
+	private String database_name = "PIM";
 
 	public MySQLConnector() {
-		System.out.println("MySQL Connection Opened : " +new Date().toString());
+		System.out
+				.println("MySQL Connection Opened : " + new Date().toString());
 		try {
-			/*datasource = (DataSource) new InitialContext()
-					.lookup("java:/comp/env/jdbc/" + database_name);*/
+
+			Context initContext = new InitialContext();
+			Context envContext  = (Context)initContext.lookup("java:/comp/env");
+			this.datasource = (DataSource)envContext.lookup("jdbc/remote_jdbc_db");
+			this.connection = datasource.getConnection();
 			
-			String driver = "com.mysql.jdbc.Driver";
-			Class.forName(driver);
-			String url = "jdbc:mysql://localhost:3306/comicdb";
-			connection = DriverManager.getConnection(url, "root", "hellokitty1");
-			//connection = datasource.getConnection();
-		} catch(CommunicationsException ce){
-			System.out.println("MySQL Server : Offline");
-			ce.getMessage();
-		}catch (SQLException | ClassNotFoundException e) {
-			System.out.println("SQL Exception in MySQLConnector.java");
-			//e.printStackTrace();
-			Log.info("Connection not available or login details are incorrect");
-		} 
+		} catch (NameNotFoundException nnfe) {
+			System.out
+					.println("MySQLConnector : File not found Exception in DatabaseConnector.java");
+			nnfe.printStackTrace();
+		} catch (NamingException ne) {
+			System.out.println("Naming Exception in DatabaseConnector.java");
+			ne.printStackTrace();
+		} catch (SQLException e) {
+			System.out.println("SQL Exception in DatabaseConnector.java");
+			e.printStackTrace();
+		}
 	}
 
 	public boolean checkConnection() {
 		try {
-			connection.close();
-			connection = DriverManager.getConnection("jdbc:mysql://localhost/comicdb", "root", "hellokitty1");
+			this.connection.close();
+			this.connection = datasource.getConnection();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return false;
 		}
 		return true;
 	}
+
+	// /*
+	// public MySQLConnector() {
+	// System.out.println("MySQL Connection Opened : " +new Date().toString());
+	// try {
+	// /*datasource = (DataSource) new InitialContext()
+	// .lookup("java:/comp/env/jdbc/" + database_name);*/
+	//
+	// String driver = "com.mysql.jdbc.Driver";
+	// Class.forName(driver);
+	// String url = "jdbc:mysql://137.117.146.199:3306/comicdb";
+	// connection = DriverManager.getConnection(url, "admin", "Atmitwwsu007");
+	// //connection = datasource.getConnection();
+	// } catch(CommunicationsException ce){
+	// System.out.println("MySQL Server : Offline");
+	// ce.getMessage();
+	// }catch (SQLException | ClassNotFoundException e) {
+	// System.out.println("SQL Exception in MySQLConnector.java");
+	// //e.printStackTrace();
+	// Log.info("Connection not available or login details are incorrect");
+	// }
+	// }
+	//
+	// public boolean checkConnection() {
+	// try {
+	// connection.close();
+	// connection =
+	// DriverManager.getConnection("jdbc:mysql://137.117.146.199:3306/comicdb",
+	// "admin", "Atmitwwsu007");
+	// } catch (SQLException e) {
+	// e.printStackTrace();
+	// return false;
+	// }
+	// return true;
+	// }
+	//
 
 	public void close() {
 		try {

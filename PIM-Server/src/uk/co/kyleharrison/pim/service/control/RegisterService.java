@@ -103,6 +103,8 @@ public class RegisterService implements RegisterInterface {
 					if (UC.addUser(this.userStore)) {
 						// return true - user added
 						this.userStore.setCreated(true);
+						this.userStore.setSuccess(true);
+						this.userStore.setLoggedIn(true);
 						return true;
 					}
 				} else {
