@@ -179,4 +179,15 @@ public class RegisterService implements RegisterInterface {
 		this.userStore = new UserStore(user);
 	}
 
+	@Override
+	public boolean passwordExists() {
+		UserConnectorMySQL UC = new UserConnectorMySQL();
+		// If user does not exist
+		System.out.println("Register Service : Password " + this.userStore.getPassword());
+		if (UC.checkPasswordExists(this.userStore)) {
+			return true;
+		}
+		return false;
+	}
+
 }

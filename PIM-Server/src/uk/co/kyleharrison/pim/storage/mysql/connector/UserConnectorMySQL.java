@@ -51,14 +51,14 @@ public class UserConnectorMySQL extends MySQLConnector implements UserConnectorI
 	}
 
 	@Override
-	public boolean checkUserExists(UserStore user) {
+	public boolean checkUserExists(UserStore userStore) {
 		boolean flag = false;
 		if (this.checkConnection()) {
 			try {
 				preparedStatement = connection
 						.prepareStatement("SELECT * FROM pim.users WHERE Username = ? LIMIT 1;");
 				
-				preparedStatement.setString(1, user.getUsername());
+				preparedStatement.setString(1, userStore.getUsername());
 				ResultSet results = preparedStatement.executeQuery();
 				if(results.first()){
 					flag = true;
@@ -104,6 +104,39 @@ public class UserConnectorMySQL extends MySQLConnector implements UserConnectorI
 	public boolean removeUser(UserStore user) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	public boolean checkPasswordExists(UserStore userStore) {
+		boolean flag = false;
+		if (this.checkConnection()) {
+			try {
+				preparedStatement = connection
+						.prepareStatement("SELECT * FROM pim.users WHERE Username = ? and Password = ? LIMIT 1;");
+				
+				preparedStatement.setString(1, userStore.getUsername());
+				preparedStatement.setString(2, userStore.getPassword());
+				ResultSet results = preparedStatement.executeQuery();
+				System.out.println("Results : "+results.toString());
+				if(results.first()){
+					flag = true;
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				flag = false;
+			}
+
+		} else {
+			System.out.println("MYSQLDOA : Insert Channel : Connection Failed");
+		}
+		if (connection != null) {
+			try {
+				connection.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}	
+		return flag;
 	}
 
 }
