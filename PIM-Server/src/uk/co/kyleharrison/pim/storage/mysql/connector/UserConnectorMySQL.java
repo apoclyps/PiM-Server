@@ -36,7 +36,6 @@ public class UserConnectorMySQL extends MySQLConnector implements UserConnectorI
 					return false;
 				}
 
-				
 			} else {
 				System.out.println("MYSQLDOA : Insert Channel : Connection Failed");
 			}

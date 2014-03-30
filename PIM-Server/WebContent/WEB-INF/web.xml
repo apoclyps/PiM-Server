@@ -157,6 +157,17 @@
   <servlet-mapping>
     <servlet-name>LoginController</servlet-name>
     <url-pattern>/login</url-pattern>
-    <url-pattern>/login/*</url-pattern>    
+    <url-pattern>/login/*</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ProductController</display-name>
+    <servlet-name>ProductController</servlet-name>
+    <servlet-class>uk.co.kyleharrison.pim.controller.requests.ProductController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ProductController</servlet-name>
+    <url-pattern>/product</url-pattern>
+    <url-pattern>/product/*</url-pattern>
   </servlet-mapping>
 </web-app>
