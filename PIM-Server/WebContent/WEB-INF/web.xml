@@ -169,5 +169,6 @@
     <servlet-name>ProductController</servlet-name>
     <url-pattern>/product</url-pattern>
     <url-pattern>/product/*</url-pattern>
+    <url-pattern>/product/*/*</url-pattern>
   </servlet-mapping>
 </web-app>

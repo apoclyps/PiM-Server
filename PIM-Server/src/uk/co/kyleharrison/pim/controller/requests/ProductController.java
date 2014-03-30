@@ -24,20 +24,31 @@ public class ProductController extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {		
 		String mediaType = null;
+		String requestType = null;
 		
 		try{
 			String pathInfo = request.getPathInfo(); // /{value}/test
 			String[] pathParts = pathInfo.split("/");
-			mediaType = pathParts[1]; // {value}
+			requestType = pathParts[1];
+			mediaType = pathParts[2]; // {value}
 		}catch(NullPointerException e){
 			e.printStackTrace();
+		}
+		switch(requestType){
+		case "add" :
+			break;
+		case "remove" :
+			break;
+		case "update" :
+			break;
+		case "default" :
+			break;
 		}
 		
 		// Selecting the apprpriate media type for request.
 		switch(mediaType){
 		case "comic" : 
 			Log.info("Product Controller : Add Comic");
-			System.out.println("Comic");
 			break;
 		case "dvd" :
 			Log.info("Product Controller : Add DVD");
@@ -59,6 +70,9 @@ public class ProductController extends HttpServlet {
 			System.out.println("Product Controller : Unkown Product");
 			break;
 		}
+		
+		System.out.println("Request Type : " + requestType);
+		System.out.println("Media Type   : "+mediaType);
 	}
 
 }
