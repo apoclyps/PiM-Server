@@ -34,6 +34,7 @@ public class ProductController extends HttpServlet {
 		}catch(NullPointerException e){
 			e.printStackTrace();
 		}
+		
 		switch(requestType){
 		case "add" :
 			break;
