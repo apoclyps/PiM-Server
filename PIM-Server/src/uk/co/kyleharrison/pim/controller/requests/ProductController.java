@@ -9,6 +9,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.mortbay.log.Log;
 
+import uk.co.kyleharrison.pim.model.Product;
+import uk.co.kyleharrison.pim.service.control.ProductService;
+import uk.co.kyleharrison.pim.utilities.JSONService;
+
 public class ProductController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -25,6 +29,7 @@ public class ProductController extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {		
 		String mediaType = null;
 		String requestType = null;
+		String content = null;
 		
 		try{
 			String pathInfo = request.getPathInfo(); // /{value}/test
@@ -35,12 +40,22 @@ public class ProductController extends HttpServlet {
 			e.printStackTrace();
 		}
 		
+		try{
+			if(request.getParameterMap().containsKey("name")){
+				content = request.getParameter("name");
+			}
+		}catch(NullPointerException e){
+			e.printStackTrace();
+		}
+		
 		switch(requestType){
 		case "add" :
 			break;
 		case "remove" :
 			break;
 		case "update" :
+			break;
+		case "find" :
 			break;
 		case "default" :
 			break;
@@ -74,6 +89,25 @@ public class ProductController extends HttpServlet {
 		
 		System.out.println("Request Type : " + requestType);
 		System.out.println("Media Type   : "+mediaType);
+		System.out.println("Content Name : "+content);
+		
+		ProductService productService = new ProductService(request,response);
+		productService.getProductJson();
+		
+		productService.jsonToProduct();
+		System.out.println("Prodct "+ productService.getProduct().getBarcode());
+		
+		Product activeProduct = productService.getProduct();
+		activeProduct.setSuccess(true);
+		
+		productService.setProduct(activeProduct);
+		// 5. JSON Output
+		try {
+			System.out.println("callback("+ JSONService.objectToJSON(productService.getProduct()) + ");");
+			JSONService.JSONPResponse(response, JSONService.objectToJSON(productService.getProduct()), "callback");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 }
