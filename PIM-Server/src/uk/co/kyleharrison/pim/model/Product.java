@@ -4,19 +4,17 @@ public class Product {
 	protected String name;
 	protected long barcode;
 	protected int quantity;
-	protected String callback ="callback";
 	protected boolean success;
 	
 	public Product() {
 		super();
 	}
 
-	public Product(String name, long barcode, int quantity, String callback) {
+	public Product(String name, long barcode, int quantity) {
 		super();
 		this.name = name;
 		this.barcode = barcode;
 		this.quantity = quantity;
-		this.callback = callback;
 	}
 
 	public String getName() {
@@ -41,14 +39,6 @@ public class Product {
 
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
-	}
-
-	public String getCallback() {
-		return callback;
-	}
-
-	public void setCallback(String callback) {
-		this.callback = callback;
 	}
 
 	public boolean isSuccess() {

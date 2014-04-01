@@ -1,20 +1,14 @@
 package uk.co.kyleharrison.pim.service.control;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 
 import uk.co.kyleharrison.pim.interfaces.ProductInterface;
 import uk.co.kyleharrison.pim.model.Product;
-import uk.co.kyleharrison.pim.model.User;
 
 public class ProductService implements ProductInterface {
 
@@ -22,6 +16,7 @@ public class ProductService implements ProductInterface {
 	private HttpServletResponse response;
 	private String parameters;
 	private Product product;
+	private String callback;
 	
 	public ProductService() {
 		super();
@@ -42,30 +37,25 @@ public class ProductService implements ProductInterface {
 	}
 
 	@Override
-	public boolean getProductJson() {
+	public boolean createJSONProduct() {
 		String json = null;
-		try {
-			BufferedReader br = new BufferedReader(new InputStreamReader(
-					this.request.getInputStream()));
-			json = "";
-			if (br != null) {
-				json = br.readLine();
-			}
-			System.out.println("JSON : " + json);
-		} catch (NullPointerException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		String callback = null;
+	
+		if(this.request.getParameterMap().containsKey("callback")){
+			callback = this.request.getParameter("callback");
+			//System.out.println("Callback = " + callback);
+		} else{
+			callback = "callback";
 		}
-
-		System.out.println("\n"+"GetProductJson()");
-		System.out.println(this.request.getParameterMap().toString());
-		System.out.println(this.request.getParameterMap().size());
-		System.out.println(this.request.getParameterMap().keySet().iterator().next());
-		json = this.request.getParameterMap().keySet().iterator().next();
 		
+		if(this.request.getParameterMap().containsKey("data")){
+			json  = this.request.getParameter("data");
+			//System.out.println("data packet = " + json);
+		}
+		
+		this.setCallback(callback);
 		this.setParameters(json);
+		
 		if(json.equals(null)){
 			return false;
 		}else{
@@ -73,10 +63,11 @@ public class ProductService implements ProductInterface {
 		}
 	}
 	
-	public boolean jsonToProduct(){
+	public boolean createProduct(){
 		
 		ObjectMapper mapper = new ObjectMapper();
 		try {
+			//System.out.println("Validate Parameters :" +getParameters());
 			this.setProduct(mapper.readValue(getParameters(), Product.class));
 			return true;
 		} catch (IOException e) {
@@ -119,10 +110,15 @@ public class ProductService implements ProductInterface {
 	
 	public String toJson(){
 		Gson gson = new Gson();
-		 
-		// convert java object to JSON format,
-		// and returned as JSON formatted string
 		return gson.toJson(this.product);
+	}
+
+	public String getCallback() {
+		return callback;
+	}
+
+	public void setCallback(String callback) {
+		this.callback = callback;
 	}
 
 }

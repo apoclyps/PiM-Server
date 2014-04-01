@@ -1,5 +1,6 @@
 package uk.co.kyleharrison.pim.interfaces;
 
 public interface ProductInterface {
-	public boolean getProductJson();
+	public boolean createJSONProduct();
+	public boolean createProduct();
 }

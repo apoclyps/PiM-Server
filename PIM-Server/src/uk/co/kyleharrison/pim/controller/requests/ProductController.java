@@ -87,24 +87,26 @@ public class ProductController extends HttpServlet {
 			break;
 		}
 		
+		// Requesting Prouct information and creating product pojo
+		ProductService productService = new ProductService(request,response);
+		productService.createJSONProduct();
+		productService.createProduct();
+		System.out.println("Product "+ productService.getProduct().getBarcode());
+		
+		//Product Successfully Recieved
+		Product activeProduct = productService.getProduct();
+		activeProduct.setSuccess(true);
+		productService.setProduct(activeProduct);
+		
+		//Output
 		System.out.println("Request Type : " + requestType);
 		System.out.println("Media Type   : "+mediaType);
 		System.out.println("Content Name : "+content);
 		
-		ProductService productService = new ProductService(request,response);
-		productService.getProductJson();
-		
-		productService.jsonToProduct();
-		System.out.println("Prodct "+ productService.getProduct().getBarcode());
-		
-		Product activeProduct = productService.getProduct();
-		activeProduct.setSuccess(true);
-		
-		productService.setProduct(activeProduct);
 		// 5. JSON Output
 		try {
-			System.out.println("callback("+ JSONService.objectToJSON(productService.getProduct()) + ");");
-			JSONService.JSONPResponse(response, JSONService.objectToJSON(productService.getProduct()), "callback");
+			System.out.println(productService.getCallback()+"("+ JSONService.objectToJSON(productService.getProduct()) + ");");
+			JSONService.JSONPResponse(response, JSONService.objectToJSON(productService.getProduct()), productService.getCallback());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
