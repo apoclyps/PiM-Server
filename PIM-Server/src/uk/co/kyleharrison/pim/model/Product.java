@@ -4,6 +4,7 @@ public class Product {
 	protected String name;
 	protected long barcode;
 	protected int quantity;
+	protected String mediatype;
 	protected boolean success;
 	
 	public Product() {
@@ -16,6 +17,23 @@ public class Product {
 		this.barcode = barcode;
 		this.quantity = quantity;
 	}
+	
+	public Product(String name, long barcode, int quantity, String mediatype) {
+		super();
+		this.name = name;
+		this.barcode = barcode;
+		this.quantity = quantity;
+		this.mediatype = mediatype;
+	}
+
+	public String getMediatype() {
+		return mediatype;
+	}
+
+	public void setMediatype(String mediatype) {
+		this.mediatype = mediatype;
+	}
+
 
 	public String getName() {
 		return name;
