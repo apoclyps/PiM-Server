@@ -182,6 +182,7 @@ public class ComicVineService extends DatabaseConnector implements ControllerSer
 		try{
 			ComicvineConnector comicvineConnector = new ComicvineConnector();
 			comicvineConnector.insertVolumes(this.cvv);
+			comicvineConnector.close();
 			return true;
 		}catch(Exception e){
 			e.printStackTrace();

@@ -1,9 +1,6 @@
 package uk.co.kyleharrison.pim.service.control;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -19,27 +16,26 @@ import uk.co.kyleharrison.pim.storage.mysql.connector.UserConnectorMySQL;
 public class RegisterService implements RegisterInterface {
 
 	private HttpServletRequest request;
-	private HttpServletResponse response;
 	private String parameters;
 	private User user = null;
 	private UserStore userStore = null;
+	private UserConnectorMySQL UC;
 	
 	public RegisterService() {
 		super();
+		this.setUC(new UserConnectorMySQL());
 	}
 	
-	public RegisterService(HttpServletRequest request,
-			HttpServletResponse response) {
+	public RegisterService(HttpServletRequest request) {
 		super();
 		this.request = request;
-		this.response = response;
+		this.setUC(new UserConnectorMySQL());
 	}
 
 	@Override
 	public boolean userExists() {
-		UserConnectorMySQL UC = new UserConnectorMySQL();
 		// If user does not exist
-		if (UC.checkUserExists(this.userStore)) {
+		if (this.UC.checkUserExists(this.userStore)) {
 			return true;
 			/*if (UC.addUser(this.userStore)) {
 				// return true - user added
@@ -52,28 +48,6 @@ public class RegisterService implements RegisterInterface {
 
 	@Override
 	public boolean validateUserCredentials() {
-		/*
-		String json = null;
-		try {
-			BufferedReader br = new BufferedReader(new InputStreamReader(
-					this.request.getInputStream()));
-			json = "";
-			if (br != null) {
-				json = br.readLine();
-			}
-			System.out.println("JSON : " + json);
-		} catch (NullPointerException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		System.out.println(this.request.getParameterMap().toString());
-		System.out.println(this.request.getParameterMap().size());
-		System.out.println(this.request.getParameterMap().keySet().iterator().next());
-		 * */
-		
 		if(this.request.getParameterMap().containsKey("data")){
 			this.setParameters(this.request.getParameter("data"));
 			return true;
@@ -98,10 +72,9 @@ public class RegisterService implements RegisterInterface {
 				this.userStore.setJoined();
 
 				// CODE HERE FOR Checking / Inserting to MySQL
-				UserConnectorMySQL UC = new UserConnectorMySQL();
 				// If user does not exist
-				if (UC.checkUserExists(this.userStore) == false) {
-					if (UC.addUser(this.userStore)) {
+				if (this.UC.checkUserExists(this.userStore) == false) {
+					if (this.UC.addUser(this.userStore)) {
 						// return true - user added
 						this.userStore.setCreated(true);
 						this.userStore.setSuccess(true);
@@ -189,6 +162,18 @@ public class RegisterService implements RegisterInterface {
 			return true;
 		}
 		return false;
+	}
+
+	public UserConnectorMySQL getUC() {
+		return this.UC;
+	}
+
+	public void setUC(UserConnectorMySQL uC) {
+		this.UC = uC;
+	}
+	
+	public void closeUserConnector(){
+		this.UC.close();
 	}
 
 }

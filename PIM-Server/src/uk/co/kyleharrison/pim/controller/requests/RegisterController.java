@@ -45,10 +45,11 @@ public class RegisterController extends HttpServlet {
 
 		UserStore activeUser = null;
 		boolean authenticationFlag = false;
+		UserConnectorMySQL ucs = new UserConnectorMySQL();
 
 		// 1. validate user credentials as being recieved and parsed to a user
 		// object
-		RegisterService registerService = new RegisterService(request, response);
+		RegisterService registerService = new RegisterService(request);
 		if (registerService.validateUserCredentials()) {
 			// 2. parse json parameters to a user object
 			if (registerService.generateUser()) {
@@ -70,7 +71,6 @@ public class RegisterController extends HttpServlet {
 				}else{
 					System.out.println("Creating User");
 					//Check Database - If returns users exists false 
-					UserConnectorMySQL ucs = new UserConnectorMySQL();
 					UserStore ac = registerService.getUserStore();
 					
 					if(ucs.checkUserExists(ac)){
@@ -109,6 +109,15 @@ public class RegisterController extends HttpServlet {
 			authenticationFlag = true;
 		}
 
+		// Close Database Connection to free resource
+		try{
+			ucs.close();
+			registerService.closeUserConnector();
+		}catch(Exception e){
+			e.printStackTrace();
+			Log.info("Exception closing connection in Register Controller");
+		}
+		
 		// 5. JSON Output
 		try {
 			System.out.println("callback("+ JSONService.objectToJSON(registerService.getUserStore()) + ");");
@@ -116,16 +125,6 @@ public class RegisterController extends HttpServlet {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		
-		System.out.println("Reached");
-		//System.out.println("\nCallback "+request.getParameter("callback"));
-		//System.out.println("Data "+request.getParameter("data"));
-
-		
-			
-			
-		
 	}
 
 }

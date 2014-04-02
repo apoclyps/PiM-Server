@@ -103,6 +103,13 @@ public class ProductController extends HttpServlet {
 		System.out.println("Media Type   : "+mediaType);
 		System.out.println("Content Name : "+content);
 		
+		/*try{
+			ucs.close();
+		}catch(Exception e){
+			e.printStackTrace();
+			Log.info("Exception closing connection in Product Controller");
+		}*/
+		
 		// 5. JSON Output
 		try {
 			System.out.println(productService.getCallback()+"("+ JSONService.objectToJSON(productService.getProduct()) + ");");

@@ -46,7 +46,7 @@ public class LoginController extends HttpServlet {
 
 				// 1. validate user credentials as being recieved and parsed to a user
 				// object
-				RegisterService registerService = new RegisterService(request, response);
+				RegisterService registerService = new RegisterService(request);
 				if (registerService.validateUserCredentials()) {
 					// 2. parse json parameters to a user object
 					if (registerService.generateUser()) {
@@ -77,6 +77,13 @@ public class LoginController extends HttpServlet {
 				}else{
 					Log.info("Login attempt invalid : Parameters Missing");
 					authenticationFlag = true;
+				}
+				
+				try{
+					registerService.closeUserConnector();
+				}catch(Exception e){
+					e.printStackTrace();
+					Log.info("Exception closing connection in Product Controller");
 				}
 
 				// 5. JSON Output
