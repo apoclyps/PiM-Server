@@ -52,6 +52,7 @@ public class RegisterService implements RegisterInterface {
 
 	@Override
 	public boolean validateUserCredentials() {
+		/*
 		String json = null;
 		try {
 			BufferedReader br = new BufferedReader(new InputStreamReader(
@@ -71,13 +72,13 @@ public class RegisterService implements RegisterInterface {
 		System.out.println(this.request.getParameterMap().toString());
 		System.out.println(this.request.getParameterMap().size());
 		System.out.println(this.request.getParameterMap().keySet().iterator().next());
-		json = this.request.getParameterMap().keySet().iterator().next();
+		 * */
 		
-		this.setParameters(json);
-		if(json.equals(null)){
-			return false;
-		}else{
+		if(this.request.getParameterMap().containsKey("data")){
+			this.setParameters(this.request.getParameter("data"));
 			return true;
+		}else{
+			return false;
 		}
 		
 	}

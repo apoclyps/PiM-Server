@@ -43,8 +43,7 @@ public class RegisterController extends HttpServlet {
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 
-		//String json = null;
-		User user = null;
+		UserStore activeUser = null;
 		boolean authenticationFlag = false;
 
 		// 1. validate user credentials as being recieved and parsed to a user
@@ -53,22 +52,61 @@ public class RegisterController extends HttpServlet {
 		if (registerService.validateUserCredentials()) {
 			// 2. parse json parameters to a user object
 			if (registerService.generateUser()) {
-				user = registerService.getUser();
+				activeUser = new UserStore(registerService.getUser());
+				registerService.setUserStore(activeUser);
 			}
 
 			// 3. Check if the user exists
-			UserStore activeUser = new UserStore(user);
-			registerService.setUserStore(activeUser);
-			if (registerService.userExists()) {
+			if (!(registerService.userExists())) {
 				authenticationFlag = true;
 				System.out.println("Authentication " + authenticationFlag);
+				// 4. Checking credentials exist
+				if(registerService.passwordExists()){
+					System.out.println("Authentication Success");
+					// TODO Method required to do this inside Register Service 
+					UserStore ac = registerService.getUserStore();
+					ac.setSuccess(false);
+					registerService.setUserStore(ac);
+				}else{
+					System.out.println("Creating User");
+					//Check Database - If returns users exists false 
+					UserConnectorMySQL ucs = new UserConnectorMySQL();
+					UserStore ac = registerService.getUserStore();
+					
+					if(ucs.checkUserExists(ac)){
+						System.out.println("Existing user with username");
+						ac.setSuccess(false);
+					}
+					else{
+						System.out.println("User creation");
+						//Create USer
+						if(ucs.addUser(ac)){
+							System.out.println("User Created");
+							ac.setSuccess(true);
+						}else{
+							System.out.println("User Not created");
+							ac.setSuccess(false);
+						}
+						
+					}
+					//add to database- if true - then set true and return
+					
+					
+					//ac.setSuccess(true);
+					registerService.setUserStore(ac);
+				}
+				
 			} else {
-				// 4. Adding a user to the userstore
-				registerService.addUser();
+				// 4. User Exists so register fails
+				UserStore ac = registerService.getUserStore();
+				ac.setMessage("Username already exists");
+				registerService.setUserStore(ac);
+				
+				authenticationFlag = false;
 			}
 		}else{
 			Log.info("Login attempt invalid : Parameters Missing");
-			authenticationFlag = false;
+			authenticationFlag = true;
 		}
 
 		// 5. JSON Output
@@ -78,6 +116,16 @@ public class RegisterController extends HttpServlet {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
+		
+		System.out.println("Reached");
+		//System.out.println("\nCallback "+request.getParameter("callback"));
+		//System.out.println("Data "+request.getParameter("data"));
+
+		
+			
+			
+		
 	}
 
 }

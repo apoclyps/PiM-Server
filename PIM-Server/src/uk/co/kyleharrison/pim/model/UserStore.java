@@ -15,6 +15,7 @@ public class UserStore extends User {
 	private boolean created = false;
 	private boolean exists = false;
 	private boolean success = false;
+	private String message = "";
 
 	public UserStore() {
 		super();
@@ -98,6 +99,14 @@ public class UserStore extends User {
 
 	public void setSuccess(boolean success) {
 		this.success = success;
+	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
 	}
 
 }
