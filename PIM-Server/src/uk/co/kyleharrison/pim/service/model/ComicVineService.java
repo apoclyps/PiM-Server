@@ -24,9 +24,15 @@ public class ComicVineService extends DatabaseConnector implements ControllerSer
 	private MySQLFacade mySQLFacade;
 	private GrapeVineFacade grapeVineFacade;
 	private ArrayList<ComicVineVolume> cvv = null;
-	private String resources = "name,id,first_issue,last_issue,count_of_issues,image";
+	private String resources = "name,id,first_issue,last_issue,count_of_issues,image,description,deck";
 	private String queryRequest = "http://www.comicvine.com/api/search/?api_key=2736f1620710c52159ba0d0aea337c59bd273816"
 			+ "&format=json&field_list="+resources+"&resources=volume&query=";
+	
+	//Finding Issues in a volume
+	//http://www.comicvine.com/api/issues/?api_key=2736f1620710c52159ba0d0aea337c59bd273816&volume=796&format=json
+	
+	//Volume Query
+	//http://www.comicvine.com/api/volume/4050-796/?api_key=2736f1620710c52159ba0d0aea337c59bd273816&format=json
 	
 	public ComicVineService() {
 		super();
@@ -123,6 +129,17 @@ public class ComicVineService extends DatabaseConnector implements ControllerSer
 		}
 		
 		grapeVineFacade.PreformQuery(queryRequest + query);
+		
+		this.cvv = grapeVineFacade.getComicVineVolumes();
+		System.out.println("\tResult Size : " +this.cvv.size());
+
+		return true;
+	}
+	
+	public boolean executeIDQuery(int id) {
+		
+		
+		grapeVineFacade.PreformQuery(queryRequest + id);
 		
 		this.cvv = grapeVineFacade.getComicVineVolumes();
 		System.out.println("\tResult Size : " +this.cvv.size());
