@@ -31,8 +31,8 @@ public class ComicVineController extends HttpServlet {
 		// Preforms a query based upon if the query parameter is set or not
 		try{
 		if(request.getParameterMap().containsKey("query")){
-			String query = URLEncoder.encode(request.getParameter("query"),"UTF-8");
-
+			//String query = URLEncoder.encode(request.getParameter("query"),"UTF-8");
+			String query = request.getParameter("query");
 			System.out.println(query);
 			jsonResponse = this.comicVineService.executeQuery(query);
 		}else{

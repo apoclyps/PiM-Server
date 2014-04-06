@@ -26,7 +26,7 @@ public class ComicVineService extends DatabaseConnector implements ControllerSer
 	private ArrayList<ComicVineVolume> cvv = null;
 	private String resources = "name,id,first_issue,last_issue,count_of_issues,image,description,deck";
 	private String queryRequest = "http://www.comicvine.com/api/search/?api_key=2736f1620710c52159ba0d0aea337c59bd273816"
-			+ "&format=json&field_list="+resources+"&resources=volume&query=";
+			+ "&format=json&field_list="+resources+"&resources=volume&limit=10&query=";
 	
 	//Finding Issues in a volume
 	//http://www.comicvine.com/api/issues/?api_key=2736f1620710c52159ba0d0aea337c59bd273816&volume=796&format=json
@@ -40,18 +40,26 @@ public class ComicVineService extends DatabaseConnector implements ControllerSer
 		this.grapeVineFacade = new GrapeVineFacade();
 	}
 
+	public String encodeQuery(String query){
+		System.out.println("Query String :"+query);
+		System.out.println("Query After  :"+query.replaceAll(" ", "%20AND%20") );
+		return query.replaceAll(" ", "%20AND%20");
+	}
+	
 	@SuppressWarnings({ "unchecked", "deprecation" })
 	@Override
 	public String executeQuery(String query) {
 		long startTime = System.currentTimeMillis();
 		
-		try {
+		/*try {
 			query = URLEncoder.encode(query,"UTF-8");
 		} catch (UnsupportedEncodingException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
-		}
+		}*/
 		
+		query = encodeQuery(query);
+				
 		ArrayList<ComicVineVolume> cvv = preformQuery(query);
 		
 		ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
@@ -127,6 +135,8 @@ public class ComicVineService extends DatabaseConnector implements ControllerSer
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
+		
+		query = encodeQuery(query);
 		
 		grapeVineFacade.PreformQuery(queryRequest + query);
 		
