@@ -18,7 +18,7 @@ public class UserConnectorMySQL extends MySQLConnector implements UserConnectorI
 
 	@Override
 	public boolean addUser(UserStore user) {
-		
+		//user.encryptPassword();
 			if (this.checkConnection()) {
 				try {
 					preparedStatement = connection
@@ -35,7 +35,6 @@ public class UserConnectorMySQL extends MySQLConnector implements UserConnectorI
 					e.printStackTrace();
 					return false;
 				}
-
 			} else {
 				System.out.println("MYSQLDOA : Insert Channel : Connection Failed");
 			}

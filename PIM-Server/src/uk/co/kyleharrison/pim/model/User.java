@@ -9,6 +9,7 @@ public class User {
 	protected String password;
 	protected String uID;
 	protected String callback;
+	protected boolean encrypted;
 	
 	public User() {
 		super();
@@ -60,6 +61,12 @@ public class User {
 	}
 	public void setCallback(String callback) {
 		this.callback = callback;
+	}
+	public boolean isEncrypted() {
+		return encrypted;
+	}
+	public void setEncrypted(boolean encrypted) {
+		this.encrypted = encrypted;
 	}
 	
 }

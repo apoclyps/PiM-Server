@@ -68,8 +68,10 @@ public class RegisterService implements RegisterInterface {
 
 				//activeUser.setUsername(user.getUsername());
 			//	activeUser.setPassword(user.getPassword());
-				this.userStore.encryptPassword();
+			//	System.out.println("Password before Encrypt : "+this.userStore.getPassword());
+			//	this.userStore.encryptPassword();
 				this.userStore.setJoined();
+			//	System.out.println("Password after Encrypt : "+this.userStore.getPassword());
 
 				// CODE HERE FOR Checking / Inserting to MySQL
 				// If user does not exist
@@ -157,6 +159,8 @@ public class RegisterService implements RegisterInterface {
 	public boolean passwordExists() {
 		UserConnectorMySQL UC = new UserConnectorMySQL();
 		// If user does not exist
+		System.out.println(this.userStore.getPassword());
+		//this.userStore.encryptPassword();
 		System.out.println("Register Service : Password " + this.userStore.getPassword());
 		if (UC.checkPasswordExists(this.userStore)) {
 			return true;

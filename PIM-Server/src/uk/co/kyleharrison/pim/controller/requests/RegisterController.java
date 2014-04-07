@@ -80,7 +80,7 @@ public class RegisterController extends HttpServlet {
 					else{
 						System.out.println("User creation");
 						//Create USer
-						if(ucs.addUser(ac)){
+						if(registerService.addUser()){
 							System.out.println("User Created");
 							ac.setSuccess(true);
 						}else{
