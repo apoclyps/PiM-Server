@@ -1,4 +1,4 @@
-package uk.co.kyleharrison.pim.service.model;
+package uk.co.kyleharrison.pim.model;
 
 public class SpotifyThumbnail {
 

@@ -17,6 +17,7 @@ import org.json.simple.parser.ParseException;
 import uk.co.kyleharrison.grapejuice.comicvine.ComicVineVolume;
 import uk.co.kyleharrison.grapejuice.utils.URLReader;
 import uk.co.kyleharrison.pim.interfaces.ControllerServiceInterface;
+import uk.co.kyleharrison.pim.model.SpotifyThumbnail;
 import uk.co.kyleharrison.pim.storage.mysql.MySQLFacade;
 
 import com.mixtape.spotify.api.Album;
@@ -75,9 +76,9 @@ public class SpotifyService implements ControllerServiceInterface {
 		
 		for(Object album : albums){
 			Album newAlbum = (Album) album;
-			System.out.println("HREF : "+newAlbum.getHref());
+			//System.out.println("HREF : "+newAlbum.getHref());
 			String thumbnail = requestThumbnailURL(newAlbum.getHref());
-			System.out.println("THUMBNAIL "+thumbnail);
+			//System.out.println("THUMBNAIL "+thumbnail);
 			newAlbum.setThumbnail_url(thumbnail);
 			updatedAlbums.add(newAlbum);
 		}
@@ -92,7 +93,7 @@ public class SpotifyService implements ControllerServiceInterface {
 		urlReader.setUrl(url);
 		
 		String jsonResponse = urlReader.readFromUrl();
-		System.out.println(jsonResponse);
+		//System.out.println(jsonResponse);
 		
 		// Deconstruct to POJO
 		JSONObject json = null;

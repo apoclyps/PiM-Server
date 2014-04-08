@@ -53,6 +53,7 @@ public class SpotifyController extends HttpServlet {
 	
 		// Returns prefered JSON as the response.
 		try{
+			System.out.println("Spotify Request Complete");
 			if(request.getParameterMap().containsKey("callback")){
 				JSONService.JSONPResponse(response, jsonResponse, request.getParameter("callback"));
 			}else{
