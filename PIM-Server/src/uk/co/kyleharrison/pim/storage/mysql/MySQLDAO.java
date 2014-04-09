@@ -16,6 +16,7 @@ import com.mixtape.spotify.api.Artist;
 import com.mixtape.spotify.api.Response;
 import com.mlesniak.amazon.backend.AmazonItem;
 import com.omertron.omdbapi.model.OmdbVideoBasic;
+import com.omertron.omdbapi.model.OmdbVideoFull;
 
 import uk.co.kyleharrison.grapejuice.comicvine.ComicVineVolume;
 
@@ -196,11 +197,66 @@ public class MySQLDAO extends MySQLConnector {
 				preparedStatement.setString(2, omdbVideo.getTitle());
 				preparedStatement.setString(3,omdbVideo.getType());
 				preparedStatement.setString(4,omdbVideo.getYear());
+				
 				preparedStatement.addBatch();
 				System.out.println("Batch added "+omdbVideo.getTitle());
 			}
 			
 			preparedStatement.executeBatch();
+			return true;
+		} else {
+			System.out.println("MYSQLDOA : Insert Channel : Connection Failed");
+		}
+		if (connection != null) {
+			connection.close();
+		}
+		return false;
+	}
+	
+	public boolean insertOMDBFullItems(List<OmdbVideoFull> omdbResults) throws SQLException {
+		System.out.println("Batch Insert : "+omdbResults.size());
+		if(omdbResults.equals(null)){
+			System.out.println("Empty Volume List");
+			return false;
+		}
+		
+		if (this.checkConnection()) {
+			preparedStatement = connection.prepareStatement("INSERT IGNORE into pim.omdb"
+							+ "(imdbid,title,type,year,director,poster,runtime)"
+							+ " values  (?,?,?,?,?,?,?)");
+
+			for(OmdbVideoFull omdbVideo : omdbResults){
+				preparedStatement.setString(1, omdbVideo.getImdbID());
+				preparedStatement.setString(2, omdbVideo.getTitle());
+				preparedStatement.setString(3,omdbVideo.getType());
+				preparedStatement.setString(4,omdbVideo.getYear());
+				
+				preparedStatement.setString(5,omdbVideo.getDirector());
+				preparedStatement.setString(6,omdbVideo.getPoster());
+				preparedStatement.setString(7,omdbVideo.getRuntime());		
+				
+				//preparedStatement.addBatch();
+				System.out.println("Batch added "+omdbVideo.getTitle());
+				//System.out.println(omdbVideo.toString());
+				
+				System.out.println(preparedStatement.toString());
+				preparedStatement.execute();
+			}
+			
+			//int[] results = preparedStatement.executeBatch();
+			/*
+			System.out.println(results.length);
+			int responseCode = 0;
+			for(int i : results){
+				System.out.println(i);
+				responseCode = responseCode + i;
+			}
+			if(responseCode<results.length){
+				System.out.println("failed to insert");
+				return false;
+			}
+			*/
+			
 			return true;
 		} else {
 			System.out.println("MYSQLDOA : Insert Channel : Connection Failed");

@@ -1,9 +1,30 @@
 package uk.co.kyleharrison.pim.storage.mysql.connector;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import com.omertron.omdbapi.model.OmdbVideoFull;
+
 import uk.co.kyleharrison.pim.interfaces.ProductConnectorInterface;
 import uk.co.kyleharrison.pim.storage.mysql.MySQLConnector;
 
 public class ProductConnectorMySQL extends MySQLConnector implements ProductConnectorInterface {
+
+	private PreparedStatement preparedStatement = null; 
+	private OmdbVideoFull tempVideo;
+	
+	public OmdbVideoFull getTempVideo() {
+		return tempVideo;
+	}
+
+	public void setTempVideo(OmdbVideoFull tempVideo) {
+		this.tempVideo = tempVideo;
+	}
+
+	public ProductConnectorMySQL() {
+		super();
+	}
 
 	@Override
 	public boolean addComic() {
@@ -47,10 +68,45 @@ public class ProductConnectorMySQL extends MySQLConnector implements ProductConn
 		return false;
 	}
 
-	@Override
-	public boolean findDvd() {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean findDvd(String imdbid) {
+		
+		boolean flag = false;
+		if (this.checkConnection()) {
+			try {
+				preparedStatement = connection
+						.prepareStatement("SELECT * FROM pim.omdb WHERE imdbid = ? LIMIT 1;");
+				
+				preparedStatement.setString(1, imdbid);
+				ResultSet results = preparedStatement.executeQuery();
+				//System.out.println("Results : "+results.toString());
+				if(results.first()){
+					flag = true;
+					
+					tempVideo = new OmdbVideoFull();
+					tempVideo.setTitle(results.getString("title"));
+					tempVideo.setImdbID(results.getString("imdbid"));
+					tempVideo.setPoster(results.getString("poster"));
+					tempVideo.setDirector(results.getString("director"));
+					tempVideo.setRuntime(results.getString("runtime"));
+					
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				flag = false;
+			}
+
+		} else {
+			System.out.println("MYSQLDOA : Insert Channel : Connection Failed");
+		}
+		if (connection != null) {
+			try {
+				connection.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}	
+		return flag;
 	}
 
 	@Override
@@ -181,6 +237,12 @@ public class ProductConnectorMySQL extends MySQLConnector implements ProductConn
 
 	@Override
 	public boolean removeOther() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean findDvd() {
 		// TODO Auto-generated method stub
 		return false;
 	}

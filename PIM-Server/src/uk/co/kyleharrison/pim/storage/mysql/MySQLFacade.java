@@ -12,6 +12,7 @@ import com.github.koraktor.steamcondenser.steam.community.SteamGame;
 import com.mixtape.spotify.api.Response;
 import com.mlesniak.amazon.backend.AmazonItem;
 import com.omertron.omdbapi.model.OmdbVideoBasic;
+import com.omertron.omdbapi.model.OmdbVideoFull;
 
 import uk.co.kyleharrison.grapejuice.comicvine.ComicVineVolume;
 
@@ -93,6 +94,15 @@ public class MySQLFacade implements MySQLInterface {
 	public boolean insertOMDBItems(List<OmdbVideoBasic> omdbResults) {
 		try {
 			return this.mySQLDAO.insertOMDBItems(omdbResults);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
+	public boolean insertOMDBFullItems(List<OmdbVideoFull> omdbResults) {
+		try {
+			return this.mySQLDAO.insertOMDBFullItems(omdbResults);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

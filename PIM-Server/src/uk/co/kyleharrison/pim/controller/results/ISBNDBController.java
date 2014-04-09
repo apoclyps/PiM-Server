@@ -27,6 +27,11 @@ public class ISBNDBController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {	
 		String jsonResponse = null;
 		// Preforms a query based upon if the query parameter is set or not
+		
+		//Check Cache 
+		
+		// else
+		
 		try{
 		if(request.getParameterMap().containsKey("query")){
 			jsonResponse = this.isbndbService.executeQuery(request.getParameter("query"));

@@ -1,6 +1,7 @@
 package uk.co.kyleharrison.pim.controller.results;
 
 import java.io.IOException;
+import java.net.URLEncoder;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -29,6 +30,7 @@ public class OMDBController extends HttpServlet {
 		// Preforms a query based upon if the query parameter is set or not
 		try{
 		if(request.getParameterMap().containsKey("query")){
+			//String query = URLEncoder.encode(request.getParameter("query"),"UTF-8");
 			jsonResponse = this.imdbService.executeQuery(request.getParameter("query"));
 		}else{
 			jsonResponse = this.imdbService.executeQuery("Batman");
