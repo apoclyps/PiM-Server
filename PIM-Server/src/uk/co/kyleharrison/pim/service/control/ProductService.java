@@ -56,10 +56,15 @@ public class ProductService implements ProductInterface {
 		this.setCallback(callback);
 		this.setParameters(json);
 		
+		try{
 		if(json.equals(null)){
 			return false;
 		}else{
 			return true;
+		}
+		}catch(NullPointerException e){
+			e.printStackTrace();
+			return false;
 		}
 	}
 	

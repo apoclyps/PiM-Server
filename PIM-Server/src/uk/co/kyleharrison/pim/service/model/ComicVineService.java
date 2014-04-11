@@ -6,11 +6,14 @@ import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 
+import javax.naming.NoInitialContextException;
+
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.ObjectWriter;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.simple.JSONObject;
+import org.mortbay.log.Log;
 
 import uk.co.kyleharrison.grapejuice.comicvine.ComicVineVolume;
 import uk.co.kyleharrison.grapejuice.facade.GrapeVineFacade;
@@ -36,7 +39,11 @@ public class ComicVineService extends DatabaseConnector implements ControllerSer
 	
 	public ComicVineService() {
 		super();
+		try{
 		this.mySQLFacade = new MySQLFacade();
+		}catch(Exception e){
+			Log.info("Ensure Context.xml is accessible");
+		}
 		this.grapeVineFacade = new GrapeVineFacade();
 	}
 
@@ -44,6 +51,44 @@ public class ComicVineService extends DatabaseConnector implements ControllerSer
 		System.out.println("Query String :"+query);
 		System.out.println("Query After  :"+query.replaceAll(" ", "%20AND%20") );
 		return query.replaceAll(" ", "%20AND%20");
+	}
+	
+	@SuppressWarnings({ "unchecked", "deprecation" })
+	public String executeIssueQuery(String query) {
+		long startTime = System.currentTimeMillis();
+		
+		query = encodeQuery(query);
+		
+		this.cvv = null;
+		this.cvv = preformIssueQuery(query);
+	
+		ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+		JSONObject jsonResponse = new JSONObject();
+		String generatedJson = null;
+
+		try {
+			generatedJson = ow.writeValueAsString(this.cvv.get(0).getResults().getIssues());
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		
+		try {
+			JSONArray cvvResults = new JSONArray(generatedJson);
+			System.out.println("CVV Results"+cvvResults.length());
+			jsonResponse.put("Results", this.cvv.size());
+			jsonResponse.put("Query", URLDecoder.decode(query));
+			jsonResponse.put("COMICVINE", cvvResults);
+			jsonResponse.put("ResourceType", "Volume");
+			
+			long endTime = System.currentTimeMillis();
+			long duration = endTime - startTime;
+			System.out.println(duration+" ms");
+			
+			return jsonResponse.toJSONString();
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return "{ \"ComicVine\": \"No Results\" }";
 	}
 	
 	@SuppressWarnings({ "unchecked", "deprecation" })
@@ -125,6 +170,18 @@ public class ComicVineService extends DatabaseConnector implements ControllerSer
 		
 		return this.grapeVineFacade.getComicVineVolumes();
 	}
+	
+	public ArrayList<ComicVineVolume> preformIssueQuery(String queryID) {
+		
+		String issueQuery = "http://www.comicvine.com/api/volume/4050-"+queryID+"/?api_key=2736f1620710c52159ba0d0aea337c59bd273816"
+				+ "&format=json&field_list=issues,id,name";
+		this.grapeVineFacade = new GrapeVineFacade();
+		System.out.println("Issue Query :"+issueQuery);
+		System.out.println(this.grapeVineFacade.PreformIssueQuery(issueQuery));
+		System.out.println("Size = "+ this.grapeVineFacade.getComicVineVolumes().size());
+		return this.grapeVineFacade.getComicVineVolumes();
+	}
+	
 	
 	
 	public boolean executeSimpleQuery(String query) {

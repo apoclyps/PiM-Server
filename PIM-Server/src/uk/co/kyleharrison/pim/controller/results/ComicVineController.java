@@ -35,13 +35,18 @@ public class ComicVineController extends HttpServlet {
 			String query = request.getParameter("query");
 			System.out.println(query);
 			jsonResponse = this.comicVineService.executeQuery(query);
+		}else if(request.getParameterMap().containsKey("volume")){
+			String volume = request.getParameter("volume");
+			System.out.println("Execute Volume" + volume);
+			jsonResponse = this.comicVineService.executeIssueQuery(volume);
+			//System.out.println(jsonResponse);
 		}else{
-			jsonResponse = this.comicVineService.executeQuery("Batman");
+			//jsonResponse = this.comicVineService.executeQuery("Batman");
 			//jsonResponse =  "{ \"ComicVine\": \"No Results\" }";
 		}
 		}catch(Exception e){
 			e.printStackTrace();
-			jsonResponse =  "{ \"ComicVine\": \"No Results\" }";
+			jsonResponse =  "{ \"Comicvine\": \"No Results\" }";
 		}
 		
 		try{
