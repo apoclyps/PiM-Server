@@ -1,6 +1,7 @@
 package uk.co.kyleharrison.pim.storage.mysql;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -11,6 +12,10 @@ import javax.naming.InitialContext;
 import javax.naming.NameNotFoundException;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
+
+import org.mortbay.log.Log;
+
+import com.mysql.jdbc.CommunicationsException;
 
 
 public class MySQLConnector {
@@ -56,27 +61,27 @@ public class MySQLConnector {
 		return true;
 	}
 
-	// /*
-	// public MySQLConnector() {
-	// System.out.println("MySQL Connection Opened : " +new Date().toString());
-	// try {
-	// /*datasource = (DataSource) new InitialContext()
-	// .lookup("java:/comp/env/jdbc/" + database_name);*/
-	//
-	// String driver = "com.mysql.jdbc.Driver";
-	// Class.forName(driver);
-	// String url = "jdbc:mysql://137.117.146.199:3306/comicdb";
-	// connection = DriverManager.getConnection(url, "admin", "Atmitwwsu007");
-	// //connection = datasource.getConnection();
-	// } catch(CommunicationsException ce){
-	// System.out.println("MySQL Server : Offline");
-	// ce.getMessage();
-	// }catch (SQLException | ClassNotFoundException e) {
-	// System.out.println("SQL Exception in MySQLConnector.java");
-	// //e.printStackTrace();
-	// Log.info("Connection not available or login details are incorrect");
-	// }
-	// }
+	 
+	public MySQLConnector(boolean test) {
+		System.out
+				.println("MySQL Connection Opened : " + new Date().toString());
+		try {
+
+			String driver = "com.mysql.jdbc.Driver";
+			Class.forName(driver);
+			String url = "jdbc:mysql://137.117.146.199:3306/pim";
+			connection = DriverManager.getConnection(url, "admin","Atmitwwsu007");
+		} catch (CommunicationsException ce) {
+			System.out.println("MySQL Server : Offline");
+			ce.getMessage();
+		} catch (SQLException | ClassNotFoundException e) {
+			System.out.println("SQL Exception in MySQLConnector.java");
+			// e.printStackTrace();
+			Log.info("Connection not available or login details are incorrect");
+		}
+	}
+	
+	
 	//
 	// public boolean checkConnection() {
 	// try {

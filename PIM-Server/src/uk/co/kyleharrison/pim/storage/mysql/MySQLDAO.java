@@ -374,7 +374,7 @@ public class MySQLDAO extends MySQLConnector {
 		return false;
 	}
 
-	public boolean insertComicVineIssues(ArrayList<ComicVineIssue> issues) throws SQLException {
+	public boolean insertComicVineIssues(ArrayList<ComicVineIssue> issues, int volumeID) throws SQLException {
 		
 		System.out.println("Batch Insert : "+issues.size());
 		if(issues.equals(null)){
@@ -383,8 +383,8 @@ public class MySQLDAO extends MySQLConnector {
 		}
 		if (this.checkConnection()) {
 			preparedStatement = connection.prepareStatement("INSERT IGNORE into pim.comicvineissues"
-							+ "(id,site_detail_url,name,api_detail_url,issue_number)"
-							+ " values  (?,?,?,?,?)");
+							+ "(id,site_detail_url,name,api_detail_url,issue_number,volume)"
+							+ " values  (?,?,?,?,?,?)");
 
 			for(ComicVineIssue cvi : issues){
 				preparedStatement.setInt(1, cvi.getId());
@@ -392,6 +392,7 @@ public class MySQLDAO extends MySQLConnector {
 				preparedStatement.setString(3,cvi.getName());
 				preparedStatement.setString(4,cvi.getApi_detail_uri());
 				preparedStatement.setString(5, cvi.getIssue_number());
+				preparedStatement.setInt(6, volumeID);
 				preparedStatement.addBatch();
 			}
 			

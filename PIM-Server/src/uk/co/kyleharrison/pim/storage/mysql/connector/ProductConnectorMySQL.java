@@ -69,7 +69,6 @@ public class ProductConnectorMySQL extends MySQLConnector implements ProductConn
 	}
 
 	public boolean findDvd(String imdbid) {
-		
 		boolean flag = false;
 		if (this.checkConnection()) {
 			try {
