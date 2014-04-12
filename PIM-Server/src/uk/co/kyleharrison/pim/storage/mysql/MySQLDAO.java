@@ -18,6 +18,7 @@ import com.mlesniak.amazon.backend.AmazonItem;
 import com.omertron.omdbapi.model.OmdbVideoBasic;
 import com.omertron.omdbapi.model.OmdbVideoFull;
 
+import uk.co.kyleharrison.grapejuice.comicvine.ComicVineIssue;
 import uk.co.kyleharrison.grapejuice.comicvine.ComicVineVolume;
 
 public class MySQLDAO extends MySQLConnector {
@@ -359,6 +360,38 @@ public class MySQLDAO extends MySQLConnector {
 				preparedStatement.setString(3, sg1.getShortName());
 				preparedStatement.setString(4,sg1.getLogoThumbnailUrl());
 				preparedStatement.setString(5,sg1.getLogoUrl());
+				preparedStatement.addBatch();
+			}
+			
+			preparedStatement.executeBatch();
+			return true;
+		} else {
+			System.out.println("MYSQLDOA : Insert Channel : Connection Failed");
+		}
+		if (connection != null) {
+			connection.close();
+		}
+		return false;
+	}
+
+	public boolean insertComicVineIssues(ArrayList<ComicVineIssue> issues) throws SQLException {
+		
+		System.out.println("Batch Insert : "+issues.size());
+		if(issues.equals(null)){
+			System.out.println("Empty Issue List");
+			return false;
+		}
+		if (this.checkConnection()) {
+			preparedStatement = connection.prepareStatement("INSERT IGNORE into pim.comicvineissues"
+							+ "(id,site_detail_url,name,api_detail_url,issue_number)"
+							+ " values  (?,?,?,?,?)");
+
+			for(ComicVineIssue cvi : issues){
+				preparedStatement.setInt(1, cvi.getId());
+				preparedStatement.setString(2, cvi.getSite_detail_url());
+				preparedStatement.setString(3,cvi.getName());
+				preparedStatement.setString(4,cvi.getApi_detail_uri());
+				preparedStatement.setString(5, cvi.getIssue_number());
 				preparedStatement.addBatch();
 			}
 			

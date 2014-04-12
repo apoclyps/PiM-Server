@@ -127,4 +127,16 @@ public class MySQLFacade implements MySQLInterface {
 		return false;
 	}
 
+	public boolean insertIssues(ArrayList<ComicVineVolume> comicVineVolumes) {
+		try {
+			System.out.println("Inserting Attempt");
+			return this.mySQLDAO.insertComicVineIssues(comicVineVolumes.get(0).getResults().getIssues());
+		} catch (SQLException e) {
+			System.out.println("Exception caught in MySQLFacade for Insert Volumes");
+			e.printStackTrace();
+		}
+		System.out.println("Inserting Failed");
+		return false;
+	}
+
 }
