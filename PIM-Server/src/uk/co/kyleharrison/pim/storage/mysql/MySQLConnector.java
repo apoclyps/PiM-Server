@@ -53,7 +53,9 @@ public class MySQLConnector {
 	public boolean checkConnection() {
 		try {
 			this.connection.close();
-			this.connection = datasource.getConnection();
+			System.out.println("Connection closing");
+			//this.connection = datasource.getConnection();
+			this.connection = DriverManager.getConnection("jdbc:mysql://137.117.146.199:3306/pim", "admin","Atmitwwsu007");
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return false;
@@ -70,7 +72,7 @@ public class MySQLConnector {
 			String driver = "com.mysql.jdbc.Driver";
 			Class.forName(driver);
 			String url = "jdbc:mysql://137.117.146.199:3306/pim";
-			connection = DriverManager.getConnection(url, "admin","Atmitwwsu007");
+			this.connection = DriverManager.getConnection(url, "admin","Atmitwwsu007");
 		} catch (CommunicationsException ce) {
 			System.out.println("MySQL Server : Offline");
 			ce.getMessage();

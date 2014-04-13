@@ -1,4 +1,4 @@
-package uk.co.kyleharrison.test.pim;
+package uk.co.kyleharrison.test.pim.model;
 
 import static org.junit.Assert.*;
 
@@ -12,8 +12,11 @@ import com.omertron.omdbapi.model.OmdbVideoFull;
 
 public class OMDBAPI {
 
+	private OmdbApi omdb ;
+	
 	@Before
 	public void setUp() throws Exception {
+		omdb = new OmdbApi();
 	}
 
 	@After
@@ -21,19 +24,15 @@ public class OMDBAPI {
 	}
 
 	@Test
-	public void test() {
-		OmdbApi omdb = new OmdbApi();
+	public void FindOmdbVideoFull() {
         String query = "Blade Runner";
         OmdbVideoFull result;
 		try {
-			result = omdb.movieInfo(query);
-			System.out.println(result.getPoster());
+			result = this.omdb.movieInfo(query);
 			assertEquals("Wrong movie returned", "tt0083658", result.getImdbID());
 		} catch (OMDBException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-        
 	}
 
 }

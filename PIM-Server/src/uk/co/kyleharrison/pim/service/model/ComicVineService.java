@@ -161,9 +161,9 @@ public class ComicVineService extends DatabaseConnector implements ControllerSer
 		return cached;
 	}
 	
-	public boolean cacheIssues() {
+	public boolean cacheIssues(String volumeID) {
 		System.out.println("Caching Issues");
-		boolean cached = this.mySQLFacade.insertIssues(this.grapeVineFacade.getComicVineVolumes());
+		boolean cached = this.mySQLFacade.insertIssues(this.grapeVineFacade.getComicVineVolumes(),volumeID);
 		return cached;
 	}
 	
@@ -190,7 +190,7 @@ public class ComicVineService extends DatabaseConnector implements ControllerSer
 		//System.out.println("Grab" +grabIssueImages(this.grapeVineFacade.getComicVineVolumes()));
 		
 		//return grabIssueImages(this.grapeVineFacade.getComicVineVolumes());
-		cacheIssues();
+		cacheIssues(queryID);
 		
 		return this.grapeVineFacade.getComicVineVolumes();
 	}

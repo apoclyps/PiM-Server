@@ -127,10 +127,11 @@ public class MySQLFacade implements MySQLInterface {
 		return false;
 	}
 
-	public boolean insertIssues(ArrayList<ComicVineVolume> comicVineVolumes) {
+	public boolean insertIssues(ArrayList<ComicVineVolume> comicVineVolumes, String volumeID) {
 		try {
 			System.out.println("Inserting Attempt");
-			return this.mySQLDAO.insertComicVineIssues(comicVineVolumes.get(0).getResults().getIssues(),comicVineVolumes.get(0).getId());
+			int currentID = Integer.parseInt(volumeID);
+			return this.mySQLDAO.insertComicVineIssues(comicVineVolumes.get(0).getResults().getIssues(),currentID);
 		} catch (SQLException e) {
 			System.out.println("Exception caught in MySQLFacade for Insert Volumes");
 			e.printStackTrace();

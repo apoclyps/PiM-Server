@@ -376,7 +376,7 @@ public class MySQLDAO extends MySQLConnector {
 
 	public boolean insertComicVineIssues(ArrayList<ComicVineIssue> issues, int volumeID) throws SQLException {
 		
-		System.out.println("Batch Insert : "+issues.size());
+		System.out.println("Batch Insert : "+issues.size() +" Into volume : "+volumeID);
 		if(issues.equals(null)){
 			System.out.println("Empty Issue List");
 			return false;

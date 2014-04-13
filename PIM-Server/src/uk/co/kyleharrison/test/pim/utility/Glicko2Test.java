@@ -4,7 +4,7 @@
  * The licence covering the contents of this file is described in the file LICENCE.txt,
  * which should have been included as part of the distribution containing this file.
  */
-package uk.co.kyleharrison.test.pim;
+package uk.co.kyleharrison.test.pim.utility;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
