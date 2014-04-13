@@ -131,7 +131,8 @@ public class MySQLFacade implements MySQLInterface {
 		try {
 			System.out.println("Inserting Attempt");
 			int currentID = Integer.parseInt(volumeID);
-			return this.mySQLDAO.insertComicVineIssues(comicVineVolumes.get(0).getResults().getIssues(),currentID);
+			//System.out.println("TEST MYSQL FACADE : " +comicVineVolumes.get(0).getResults().getIssues().get(0).getCassandraMap());
+			return this.mySQLDAO.insertComicVineIssues(comicVineVolumes.get(0).getIssues(),currentID);
 		} catch (SQLException e) {
 			System.out.println("Exception caught in MySQLFacade for Insert Volumes");
 			e.printStackTrace();

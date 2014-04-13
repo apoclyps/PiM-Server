@@ -6,8 +6,6 @@ import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 
-import javax.naming.NoInitialContextException;
-
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.ObjectWriter;
 import org.json.JSONArray;
@@ -22,6 +20,11 @@ import uk.co.kyleharrison.pim.cassandra.ComicvineConnector;
 import uk.co.kyleharrison.pim.connectors.DatabaseConnector;
 import uk.co.kyleharrison.pim.interfaces.ControllerServiceInterface;
 import uk.co.kyleharrison.pim.storage.mysql.MySQLFacade;
+import uk.co.kyleharrison.pim.storage.mysql.connector.ComicVineConnectorMySQL;
+//Finding Issues in a volume
+//http://www.comicvine.com/api/issues/?api_key=2736f1620710c52159ba0d0aea337c59bd273816&volume=796&format=json
+//Volume Query
+//http://www.comicvine.com/api/volume/4050-796/?api_key=2736f1620710c52159ba0d0aea337c59bd273816&format=json
 
 public class ComicVineService extends DatabaseConnector implements ControllerServiceInterface{
 
@@ -31,21 +34,65 @@ public class ComicVineService extends DatabaseConnector implements ControllerSer
 	private String resources = "name,id,first_issue,last_issue,count_of_issues,image,description,deck";
 	private String queryRequest = "http://www.comicvine.com/api/search/?api_key=2736f1620710c52159ba0d0aea337c59bd273816"
 			+ "&format=json&field_list="+resources+"&resources=volume&limit=10&query=";
-	
-	//Finding Issues in a volume
-	//http://www.comicvine.com/api/issues/?api_key=2736f1620710c52159ba0d0aea337c59bd273816&volume=796&format=json
-	
-	//Volume Query
-	//http://www.comicvine.com/api/volume/4050-796/?api_key=2736f1620710c52159ba0d0aea337c59bd273816&format=json
+	private boolean downloadImages = true;
+	private ComicVineConnectorMySQL comicvineConnector;
 	
 	public ComicVineService() {
 		super();
 		try{
 		this.mySQLFacade = new MySQLFacade();
+		this.comicvineConnector = new ComicVineConnectorMySQL();
 		}catch(Exception e){
 			Log.info("Ensure Context.xml is accessible");
 		}
 		this.grapeVineFacade = new GrapeVineFacade();
+	}
+
+	@Override
+	public boolean cacheAllResults() {
+		// TODO Auto-generated method stub
+		try{
+			return this.mySQLFacade.insertVolumes(this.cvv);
+		}catch(Exception e){
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
+	public boolean cacheAllResultsCassandra() {
+		try{
+			ComicvineConnector comicvineConnector = new ComicvineConnector();
+			comicvineConnector.insertVolumes(this.cvv);
+			comicvineConnector.close();
+			return true;
+		}catch(Exception e){
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
+	public boolean cacheIssues(String volumeID) {
+		System.out.println("Caching Issues");	
+		
+		boolean cached = this.mySQLFacade.insertIssues(this.grapeVineFacade.getComicVineVolumes(),volumeID);
+		return cached;
+	}
+	
+	@Override
+	public boolean cacheItem(String item) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean cacheResults() {
+		System.out.println("Caching Results");
+		boolean cached = this.mySQLFacade.insertVolumes(this.grapeVineFacade.getComicVineVolumes());
+		return cached;
+	}
+
+	public void close(){
+		this.mySQLFacade.closeConnection();
 	}
 
 	public String encodeQuery(String query){
@@ -54,21 +101,57 @@ public class ComicVineService extends DatabaseConnector implements ControllerSer
 		return query.replaceAll(" ", "%20AND%20");
 	}
 	
+	public boolean executeIDQuery(int id) {
+		
+		grapeVineFacade.PreformQuery(queryRequest + id);
+		this.cvv = grapeVineFacade.getComicVineVolumes();
+		System.out.println("\tResult Size : " +this.cvv.size());
+
+		return true;
+	}
+	
+	
 	@SuppressWarnings({ "unchecked", "deprecation" })
-	public String executeIssueQuery(String query) {
+	public String executeIssueQuery(String volumeID) {
 		long startTime = System.currentTimeMillis();
 		
-		query = encodeQuery(query);
+		volumeID = encodeQuery(volumeID);
 		
 		this.cvv = null;
-		this.cvv = preformIssueQuery(query);
-	
+		
+		ArrayList<ComicVineIssue> issues = this.comicvineConnector.findAllIssues(volumeID);
+		if(issues==null || issues.size()==0){
+			System.out.println("Preform Query");
+			this.cvv = preformIssueQuery(volumeID);
+			
+			issues = this.comicvineConnector.findAllIssues(volumeID);
+			int i =0;
+			ArrayList<ComicVineIssue> tempIssues = new ArrayList<ComicVineIssue>();
+			for(ComicVineIssue cvi : this.cvv.get(0).getIssues())
+			{
+				cvi.setImage_url(issues.get(i).getImage_url());
+				i++;
+				tempIssues.add(cvi);
+			}
+			issues = tempIssues;
+			
+		}else{
+			System.out.println("Issues Found"+issues.size());
+			ComicVineVolume tempComicVineVolume = new ComicVineVolume();
+			tempComicVineVolume.setId(Integer.parseInt(volumeID));
+			tempComicVineVolume.setIssues(issues);
+			this.cvv = new ArrayList<ComicVineVolume>();
+			this.cvv.add(tempComicVineVolume);
+		}
+		
 		ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
 		JSONObject jsonResponse = new JSONObject();
 		String generatedJson = null;
 
 		try {
-			generatedJson = ow.writeValueAsString(this.cvv.get(0).getResults().getIssues());
+			generatedJson = ow.writeValueAsString(issues);
+			//System.out.println(this.cvv.get(0).getIssues().size());
+			//generatedJson = ow.writeValueAsString(this.cvv.get(0).getIssues());
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
@@ -77,7 +160,7 @@ public class ComicVineService extends DatabaseConnector implements ControllerSer
 			JSONArray cvvResults = new JSONArray(generatedJson);
 			System.out.println("CVV Results"+cvvResults.length());
 			jsonResponse.put("Results", this.cvv.size());
-			jsonResponse.put("Query", URLDecoder.decode(query));
+			jsonResponse.put("Query", URLDecoder.decode(volumeID));
 			jsonResponse.put("COMICVINE", cvvResults);
 			jsonResponse.put("ResourceType", "Volume");
 			
@@ -91,21 +174,19 @@ public class ComicVineService extends DatabaseConnector implements ControllerSer
 		}
 		return "{ \"ComicVine\": \"No Results\" }";
 	}
+
+	@Override
+	public JSONObject executeJSONQuery(String query) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 	@SuppressWarnings({ "unchecked", "deprecation" })
 	@Override
 	public String executeQuery(String query) {
 		long startTime = System.currentTimeMillis();
 		
-		/*try {
-			query = URLEncoder.encode(query,"UTF-8");
-		} catch (UnsupportedEncodingException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}*/
-		
 		query = encodeQuery(query);
-				
 		ArrayList<ComicVineVolume> cvv = preformQuery(query);
 		
 		ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
@@ -137,118 +218,9 @@ public class ComicVineService extends DatabaseConnector implements ControllerSer
 	}
 	
 	@Override
-	public JSONObject executeJSONQuery(String query) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public boolean searchItemExists(String item) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean cacheItem(String item) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean cacheResults() {
-		System.out.println("Caching Results");
-		boolean cached = this.mySQLFacade.insertVolumes(this.grapeVineFacade.getComicVineVolumes());
-		return cached;
-	}
-	
-	public boolean cacheIssues(String volumeID) {
-		System.out.println("Caching Issues");
-		boolean cached = this.mySQLFacade.insertIssues(this.grapeVineFacade.getComicVineVolumes(),volumeID);
-		return cached;
-	}
-	
-	
-	public void close(){
-		this.mySQLFacade.closeConnection();
-	}
-
-	public ArrayList<ComicVineVolume> preformQuery(String query) {
-
-		this.grapeVineFacade.PreformQuery(queryRequest+query);
-		
-		return this.grapeVineFacade.getComicVineVolumes();
-	}
-	
-	public ArrayList<ComicVineVolume> preformIssueQuery(String queryID) {
-		String issueQuery = "http://www.comicvine.com/api/volume/4050-"+queryID+"/?api_key=2736f1620710c52159ba0d0aea337c59bd273816"
-				+ "&format=json&field_list=issues,id,name&sort=id&limit=10";
-		System.out.println(issueQuery);
-		this.grapeVineFacade = new GrapeVineFacade();
-		System.out.println("Issue Query :"+issueQuery);
-		this.grapeVineFacade.PreformIssueQuery(issueQuery);
-		System.out.println("Size = "+ this.grapeVineFacade.getComicVineVolumes().size());
-		//System.out.println("Grab" +grabIssueImages(this.grapeVineFacade.getComicVineVolumes()));
-		
-		//return grabIssueImages(this.grapeVineFacade.getComicVineVolumes());
-		cacheIssues(queryID);
-		
-		return this.grapeVineFacade.getComicVineVolumes();
-	}
-	
-	public ArrayList<ComicVineVolume> grabIssueImages(ArrayList<ComicVineVolume> cvv){
-
-		for(ComicVineVolume currentVolume : cvv){
-			ArrayList<ComicVineIssue> issues = new ArrayList<ComicVineIssue>();
-			for(ComicVineIssue currentIssue : currentVolume.getResults().getIssues()){
-				ComicVineIssue currentIssueSearch = new ComicVineIssue();
-				// Get currentIssueSearch
-				currentIssueSearch = requestImageForIssue(currentIssue.getId());
-				issues.add(currentIssueSearch);
-				//Store and Cache
-				
-			}
-			currentVolume.setIssues(issues);
-			cvv.add(currentVolume);
-		}
-		return cvv;
-	}
-	
-	public ComicVineIssue requestImageForIssue(int id){
-		String issueQuery = "http://www.comicvine.com/api/issue/4000-"+id+"/?api_key=2736f1620710c52159ba0d0aea337c59bd273816"
-				+ "&format=json&field_list=id,description,cover_date,image,issue_number,name,volume";
-		System.out.println(issueQuery);
-		this.grapeVineFacade.PreformIssueImageQuery(issueQuery);
-		return this.grapeVineFacade.getComicVineIssue();
-	}
-	
-	public boolean executeSimpleQuery(String query) {
-		try {
-			query = URLEncoder.encode(query,"UTF-8");
-		} catch (UnsupportedEncodingException e1) {
-			e1.printStackTrace();
-		}
-		query = encodeQuery(query);
-		grapeVineFacade.PreformQuery(queryRequest + query);
-		this.cvv = grapeVineFacade.getComicVineVolumes();
-		System.out.println("\tResult Size : " +this.cvv.size());
-
-		return true;
-	}
-	
-	public boolean executeIDQuery(int id) {
-		
-		grapeVineFacade.PreformQuery(queryRequest + id);
-		this.cvv = grapeVineFacade.getComicVineVolumes();
-		System.out.println("\tResult Size : " +this.cvv.size());
-
-		return true;
-	}
-
-	@Override
 	public boolean executeQueryAllResults(String query) {
 		
 		grapeVineFacade.PreformQuery(queryRequest + query);
-		
 		this.cvv = grapeVineFacade.getComicVineVolumes();
 		System.out.println("\tSize : " +this.cvv.size());
 
@@ -280,28 +252,87 @@ public class ComicVineService extends DatabaseConnector implements ControllerSer
 		
 		return true;
 	}
-
-	@Override
-	public boolean cacheAllResults() {
-		// TODO Auto-generated method stub
-		try{
-			return this.mySQLFacade.insertVolumes(this.cvv);
-		}catch(Exception e){
-			e.printStackTrace();
-			return false;
+	
+	public boolean executeSimpleQuery(String query) {
+		try {
+			query = URLEncoder.encode(query,"UTF-8");
+		} catch (UnsupportedEncodingException e1) {
+			e1.printStackTrace();
 		}
+		query = encodeQuery(query);
+		grapeVineFacade.PreformQuery(queryRequest + query);
+		this.cvv = grapeVineFacade.getComicVineVolumes();
+		System.out.println("\tResult Size : " +this.cvv.size());
+
+		return true;
 	}
 	
-	public boolean cacheAllResultsCassandra() {
-		try{
-			ComicvineConnector comicvineConnector = new ComicvineConnector();
-			comicvineConnector.insertVolumes(this.cvv);
-			comicvineConnector.close();
-			return true;
-		}catch(Exception e){
-			e.printStackTrace();
-			return false;
+	public ArrayList<ComicVineVolume> grabIssueImages(ArrayList<ComicVineVolume> comicvineVolumes){
+
+		System.out.println("CVV GII : "+comicvineVolumes.get(0));
+		
+		ComicVineVolume cvv = comicvineVolumes.get(0);
+		
+			ArrayList<ComicVineIssue> issues = new ArrayList<ComicVineIssue>();
+			for(ComicVineIssue currentIssue : cvv.getResults().getIssues()){
+				ComicVineIssue currentIssueSearch = new ComicVineIssue();
+				// Get currentIssueSearch
+				currentIssueSearch = requestImageForIssue(currentIssue.getId());
+				System.out.println(currentIssueSearch.getImage_url());
+				issues.add(currentIssueSearch);
+			}
+			cvv.setIssues(issues);
+			//Store
+			comicvineVolumes.add(cvv);
+
+		return comicvineVolumes;
+	}
+	
+	public ArrayList<ComicVineVolume> preformIssueQuery(String volumeID) {
+		String issueQuery = "http://www.comicvine.com/api/volume/4050-"+volumeID+"/?api_key=2736f1620710c52159ba0d0aea337c59bd273816"
+				+ "&format=json&field_list=issues,id,name&sort=id&limit=10";
+		System.out.println(issueQuery);
+		this.grapeVineFacade = new GrapeVineFacade();
+		System.out.println("Issue Query :"+issueQuery);
+		this.grapeVineFacade.PreformIssueQuery(issueQuery);
+		System.out.println("Size = "+ this.grapeVineFacade.getComicVineVolumes().size());
+		//this.cvv = this.grapeVineFacade.getComicVineVolumes()
+		//System.out.println("Grab" +grabIssueImages(this.grapeVineFacade.getComicVineVolumes()));
+		if(downloadImages==true){
+			ArrayList<ComicVineVolume> comicvinevolumes = grabIssueImages(this.grapeVineFacade.getComicVineVolumes());
+			System.out.println("preformIssueQuery  "+comicvinevolumes.get(0).getIssues().get(0).getImage().getThumb_url());
+			
+			this.grapeVineFacade.setComicVineVolumes(comicvinevolumes);
 		}
+		//return grabIssueImages(this.grapeVineFacade.getComicVineVolumes());
+		cacheIssues(volumeID);
+		
+		return this.grapeVineFacade.getComicVineVolumes();
+	}
+
+	public ArrayList<ComicVineVolume> preformQuery(String query) {
+
+		this.grapeVineFacade.PreformQuery(queryRequest+query);
+		
+		return this.grapeVineFacade.getComicVineVolumes();
+	}
+
+	public ComicVineIssue requestImageForIssue(int id){
+		String issueQuery = "http://www.comicvine.com/api/issue/4000-"+id+"/?api_key=2736f1620710c52159ba0d0aea337c59bd273816"
+				+ "&format=json&field_list=id,description,cover_date,image,issue_number,name,volume";
+		System.out.println(issueQuery);
+		this.grapeVineFacade.PreformIssueImageQuery(issueQuery);
+		ComicVineIssue cvi = this.grapeVineFacade.getComicVineIssue();
+		
+		System.out.println("Request Image For Issue " +cvi.getImage().getThumb_url());
+		//cvi.setImage_url(cvi.getImage().getSmall_url());
+		return cvi;
+	}
+	
+	@Override
+	public boolean searchItemExists(String item) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

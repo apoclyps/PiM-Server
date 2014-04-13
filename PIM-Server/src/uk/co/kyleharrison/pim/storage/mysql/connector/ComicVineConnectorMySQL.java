@@ -25,12 +25,10 @@ public class ComicVineConnectorMySQL extends MySQLConnector {
 				
 				preparedStatement.setString(1, volumeID);
 				ResultSet results = preparedStatement.executeQuery();
-				//System.out.println("Results : "+results.toString());
 				if(results.first()){
 					flag = true;
 				}
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 				flag = false;
 			}
@@ -67,6 +65,7 @@ public class ComicVineConnectorMySQL extends MySQLConnector {
 					comicvineIssue.setApi_detail_uri(results.getString("api_detail_url"));
 					comicvineIssue.setImage_url(results.getString("image_url"));
 					comicvineIssue.setIssue_number(results.getString("issue_number"));
+					comicvineIssue.setImage_url(results.getString("image_url"));
 					comicvineIssues.add(comicvineIssue);
 					//System.out.println(comicvineIssue.toString());
 				}
