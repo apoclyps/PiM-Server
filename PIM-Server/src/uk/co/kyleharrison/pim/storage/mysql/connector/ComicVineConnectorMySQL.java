@@ -66,6 +66,8 @@ public class ComicVineConnectorMySQL extends MySQLConnector {
 					comicvineIssue.setImage_url(results.getString("image_url"));
 					comicvineIssue.setIssue_number(results.getString("issue_number"));
 					comicvineIssue.setImage_url(results.getString("image_url"));
+					comicvineIssue.setCover_date(results.getString("cover_date"));
+					comicvineIssue.setDescription(results.getString("description"));
 					comicvineIssues.add(comicvineIssue);
 					//System.out.println(comicvineIssue.toString());
 				}

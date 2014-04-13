@@ -129,14 +129,16 @@ public class ComicVineService extends DatabaseConnector implements ControllerSer
 			ArrayList<ComicVineIssue> tempIssues = new ArrayList<ComicVineIssue>();
 			for(ComicVineIssue cvi : this.cvv.get(0).getIssues())
 			{
+				try{
 				cvi.setImage_url(issues.get(i).getImage_url());
+				}catch(IndexOutOfBoundsException e){
+					e.printStackTrace();
+				}
 				i++;
 				tempIssues.add(cvi);
 			}
-			issues = tempIssues;
-			
+			issues = tempIssues;		
 		}else{
-			System.out.println("Issues Found"+issues.size());
 			ComicVineVolume tempComicVineVolume = new ComicVineVolume();
 			tempComicVineVolume.setId(Integer.parseInt(volumeID));
 			tempComicVineVolume.setIssues(issues);
@@ -158,11 +160,10 @@ public class ComicVineService extends DatabaseConnector implements ControllerSer
 		
 		try {
 			JSONArray cvvResults = new JSONArray(generatedJson);
-			System.out.println("CVV Results"+cvvResults.length());
-			jsonResponse.put("Results", this.cvv.size());
+			jsonResponse.put("Results", issues.size());
 			jsonResponse.put("Query", URLDecoder.decode(volumeID));
 			jsonResponse.put("COMICVINE", cvvResults);
-			jsonResponse.put("ResourceType", "Volume");
+			jsonResponse.put("ResourceType", "Issues");
 			
 			long endTime = System.currentTimeMillis();
 			long duration = endTime - startTime;
@@ -177,7 +178,6 @@ public class ComicVineService extends DatabaseConnector implements ControllerSer
 
 	@Override
 	public JSONObject executeJSONQuery(String query) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 	
@@ -306,7 +306,6 @@ public class ComicVineService extends DatabaseConnector implements ControllerSer
 		}
 		//return grabIssueImages(this.grapeVineFacade.getComicVineVolumes());
 		cacheIssues(volumeID);
-		
 		return this.grapeVineFacade.getComicVineVolumes();
 	}
 

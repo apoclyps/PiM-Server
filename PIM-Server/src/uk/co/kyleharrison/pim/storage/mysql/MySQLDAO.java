@@ -385,8 +385,8 @@ public class MySQLDAO extends MySQLConnector {
 		}
 		if (this.checkConnection()) {
 			preparedStatement = connection.prepareStatement("INSERT IGNORE into pim.comicvineissues"
-							+ "(id,site_detail_url,name,api_detail_url,issue_number,volume,image_url)"
-							+ " values  (?,?,?,?,?,?,?)");
+							+ "(id,site_detail_url,name,api_detail_url,issue_number,volume,image_url,cover_date,description)"
+							+ " values  (?,?,?,?,?,?,?,?,?)");
 
 			for(ComicVineIssue cvi : issues){
 				preparedStatement.setInt(1, cvi.getId());
@@ -396,6 +396,8 @@ public class MySQLDAO extends MySQLConnector {
 				preparedStatement.setString(5, cvi.getIssue_number());
 				preparedStatement.setInt(6, volumeID);
 				preparedStatement.setString(7, cvi.getImage().getThumb_url().toString());
+				preparedStatement.setString(8, cvi.getCover_date());
+				preparedStatement.setString(9, cvi.getDescription());
 				preparedStatement.addBatch();
 			}
 			
