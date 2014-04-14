@@ -52,8 +52,6 @@ public class MySQLConnector {
 
 	public boolean checkConnection() {
 		try {
-			this.connection.close();
-			System.out.println("Connection closing");
 			//this.connection = datasource.getConnection();
 			this.connection = DriverManager.getConnection("jdbc:mysql://137.117.146.199:3306/pim", "admin","Atmitwwsu007");
 		} catch (SQLException e) {

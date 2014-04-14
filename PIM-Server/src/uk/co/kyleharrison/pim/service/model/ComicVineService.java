@@ -77,6 +77,7 @@ public class ComicVineService extends DatabaseConnector implements ControllerSer
 			System.out.println(vi.getIssues().get(0).getName());
 		}*/
 		boolean cached = this.mySQLFacade.insertIssues(this.grapeVineFacade.getComicVineVolumes(),volumeID);
+		this.mySQLFacade.closeConnection();
 		return cached;
 	}
 	
@@ -132,9 +133,6 @@ public class ComicVineService extends DatabaseConnector implements ControllerSer
 			System.out.println("\n\nVOLUME QUERY : "+volumeID);
 			this.cvv = preformIssueQuery(volumeID);
 			
-			
-			
-			
 			//Retrieve images from database
 			issues = this.comicvineConnector.findAllIssues(volumeID);
 			
@@ -172,7 +170,8 @@ public class ComicVineService extends DatabaseConnector implements ControllerSer
 					}
 					i++;
 					tempIssues.add(cvi);
-					cacheIssue(volumeID,cvi);
+					//SINGLE CACHE
+					//cacheIssue(volumeID,cvi);
 				}
 			}catch(Exception e){
 				e.printStackTrace();
@@ -342,7 +341,7 @@ public class ComicVineService extends DatabaseConnector implements ControllerSer
 			this.grapeVineFacade.setComicVineVolumes(comicvinevolumes);
 		}
 		//return grabIssueImages(this.grapeVineFacade.getComicVineVolumes());
-		//cacheIssues(volumeID);
+		cacheIssues(volumeID);
 		return this.grapeVineFacade.getComicVineVolumes();
 	}
 

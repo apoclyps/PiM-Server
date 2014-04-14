@@ -9,7 +9,7 @@ public class CassandraConnector {
 
 	protected Connection connection = null;
 	protected String database = "ComicVine";
-	protected String connectionString = "jdbc:cassandra://localhost:9160/Comicvine";
+	protected String connectionString = "jdbc:cassandra://137.117.147.25:9160/pim";
 
 	public CassandraConnector() {
 		try {
@@ -65,7 +65,6 @@ public class CassandraConnector {
 			e.printStackTrace();
 			return false;
 		}
-		
 	}
 	
 	public String getDatabase() {
@@ -74,5 +73,20 @@ public class CassandraConnector {
 
 	public void setDatabase(String database) {
 		this.database = database;
+	}
+	public Connection getConnection() {
+		return connection;
+	}
+
+	public void setConnection(Connection connection) {
+		this.connection = connection;
+	}
+
+	public String getConnectionString() {
+		return connectionString;
+	}
+
+	public void setConnectionString(String connectionString) {
+		this.connectionString = connectionString;
 	}
 }

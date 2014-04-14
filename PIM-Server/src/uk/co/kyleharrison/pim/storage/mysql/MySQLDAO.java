@@ -390,8 +390,10 @@ public class MySQLDAO extends MySQLConnector {
 			System.out.println("Empty Issue List");
 			return false;
 		}
-		if (this.checkConnection()) {
-			preparedStatement = connection
+		
+		System.out.println("Connecton : "+this.checkConnection());
+		
+		preparedStatement = connection
 					.prepareStatement("INSERT IGNORE into pim.comicvineissues"
 							+ "(id,site_detail_url,name,api_detail_url,issue_number,volume,image_url,cover_date,description)"
 							+ " values  (?,?,?,?,?,?,?,?,?)");
@@ -400,7 +402,6 @@ public class MySQLDAO extends MySQLConnector {
 			for (ComicVineIssue cvi : issues) {
 
 				if (cvi.getId() != 0) {
-
 					preparedStatement.setInt(1, cvi.getId());
 					preparedStatement.setString(2, cvi.getSite_detail_url());
 					preparedStatement.setString(3, cvi.getName());
@@ -421,14 +422,8 @@ public class MySQLDAO extends MySQLConnector {
 			for (int i : success) {
 				System.out.println("Success " + i);
 			}
+			
 			return true;
-		} else {
-			System.out.println("MYSQLDOA : Insert Channel : Connection Failed");
-		}
-		if (connection != null) {
-			connection.close();
-		}
-		return false;
 	}
 
 	public boolean insertComicVineIssues(ComicVineIssue comicVineIssue,
