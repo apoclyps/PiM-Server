@@ -71,12 +71,21 @@ public class ComicVineService extends DatabaseConnector implements ControllerSer
 		}
 	}
 	
-	public boolean cacheIssues(String volumeID) {
-		System.out.println("Caching Issues");	
-		
+	public boolean cacheIssues(String volumeID) {	
+		System.out.println("CACHING ISSUES "+this.grapeVineFacade.getComicVineVolumes().get(0).getIssues().size() );
+		/*for(ComicVineVolume vi :this.grapeVineFacade.getComicVineVolumes() ){
+			System.out.println(vi.getIssues().get(0).getName());
+		}*/
 		boolean cached = this.mySQLFacade.insertIssues(this.grapeVineFacade.getComicVineVolumes(),volumeID);
 		return cached;
 	}
+	
+	public boolean cacheIssue(String volumeID,ComicVineIssue comicvineIssue) {	
+		System.out.println("CACHING ISSUE "+comicvineIssue.getName());
+		boolean cached = this.mySQLFacade.insertComicVineIssue(comicvineIssue,volumeID);
+		return cached;
+	}
+	
 	
 	@Override
 	public boolean cacheItem(String item) {
@@ -96,8 +105,6 @@ public class ComicVineService extends DatabaseConnector implements ControllerSer
 	}
 
 	public String encodeQuery(String query){
-		System.out.println("Query String :"+query);
-		System.out.println("Query After  :"+query.replaceAll(" ", "%20AND%20") );
 		return query.replaceAll(" ", "%20AND%20");
 	}
 	
@@ -121,24 +128,59 @@ public class ComicVineService extends DatabaseConnector implements ControllerSer
 		
 		ArrayList<ComicVineIssue> issues = this.comicvineConnector.findAllIssues(volumeID);
 		if(issues==null || issues.size()==0){
-			System.out.println("Preform Query");
+			// Preform Issue Query to get images
+			System.out.println("\n\nVOLUME QUERY : "+volumeID);
 			this.cvv = preformIssueQuery(volumeID);
 			
+			
+			
+			
+			//Retrieve images from database
 			issues = this.comicvineConnector.findAllIssues(volumeID);
+			
+			/*
+			if(issues==null || issues.size()==0){
+				issues = this.cvv.get(0).getIssues();
+			}*/
 			int i =0;
+			
+			//Update current object with image strings
 			ArrayList<ComicVineIssue> tempIssues = new ArrayList<ComicVineIssue>();
-			for(ComicVineIssue cvi : this.cvv.get(0).getIssues())
-			{
-				try{
-				cvi.setImage_url(issues.get(i).getImage_url());
-				}catch(IndexOutOfBoundsException e){
-					e.printStackTrace();
+			try{
+				for(ComicVineIssue cvi : this.cvv.get(0).getIssues())
+				{
+					//CODE HERE TO HANDLE MISSING NAMES
+					try{
+						if(cvi.getName().length()<=0){
+							cvi.setName(cvi.getVolume().getName());
+						}
+					}catch(NullPointerException e){
+						System.out.println("Exception whilst changing name from null");
+						cvi.setName(cvi.getVolume().getName());
+					}
+					
+					if(cvi.getDescription()=="" || cvi.getDescription()=="null"|| cvi.getDescription()!=null){
+						cvi.setDescription("No Description Available");
+					}
+					try{
+						//cvi.setImage_url(issues.get(i).getImage_url());
+						cvi.setImage_url(cvi.getImage().getThumb_url());
+					}catch(IndexOutOfBoundsException e){
+						System.out.println("Error setting IMAGE URL"+issues.size());
+						//cvi.setImage_url(issues.get(i).getImage().getThumb_url());
+						
+					}
+					i++;
+					tempIssues.add(cvi);
+					cacheIssue(volumeID,cvi);
 				}
-				i++;
-				tempIssues.add(cvi);
+			}catch(Exception e){
+				e.printStackTrace();
 			}
+			issues = null;
 			issues = tempIssues;		
 		}else{
+			System.out.println("CACHE ACCESSED");
 			ComicVineVolume tempComicVineVolume = new ComicVineVolume();
 			tempComicVineVolume.setId(Integer.parseInt(volumeID));
 			tempComicVineVolume.setIssues(issues);
@@ -268,11 +310,7 @@ public class ComicVineService extends DatabaseConnector implements ControllerSer
 	}
 	
 	public ArrayList<ComicVineVolume> grabIssueImages(ArrayList<ComicVineVolume> comicvineVolumes){
-
-		System.out.println("CVV GII : "+comicvineVolumes.get(0));
-		
 		ComicVineVolume cvv = comicvineVolumes.get(0);
-		
 			ArrayList<ComicVineIssue> issues = new ArrayList<ComicVineIssue>();
 			for(ComicVineIssue currentIssue : cvv.getResults().getIssues()){
 				ComicVineIssue currentIssueSearch = new ComicVineIssue();
@@ -284,35 +322,32 @@ public class ComicVineService extends DatabaseConnector implements ControllerSer
 			cvv.setIssues(issues);
 			//Store
 			comicvineVolumes.add(cvv);
-
 		return comicvineVolumes;
 	}
 	
 	public ArrayList<ComicVineVolume> preformIssueQuery(String volumeID) {
 		String issueQuery = "http://www.comicvine.com/api/volume/4050-"+volumeID+"/?api_key=2736f1620710c52159ba0d0aea337c59bd273816"
 				+ "&format=json&field_list=issues,id,name&sort=id&limit=10";
-		System.out.println(issueQuery);
+		
+		System.out.println("ISSUE QUERY \n"+issueQuery);
 		this.grapeVineFacade = new GrapeVineFacade();
-		System.out.println("Issue Query :"+issueQuery);
 		this.grapeVineFacade.PreformIssueQuery(issueQuery);
-		System.out.println("Size = "+ this.grapeVineFacade.getComicVineVolumes().size());
+		
+		System.out.println("ISSUE QUERY RETURN SIZE = "+ this.grapeVineFacade.getComicVineVolumes().size());
 		//this.cvv = this.grapeVineFacade.getComicVineVolumes()
 		//System.out.println("Grab" +grabIssueImages(this.grapeVineFacade.getComicVineVolumes()));
 		if(downloadImages==true){
 			ArrayList<ComicVineVolume> comicvinevolumes = grabIssueImages(this.grapeVineFacade.getComicVineVolumes());
-			System.out.println("preformIssueQuery  "+comicvinevolumes.get(0).getIssues().get(0).getImage().getThumb_url());
-			
+			//System.out.println("preformIssueQuery  "+comicvinevolumes.get(0).getIssues().get(0).getImage().getThumb_url());
 			this.grapeVineFacade.setComicVineVolumes(comicvinevolumes);
 		}
 		//return grabIssueImages(this.grapeVineFacade.getComicVineVolumes());
-		cacheIssues(volumeID);
+		//cacheIssues(volumeID);
 		return this.grapeVineFacade.getComicVineVolumes();
 	}
 
 	public ArrayList<ComicVineVolume> preformQuery(String query) {
-
 		this.grapeVineFacade.PreformQuery(queryRequest+query);
-		
 		return this.grapeVineFacade.getComicVineVolumes();
 	}
 

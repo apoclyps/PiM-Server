@@ -37,7 +37,7 @@ public class ComicVineController extends HttpServlet {
 			jsonResponse = this.comicVineService.executeQuery(query);
 		}else if(request.getParameterMap().containsKey("volume")){
 			String volume = request.getParameter("volume");
-			System.out.println("Execute Volume" + volume);
+			System.out.println("Execute Issue Query : Volume " + volume);
 			jsonResponse = this.comicVineService.executeIssueQuery(volume);
 			//System.out.println(jsonResponse);
 		}else{

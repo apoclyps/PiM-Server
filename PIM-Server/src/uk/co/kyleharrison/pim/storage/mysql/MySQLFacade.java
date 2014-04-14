@@ -14,6 +14,7 @@ import com.mlesniak.amazon.backend.AmazonItem;
 import com.omertron.omdbapi.model.OmdbVideoBasic;
 import com.omertron.omdbapi.model.OmdbVideoFull;
 
+import uk.co.kyleharrison.grapejuice.comicvine.ComicVineIssue;
 import uk.co.kyleharrison.grapejuice.comicvine.ComicVineVolume;
 
 public class MySQLFacade implements MySQLInterface {
@@ -133,6 +134,18 @@ public class MySQLFacade implements MySQLInterface {
 			int currentID = Integer.parseInt(volumeID);
 			//System.out.println("TEST MYSQL FACADE : " +comicVineVolumes.get(0).getResults().getIssues().get(0).getCassandraMap());
 			return this.mySQLDAO.insertComicVineIssues(comicVineVolumes.get(0).getIssues(),currentID);
+		} catch (SQLException e) {
+			System.out.println("Exception caught in MySQLFacade for Insert Volumes");
+			e.printStackTrace();
+		}
+		System.out.println("Inserting Failed");
+		return false;
+	}
+
+	public boolean insertComicVineIssue(ComicVineIssue comicvineIssue,String volumeID) {
+		try {
+			int currentID = Integer.parseInt(volumeID);
+			return this.mySQLDAO.insertComicvineIssue(comicvineIssue,currentID);
 		} catch (SQLException e) {
 			System.out.println("Exception caught in MySQLFacade for Insert Volumes");
 			e.printStackTrace();
