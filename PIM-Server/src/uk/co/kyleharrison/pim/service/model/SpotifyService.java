@@ -14,7 +14,6 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import uk.co.kyleharrison.grapejuice.comicvine.ComicVineVolume;
 import uk.co.kyleharrison.grapejuice.utils.URLReader;
 import uk.co.kyleharrison.pim.interfaces.ControllerServiceInterface;
 import uk.co.kyleharrison.pim.model.SpotifyThumbnail;

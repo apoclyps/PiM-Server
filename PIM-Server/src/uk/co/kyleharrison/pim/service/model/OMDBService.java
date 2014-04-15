@@ -1,13 +1,9 @@
 package uk.co.kyleharrison.pim.service.model;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.logging.Log;
-import org.apache.http.client.utils.URLEncodedUtils;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.ObjectWriter;
 import org.json.JSONArray;
@@ -64,7 +60,7 @@ public class OMDBService implements ControllerServiceInterface {
 		// Get Full description for each search
 		if(this.OMDBResults.size()>0 || this.OMDBResults!=null){
 			for (OmdbVideoBasic searchBasic : this.OMDBResults) {
-				String newQuery = searchBasic.getTitle();
+				//String newQuery = searchBasic.getTitle();
 				OmdbVideoFull result2 = null;
 	
 				// Check if it exists in the database

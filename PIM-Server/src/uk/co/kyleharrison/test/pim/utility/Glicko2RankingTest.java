@@ -22,7 +22,7 @@ import org.junit.Test;
  * @author Jeremy Gooch
  *
  */
-public class Glicko2Test {
+public class Glicko2RankingTest {
 
 	private RatingCalculator ratingSystem = new RatingCalculator(0.06, 0.5);
 	private RatingPeriodResults results = new RatingPeriodResults();

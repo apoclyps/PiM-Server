@@ -1,4 +1,4 @@
-package uk.co.kyleharrison.test.pim;
+package uk.co.kyleharrison.test.pim.database;
 
 import static org.junit.Assert.*;
 
@@ -16,7 +16,7 @@ import org.junit.runners.MethodSorters;
 import uk.co.kyleharrison.pim.cassandra.CassandraConnector;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class CassandraTest {
+public class CassandraSchemaTest {
 
 	private CassandraConnector cassandraConnector;
 	private Connection activeConnection;

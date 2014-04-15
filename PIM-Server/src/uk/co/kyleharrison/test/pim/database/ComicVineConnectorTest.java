@@ -1,4 +1,4 @@
-package uk.co.kyleharrison.test.pim;
+package uk.co.kyleharrison.test.pim.database;
 
 import static org.junit.Assert.*;
 

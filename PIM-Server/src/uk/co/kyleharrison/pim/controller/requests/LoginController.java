@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.mortbay.log.Log;
 
-import uk.co.kyleharrison.pim.model.User;
 import uk.co.kyleharrison.pim.model.UserStore;
 import uk.co.kyleharrison.pim.service.control.RegisterService;
 import uk.co.kyleharrison.pim.utilities.JSONService;

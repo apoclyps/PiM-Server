@@ -18,24 +18,6 @@ public class SpotifyThumbnail {
 		super();
 	}
 	
-	public SpotifyThumbnail(String provider_url, Double version,
-			int thumbnail_width, int height, int thumbnail_height,
-			String title, int width, String thumbnail_url,
-			String provider_name, String type, String html) {
-		super();
-		this.provider_url = provider_url;
-		this.version = version;
-		this.thumbnail_width = thumbnail_width;
-		this.height = height;
-		this.thumbnail_height = thumbnail_height;
-		this.title = title;
-		this.width = width;
-		this.thumbnail_url = thumbnail_url;
-		this.provider_name = provider_name;
-		this.type = type;
-		this.html = html;
-	}
-	
 	public String getProvider_url() {
 		return provider_url;
 	}

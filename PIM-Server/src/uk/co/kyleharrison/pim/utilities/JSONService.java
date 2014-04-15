@@ -9,8 +9,6 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.ObjectWriter;
 import org.json.simple.JSONObject;
 
-import uk.co.kyleharrison.pim.model.UserStore;
-
 public class JSONService {
 
 	public static void JSONPResponse(HttpServletResponse response,
