@@ -11,12 +11,14 @@ public class CassandraConnector {
 
 	protected Connection connection = null;
 	protected String database = "ComicVine";
-	protected String connectionString = "jdbc:cassandra://137.117.147.25:9160/pim";
+	protected String connectionString = "jdbc:cassandra://137.117.147.25:9160/comicvine";
 
 	public CassandraConnector() {
 		try {
+			System.out.println("connection string"+ connectionString);
 			Class.forName("org.apache.cassandra.cql.jdbc.CassandraDriver");
-			connection = DriverManager.getConnection(connectionString);
+			this.connection = DriverManager.getConnection(connectionString);
+			System.out.println("Connection Opened Cassadnra");
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
@@ -27,8 +29,9 @@ public class CassandraConnector {
 
 	public boolean checkConnection() {
 		try {
-			connection.close();
-			connection = DriverManager.getConnection(connectionString);
+			//connection.close();
+			this.connection = DriverManager.getConnection(connectionString);
+			System.out.println("Connection Opened Cassadnra");
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return false;
@@ -38,8 +41,8 @@ public class CassandraConnector {
 
 	public void close() {
 		try {
-			if (connection != null) {
-				connection.close();
+			if (this.connection != null) {
+				this.connection.close();
 			}
 		} catch (Exception e) {
 			e.getStackTrace();
@@ -78,7 +81,7 @@ public class CassandraConnector {
 		this.database = database;
 	}
 	public Connection getConnection() {
-		return connection;
+		return this.connection;
 	}
 
 	public void setConnection(Connection connection) {

@@ -4,7 +4,10 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.ObjectWriter;
@@ -28,20 +31,22 @@ import uk.co.kyleharrison.pim.storage.mysql.connector.ComicVineConnectorMySQL;
 
 public class ComicVineService extends DatabaseConnector implements ControllerServiceInterface{
 
-	private MySQLFacade mySQLFacade;
+	//private MySQLFacade mySQLFacade;
 	private GrapeVineFacade grapeVineFacade;
 	private ArrayList<ComicVineVolume> cvv = null;
+	private ComicvineConnector cc;
 	private String resources = "name,id,first_issue,last_issue,count_of_issues,image,description,deck";
 	private String queryRequest = "http://www.comicvine.com/api/search/?api_key=2736f1620710c52159ba0d0aea337c59bd273816"
 			+ "&format=json&field_list="+resources+"&resources=volume&limit=10&query=";
 	private boolean downloadImages = true;
-	private ComicVineConnectorMySQL comicvineConnector;
+	//private ComicVineConnectorMySQL comicvineConnector;
 	
 	public ComicVineService() {
 		super();
 		try{
-		this.mySQLFacade = new MySQLFacade();
-		this.comicvineConnector = new ComicVineConnectorMySQL();
+		//this.mySQLFacade = new MySQLFacade();
+		//this.comicvineConnector = new ComicVineConnectorMySQL();
+		this.cc = new ComicvineConnector();
 		}catch(Exception e){
 			Log.info("Ensure Context.xml is accessible");
 		}
@@ -52,7 +57,8 @@ public class ComicVineService extends DatabaseConnector implements ControllerSer
 	public boolean cacheAllResults() {
 		// TODO Auto-generated method stub
 		try{
-			return this.mySQLFacade.insertVolumes(this.cvv);
+			//return this.mySQLFacade.insertVolumes(this.cvv);
+			return this.cc.insertVolumes(this.cvv);
 		}catch(Exception e){
 			e.printStackTrace();
 			return false;
@@ -61,9 +67,8 @@ public class ComicVineService extends DatabaseConnector implements ControllerSer
 	
 	public boolean cacheAllResultsCassandra() {
 		try{
-			ComicvineConnector comicvineConnector = new ComicvineConnector();
-			comicvineConnector.insertVolumes(this.cvv);
-			comicvineConnector.close();
+			this.cc.insertVolumes(this.cvv);
+			//comicvineConnector.close();
 			return true;
 		}catch(Exception e){
 			e.printStackTrace();
@@ -76,14 +81,23 @@ public class ComicVineService extends DatabaseConnector implements ControllerSer
 		/*for(ComicVineVolume vi :this.grapeVineFacade.getComicVineVolumes() ){
 			System.out.println(vi.getIssues().get(0).getName());
 		}*/
-		boolean cached = this.mySQLFacade.insertIssues(this.grapeVineFacade.getComicVineVolumes(),volumeID);
-		this.mySQLFacade.closeConnection();
+		//boolean cached = this.mySQLFacade.insertIssues(this.grapeVineFacade.getComicVineVolumes(),volumeID);
+		boolean cached;
+		try {
+			cached = this.cc.insertComicVineIssues(this.grapeVineFacade.getComicVineVolumes().get(0).getIssues(),volumeID.toString());
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			cached = false;
+		}
+		//this.mySQLFacade.closeConnection();
 		return cached;
 	}
 	
 	public boolean cacheIssue(String volumeID,ComicVineIssue comicvineIssue) {	
 		System.out.println("CACHING ISSUE "+comicvineIssue.getName());
-		boolean cached = this.mySQLFacade.insertComicVineIssue(comicvineIssue,volumeID);
+		//boolean cached = this.mySQLFacade.insertComicVineIssue(comicvineIssue,volumeID);
+		boolean cached = false;
 		return cached;
 	}
 	
@@ -97,12 +111,20 @@ public class ComicVineService extends DatabaseConnector implements ControllerSer
 	@Override
 	public boolean cacheResults() {
 		System.out.println("Caching Results");
-		boolean cached = this.mySQLFacade.insertVolumes(this.grapeVineFacade.getComicVineVolumes());
+		//boolean cached = this.mySQLFacade.insertVolumes(this.grapeVineFacade.getComicVineVolumes());
+		boolean cached;
+		try {
+			cached = this.cc.insertVolumes(this.grapeVineFacade.getComicVineVolumes());
+		} catch (SQLException e) {
+			e.printStackTrace();
+			cached = false;
+		}
 		return cached;
 	}
 
 	public void close(){
-		this.mySQLFacade.closeConnection();
+		//this.mySQLFacade.closeConnection();
+		this.cc.close();
 	}
 
 	public String encodeQuery(String query){
@@ -110,7 +132,6 @@ public class ComicVineService extends DatabaseConnector implements ControllerSer
 	}
 	
 	public boolean executeIDQuery(int id) {
-		
 		grapeVineFacade.PreformQuery(queryRequest + id);
 		this.cvv = grapeVineFacade.getComicVineVolumes();
 		System.out.println("\tResult Size : " +this.cvv.size());
@@ -118,66 +139,24 @@ public class ComicVineService extends DatabaseConnector implements ControllerSer
 		return true;
 	}
 	
-	
-	@SuppressWarnings({ "unchecked", "deprecation" })
 	public String executeIssueQuery(String volumeID) {
 		long startTime = System.currentTimeMillis();
-		
-		volumeID = encodeQuery(volumeID);
-		
 		this.cvv = null;
-		
-		ArrayList<ComicVineIssue> issues = this.comicvineConnector.findAllIssues(volumeID);
+		volumeID = encodeQuery(volumeID);
+
+		//ArrayList<ComicVineIssue> issues = this.comicvineConnector.findAllIssues(volumeID);
+		ArrayList<ComicVineIssue> issues = this.cc.findAllIssues(volumeID);
+
 		if(issues==null || issues.size()==0){
 			// Preform Issue Query to get images
 			System.out.println("\n\nVOLUME QUERY : "+volumeID);
 			this.cvv = preformIssueQuery(volumeID);
 			
 			//Retrieve images from database
-			issues = this.comicvineConnector.findAllIssues(volumeID);
-			
-			/*
-			if(issues==null || issues.size()==0){
-				issues = this.cvv.get(0).getIssues();
-			}*/
-			int i =0;
-			
+			//issues = this.cc.findAllIssues(volumeID);
+
 			//Update current object with image strings
-			ArrayList<ComicVineIssue> tempIssues = new ArrayList<ComicVineIssue>();
-			try{
-				for(ComicVineIssue cvi : this.cvv.get(0).getIssues())
-				{
-					//CODE HERE TO HANDLE MISSING NAMES
-					try{
-						if(cvi.getName().length()<=0){
-							cvi.setName(cvi.getVolume().getName());
-						}
-					}catch(NullPointerException e){
-						System.out.println("Exception whilst changing name from null");
-						cvi.setName(cvi.getVolume().getName());
-					}
-					
-					if(cvi.getDescription()=="" || cvi.getDescription()=="null"|| cvi.getDescription()!=null){
-						cvi.setDescription("No Description Available");
-					}
-					try{
-						//cvi.setImage_url(issues.get(i).getImage_url());
-						cvi.setImage_url(cvi.getImage().getThumb_url());
-					}catch(IndexOutOfBoundsException e){
-						System.out.println("Error setting IMAGE URL"+issues.size());
-						//cvi.setImage_url(issues.get(i).getImage().getThumb_url());
-						
-					}
-					i++;
-					tempIssues.add(cvi);
-					//SINGLE CACHE
-					//cacheIssue(volumeID,cvi);
-				}
-			}catch(Exception e){
-				e.printStackTrace();
-			}
-			issues = null;
-			issues = tempIssues;		
+			issues = updateIssues(this.cvv.get(0).getIssues());		
 		}else{
 			System.out.println("CACHE ACCESSED");
 			ComicVineVolume tempComicVineVolume = new ComicVineVolume();
@@ -187,11 +166,66 @@ public class ComicVineService extends DatabaseConnector implements ControllerSer
 			this.cvv.add(tempComicVineVolume);
 		}
 		
+		//Generate JSON Response
+		return response(issues, volumeID,startTime);
+	}
+	
+	public ArrayList<ComicVineIssue> updateIssues(ArrayList<ComicVineIssue> issues){
+		ArrayList<ComicVineIssue> tempIssues = new ArrayList<ComicVineIssue>();
+		try{
+			for(ComicVineIssue cvi : issues)
+			{
+				//CODE HERE TO HANDLE MISSING NAMES
+				try{
+					if(cvi.getName().length()<=0){
+						cvi.setName(cvi.getVolume().getName());
+					}
+				}catch(NullPointerException e){
+					System.out.println("Exception whilst changing name from null");
+					cvi.setName(cvi.getVolume().getName());
+				}
+				
+				if(cvi.getDescription()=="" || cvi.getDescription()=="null"|| cvi.getDescription()!=null){
+					cvi.setDescription("No Description Available");
+				}
+				try{
+					cvi.setImage_url(cvi.getImage().getThumb_url());
+				}catch(IndexOutOfBoundsException e){
+					System.out.println("Error setting IMAGE URL"+issues.size());
+					//cvi.setImage_url(issues.get(i).getImage().getThumb_url());
+				}
+				tempIssues.add(cvi);
+				System.out.println("Issues Added"+cvi.getName());
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return tempIssues;
+	}
+	
+	
+	public ArrayList<ComicVineIssue> sortIssues(ArrayList<ComicVineIssue> issues){
+		Collections.sort(issues, new Comparator<ComicVineIssue>(){
+			@Override
+			public int compare(ComicVineIssue object1, ComicVineIssue object2) {
+		        return Integer.parseInt(object1.getIssue_number()) - Integer.parseInt(object2.getIssue_number());
+		    }
+		});
+		return issues;
+	}
+	
+
+	
+	@SuppressWarnings("unchecked")
+	public String response(ArrayList<ComicVineIssue> issues,String volumeID,long startTime){
 		ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
 		JSONObject jsonResponse = new JSONObject();
 		String generatedJson = null;
-
+		
+		issues = sortIssues(issues);
+		
 		try {
+			
 			generatedJson = ow.writeValueAsString(issues);
 			//System.out.println(this.cvv.get(0).getIssues().size());
 			//generatedJson = ow.writeValueAsString(this.cvv.get(0).getIssues());
@@ -332,7 +366,7 @@ public class ComicVineService extends DatabaseConnector implements ControllerSer
 		this.grapeVineFacade = new GrapeVineFacade();
 		this.grapeVineFacade.PreformIssueQuery(issueQuery);
 		
-		System.out.println("ISSUE QUERY RETURN SIZE = "+ this.grapeVineFacade.getComicVineVolumes().size());
+		//System.out.println("ISSUE QUERY RETURN SIZE = "+ this.grapeVineFacade.getComicVineVolumes().size());
 		//this.cvv = this.grapeVineFacade.getComicVineVolumes()
 		//System.out.println("Grab" +grabIssueImages(this.grapeVineFacade.getComicVineVolumes()));
 		if(downloadImages==true){
@@ -353,7 +387,7 @@ public class ComicVineService extends DatabaseConnector implements ControllerSer
 	public ComicVineIssue requestImageForIssue(int id){
 		String issueQuery = "http://www.comicvine.com/api/issue/4000-"+id+"/?api_key=2736f1620710c52159ba0d0aea337c59bd273816"
 				+ "&format=json&field_list=id,description,cover_date,image,issue_number,name,volume";
-		System.out.println(issueQuery);
+		//System.out.println(issueQuery);
 		this.grapeVineFacade.PreformIssueImageQuery(issueQuery);
 		ComicVineIssue cvi = this.grapeVineFacade.getComicVineIssue();
 		

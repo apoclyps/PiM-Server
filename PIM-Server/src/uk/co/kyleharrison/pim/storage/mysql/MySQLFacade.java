@@ -131,6 +131,7 @@ public class MySQLFacade implements MySQLInterface {
 		return false;
 	}
 
+	/*
 	public boolean insertIssues(ArrayList<ComicVineVolume> comicVineVolumes, String volumeID) {
 		try {
 			System.out.println("Inserting Attempt");
@@ -144,7 +145,7 @@ public class MySQLFacade implements MySQLInterface {
 		}
 		System.out.println("Inserting Failed");
 		return false;
-	}
+	}*/
 
 	public boolean insertComicVineIssue(ComicVineIssue comicvineIssue,String volumeID) {
 		try {

@@ -50,11 +50,10 @@ public class ComicVineConnectorMySQL extends MySQLConnector {
 		if (this.checkConnection()) {
 			try {
 				preparedStatement = connection
-						.prepareStatement("SELECT * FROM pim.comicvineissues WHERE volume = ? LIMIT 100;");
+						.prepareStatement("SELECT * FROM comicvine.comicvineissues WHERE volume = ? LIMIT 100;");
 				
 				preparedStatement.setString(1, volumeID);
 				ResultSet results = preparedStatement.executeQuery();
-
 
 				while (results.next()) {
 					ComicVineIssue comicvineIssue = new ComicVineIssue();
