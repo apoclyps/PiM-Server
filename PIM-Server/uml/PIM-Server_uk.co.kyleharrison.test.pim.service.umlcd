@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<com.yattasolutions.uml.diagrams.classifier:ClassDiagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.yattasolutions.uml.diagrams.classifier="http://ns.yatta-solutions.com/umllab/diagrams/classifier/1.1.0" xmi:id="_pXaQ4MTmEeOKd6_j8kcHyQ">
+  <modelElement href="../../../../../PIM-Server.uml#_oltuMMTmEeOKd6_j8kcHyQ"/>
+  <edges xsi:type="com.yattasolutions.uml.diagrams.classifier:AssociationVisual" xmi:id="_wRaOkMTmEeOKd6_j8kcHyQ" source="_wRaOosTmEeOKd6_j8kcHyQ">
+    <modelElement href="../../../../../PIM-Server.uml#_ouf2zcTmEeOKd6_j8kcHyQ"/>
+    <visualProperties xmi:id="_wRj_t8TmEeOKd6_j8kcHyQ" position="110.0,110.0"/>
+    <stereotypes xmi:id="_wRaOkcTmEeOKd6_j8kcHyQ" name="Reference">
+      <modelElement href="../../../../../PIM-Server.uml#_ouf2z8TmEeOKd6_j8kcHyQ"/>
+    </stereotypes>
+    <nameVisual xmi:id="_wRaOksTmEeOKd6_j8kcHyQ" text=""/>
+    <sourceRole xmi:id="_wRaOk8TmEeOKd6_j8kcHyQ" aggregationKind="NONE" name="">
+      <modelElement href="../../../../../PIM-Server.uml#_ouf2zsTmEeOKd6_j8kcHyQ"/>
+      <visibility xmi:id="_wRaOlMTmEeOKd6_j8kcHyQ" label="+"/>
+      <cardinality xmi:id="_wRaOlcTmEeOKd6_j8kcHyQ" label="1" max="1" min="1"/>
+    </sourceRole>
+    <targetRole xmi:id="_wRaOlsTmEeOKd6_j8kcHyQ" aggregationKind="NONE" name="comicVineService" navigable="true">
+      <modelElement href="../../../../../PIM-Server.uml#_otwP8cTmEeOKd6_j8kcHyQ"/>
+      <stereotypes xmi:id="_Qa_vQMTpEeOiFpLkTAr_Dw" name="LegacyStyledElement">
+        <modelElement href="../../../../../PIM-Server.uml#_otwP8sTmEeOKd6_j8kcHyQ"/>
+      </stereotypes>
+      <visibility xmi:id="_wRaOl8TmEeOKd6_j8kcHyQ" label="~"/>
+      <cardinality xmi:id="_wRaOmMTmEeOKd6_j8kcHyQ" label="1" max="1" min="1"/>
+    </targetRole>
+  </edges>
+  <edges xsi:type="com.yattasolutions.uml.diagrams.classifier:AssociationVisual" xmi:id="_wRaOmcTmEeOKd6_j8kcHyQ" source="_wRaOosTmEeOKd6_j8kcHyQ">
+    <modelElement href="../../../../../PIM-Server.uml#_ouf20MTmEeOKd6_j8kcHyQ"/>
+    <visualProperties xmi:id="_wRj_uMTmEeOKd6_j8kcHyQ" position="130.0,130.0"/>
+    <stereotypes xmi:id="_wRaOmsTmEeOKd6_j8kcHyQ" name="Reference">
+      <modelElement href="../../../../../PIM-Server.uml#_ouf20sTmEeOKd6_j8kcHyQ"/>
+    </stereotypes>
+    <nameVisual xmi:id="_wRaOm8TmEeOKd6_j8kcHyQ" text=""/>
+    <sourceRole xmi:id="_wRaOnMTmEeOKd6_j8kcHyQ" aggregationKind="NONE" name="">
+      <modelElement href="../../../../../PIM-Server.uml#_ouf20cTmEeOKd6_j8kcHyQ"/>
+      <visibility xmi:id="_wRaOncTmEeOKd6_j8kcHyQ" label="+"/>
+      <cardinality xmi:id="_wRaOnsTmEeOKd6_j8kcHyQ" label="1" max="1" min="1"/>
+    </sourceRole>
+    <targetRole xmi:id="_wRaOn8TmEeOKd6_j8kcHyQ" aggregationKind="NONE" name="cvv" navigable="true">
+      <modelElement href="../../../../../PIM-Server.uml#_otwP88TmEeOKd6_j8kcHyQ"/>
+      <stereotypes xmi:id="_QbJgQMTpEeOiFpLkTAr_Dw" name="Generics">
+        <modelElement href="../../../../../PIM-Server.uml#_otwP9MTmEeOKd6_j8kcHyQ"/>
+      </stereotypes>
+      <stereotypes xmi:id="_QbJgQcTpEeOiFpLkTAr_Dw" name="LegacyStyledElement">
+        <modelElement href="../../../../../PIM-Server.uml#_otwP9cTmEeOKd6_j8kcHyQ"/>
+      </stereotypes>
+      <visibility xmi:id="_wRaOoMTmEeOKd6_j8kcHyQ" label="~"/>
+      <cardinality xmi:id="_wRaOocTmEeOKd6_j8kcHyQ" label="1" max="1" min="1"/>
+    </targetRole>
+  </edges>
+  <edges xsi:type="com.yattasolutions.uml.diagrams.classifier:AssociationVisual" xmi:id="_wRaOy8TmEeOKd6_j8kcHyQ" source="_wRj_mcTmEeOKd6_j8kcHyQ">
+    <modelElement href="../../../../../PIM-Server.uml#_ouf208TmEeOKd6_j8kcHyQ"/>
+    <visualProperties xmi:id="_wRj_ucTmEeOKd6_j8kcHyQ" position="150.0,150.0"/>
+    <stereotypes xmi:id="_wRj_k8TmEeOKd6_j8kcHyQ" name="Reference">
+      <modelElement href="../../../../../PIM-Server.uml#_ouf21cTmEeOKd6_j8kcHyQ"/>
+    </stereotypes>
+    <nameVisual xmi:id="_wRj_kMTmEeOKd6_j8kcHyQ" text=""/>
+    <sourceRole xmi:id="_wRj_kcTmEeOKd6_j8kcHyQ" aggregationKind="NONE" name="">
+      <modelElement href="../../../../../PIM-Server.uml#_ouf21MTmEeOKd6_j8kcHyQ"/>
+      <visibility xmi:id="_wRj_lcTmEeOKd6_j8kcHyQ" label="+"/>
+      <cardinality xmi:id="_wRj_lMTmEeOKd6_j8kcHyQ" label="1" max="1" min="1"/>
+    </sourceRole>
+    <targetRole xmi:id="_wRj_ksTmEeOKd6_j8kcHyQ" aggregationKind="NONE" name="comicVineService" navigable="true">
+      <modelElement href="../../../../../PIM-Server.uml#_otwP9sTmEeOKd6_j8kcHyQ"/>
+      <stereotypes xmi:id="_QbJgQsTpEeOiFpLkTAr_Dw" name="LegacyStyledElement">
+        <modelElement href="../../../../../PIM-Server.uml#_otwP98TmEeOKd6_j8kcHyQ"/>
+      </stereotypes>
+      <visibility xmi:id="_wRj_l8TmEeOKd6_j8kcHyQ" label="-"/>
+      <cardinality xmi:id="_wRj_lsTmEeOKd6_j8kcHyQ" label="1" max="1" min="1"/>
+    </targetRole>
+  </edges>
+  <nodes xsi:type="com.yattasolutions.uml.diagrams.classifier:ClassifierVisual" xmi:id="_wRREoMTmEeOKd6_j8kcHyQ" name="AsylumServiceTest">
+    <modelElement href="../../../../../PIM-Server.uml#_on8i7MTmEeOKd6_j8kcHyQ"/>
+    <visualProperties xmi:id="_wRREocTmEeOKd6_j8kcHyQ" position="50.0,50.0" size="-1.0,-1.0"/>
+    <visibility xmi:id="_wRREosTmEeOKd6_j8kcHyQ" label="+"/>
+    <operations xmi:id="_wRREo8TmEeOKd6_j8kcHyQ" name="setUp">
+      <modelElement href="../../../../../PIM-Server.uml#_on8i7cTmEeOKd6_j8kcHyQ"/>
+      <stereotypes xmi:id="_wRREpMTmEeOKd6_j8kcHyQ" name="LegacyStyledElement">
+        <modelElement href="../../../../../PIM-Server.uml#_on8i7sTmEeOKd6_j8kcHyQ"/>
+      </stereotypes>
+      <stereotypes xmi:id="_wRREpcTmEeOKd6_j8kcHyQ" name="Annotations">
+        <modelElement href="../../../../../PIM-Server.uml#_on8i78TmEeOKd6_j8kcHyQ"/>
+      </stereotypes>
+      <visibility xmi:id="_wRREpsTmEeOKd6_j8kcHyQ" label="+"/>
+    </operations>
+    <operations xmi:id="_wRREp8TmEeOKd6_j8kcHyQ" name="tearDown">
+      <modelElement href="../../../../../PIM-Server.uml#_on8i8cTmEeOKd6_j8kcHyQ"/>
+      <stereotypes xmi:id="_wRREqMTmEeOKd6_j8kcHyQ" name="LegacyStyledElement">
+        <modelElement href="../../../../../PIM-Server.uml#_on8i8sTmEeOKd6_j8kcHyQ"/>
+      </stereotypes>
+      <stereotypes xmi:id="_wRREqcTmEeOKd6_j8kcHyQ" name="Annotations">
+        <modelElement href="../../../../../PIM-Server.uml#_on8i88TmEeOKd6_j8kcHyQ"/>
+      </stereotypes>
+      <visibility xmi:id="_wRREqsTmEeOKd6_j8kcHyQ" label="+"/>
+    </operations>
+    <operations xmi:id="_wRREq8TmEeOKd6_j8kcHyQ" name="constructor">
+      <modelElement href="../../../../../PIM-Server.uml#_on8i9cTmEeOKd6_j8kcHyQ"/>
+      <stereotypes xmi:id="_wRRErMTmEeOKd6_j8kcHyQ" name="LegacyStyledElement">
+        <modelElement href="../../../../../PIM-Server.uml#_on8i9sTmEeOKd6_j8kcHyQ"/>
+      </stereotypes>
+      <stereotypes xmi:id="_wRRErcTmEeOKd6_j8kcHyQ" name="Annotations">
+        <modelElement href="../../../../../PIM-Server.uml#_on8i98TmEeOKd6_j8kcHyQ"/>
+      </stereotypes>
+      <visibility xmi:id="_wRRErsTmEeOKd6_j8kcHyQ" label="+"/>
+    </operations>
+    <operations xmi:id="_wRREr8TmEeOKd6_j8kcHyQ" name="executeQuery">
+      <modelElement href="../../../../../PIM-Server.uml#_on8i-cTmEeOKd6_j8kcHyQ"/>
+      <stereotypes xmi:id="_wRREsMTmEeOKd6_j8kcHyQ" name="LegacyStyledElement">
+        <modelElement href="../../../../../PIM-Server.uml#_on8i-sTmEeOKd6_j8kcHyQ"/>
+      </stereotypes>
+      <stereotypes xmi:id="_wRREscTmEeOKd6_j8kcHyQ" name="Annotations">
+        <modelElement href="../../../../../PIM-Server.uml#_on8i-8TmEeOKd6_j8kcHyQ"/>
+      </stereotypes>
+      <visibility xmi:id="_wRREssTmEeOKd6_j8kcHyQ" label="+"/>
+    </operations>
+  </nodes>
+  <nodes xsi:type="com.yattasolutions.uml.diagrams.classifier:ClassifierVisual" xmi:id="_wRaOosTmEeOKd6_j8kcHyQ" name="ComicVineIssueTest" associationsOut="_wRaOkMTmEeOKd6_j8kcHyQ _wRaOmcTmEeOKd6_j8kcHyQ">
+    <modelElement href="../../../../../PIM-Server.uml#_on8i_cTmEeOKd6_j8kcHyQ"/>
+    <visualProperties xmi:id="_wRaOo8TmEeOKd6_j8kcHyQ" position="-291.0,-33.0" size="-1.0,-1.0"/>
+    <visibility xmi:id="_wRaOpMTmEeOKd6_j8kcHyQ" label="+"/>
+    <attributes xmi:id="_wRaOpcTmEeOKd6_j8kcHyQ" name="comicVineService">
+      <modelElement href="../../../../../PIM-Server.uml#_otwP8cTmEeOKd6_j8kcHyQ"/>
+      <stereotypes xmi:id="_wRaOp8TmEeOKd6_j8kcHyQ" name="LegacyStyledElement">
+        <modelElement href="../../../../../PIM-Server.uml#_otwP8sTmEeOKd6_j8kcHyQ"/>
+      </stereotypes>
+      <stereotypes xmi:id="_QbcbMMTpEeOiFpLkTAr_Dw" name="LegacyStyledElement">
+        <modelElement href="../../../../../PIM-Server.uml#_otwP8sTmEeOKd6_j8kcHyQ"/>
+      </stereotypes>
+      <visibility xmi:id="_wRaOqMTmEeOKd6_j8kcHyQ" label="~"/>
+      <cardinality xmi:id="_wRaOqcTmEeOKd6_j8kcHyQ" label="1" max="1" min="1"/>
+      <type xmi:id="_wRaOqsTmEeOKd6_j8kcHyQ" name="ComicVineService">
+        <modelElement href="../../../../../PIM-Server.uml#_lOSfYsTmEeOKd6_j8kcHyQ"/>
+      </type>
+    </attributes>
+    <attributes xmi:id="_wRaOq8TmEeOKd6_j8kcHyQ" name="cvv">
+      <modelElement href="../../../../../PIM-Server.uml#_otwP88TmEeOKd6_j8kcHyQ"/>
+      <stereotypes xmi:id="_wRaOrsTmEeOKd6_j8kcHyQ" name="Generics">
+        <modelElement href="../../../../../PIM-Server.uml#_otwP9MTmEeOKd6_j8kcHyQ"/>
+      </stereotypes>
+      <stereotypes xmi:id="_wRaOr8TmEeOKd6_j8kcHyQ" name="LegacyStyledElement">
+        <modelElement href="../../../../../PIM-Server.uml#_otwP9cTmEeOKd6_j8kcHyQ"/>
+      </stereotypes>
+      <stereotypes xmi:id="_QbcbMcTpEeOiFpLkTAr_Dw" name="Generics">
+        <modelElement href="../../../../../PIM-Server.uml#_otwP9MTmEeOKd6_j8kcHyQ"/>
+      </stereotypes>
+      <stereotypes xmi:id="_QbcbMsTpEeOiFpLkTAr_Dw" name="LegacyStyledElement">
+        <modelElement href="../../../../../PIM-Server.uml#_otwP9cTmEeOKd6_j8kcHyQ"/>
+      </stereotypes>
+      <visibility xmi:id="_wRaOsMTmEeOKd6_j8kcHyQ" label="~"/>
+      <cardinality xmi:id="_wRaOscTmEeOKd6_j8kcHyQ" label="1" max="1" min="1"/>
+      <type xmi:id="_wRaOssTmEeOKd6_j8kcHyQ" name="ArrayList">
+        <modelElement href="../../../../../PIM-Server.uml#_llWUgsTmEeOKd6_j8kcHyQ"/>
+      </type>
+    </attributes>
+    <operations xmi:id="_wRaOs8TmEeOKd6_j8kcHyQ" name="setUp">
+      <modelElement href="../../../../../PIM-Server.uml#_ooGT0MTmEeOKd6_j8kcHyQ"/>
+      <stereotypes xmi:id="_wRaOtMTmEeOKd6_j8kcHyQ" name="LegacyStyledElement">
+        <modelElement href="../../../../../PIM-Server.uml#_ooGT0cTmEeOKd6_j8kcHyQ"/>
+      </stereotypes>
+      <stereotypes xmi:id="_wRaOtcTmEeOKd6_j8kcHyQ" name="Annotations">
+        <modelElement href="../../../../../PIM-Server.uml#_ooGT0sTmEeOKd6_j8kcHyQ"/>
+      </stereotypes>
+      <visibility xmi:id="_wRaOtsTmEeOKd6_j8kcHyQ" label="+"/>
+    </operations>
+    <operations xmi:id="_wRaOt8TmEeOKd6_j8kcHyQ" name="tearDown">
+      <modelElement href="../../../../../PIM-Server.uml#_ooGT1MTmEeOKd6_j8kcHyQ"/>
+      <stereotypes xmi:id="_wRaOuMTmEeOKd6_j8kcHyQ" name="LegacyStyledElement">
+        <modelElement href="../../../../../PIM-Server.uml#_ooGT1cTmEeOKd6_j8kcHyQ"/>
+      </stereotypes>
+      <stereotypes xmi:id="_wRaOucTmEeOKd6_j8kcHyQ" name="Annotations">
+        <modelElement href="../../../../../PIM-Server.uml#_ooGT1sTmEeOKd6_j8kcHyQ"/>
+      </stereotypes>
+      <visibility xmi:id="_wRaOusTmEeOKd6_j8kcHyQ" label="+"/>
+    </operations>
+    <operations xmi:id="_wRaOu8TmEeOKd6_j8kcHyQ" name="queryVolumeForIssues">
+      <modelElement href="../../../../../PIM-Server.uml#_ooGT2MTmEeOKd6_j8kcHyQ"/>
+      <stereotypes xmi:id="_wRaOvMTmEeOKd6_j8kcHyQ" name="LegacyStyledElement">
+        <modelElement href="../../../../../PIM-Server.uml#_ooGT2cTmEeOKd6_j8kcHyQ"/>
+      </stereotypes>
+      <stereotypes xmi:id="_wRaOvcTmEeOKd6_j8kcHyQ" name="Annotations">
+        <modelElement href="../../../../../PIM-Server.uml#_ooGT2sTmEeOKd6_j8kcHyQ"/>
+      </stereotypes>
+      <visibility xmi:id="_wRaOvsTmEeOKd6_j8kcHyQ" label="+"/>
+    </operations>
+    <operations xmi:id="_wRaOv8TmEeOKd6_j8kcHyQ" name="checkResultSize">
+      <modelElement href="../../../../../PIM-Server.uml#_ooGT3MTmEeOKd6_j8kcHyQ"/>
+      <stereotypes xmi:id="_wRaOwMTmEeOKd6_j8kcHyQ" name="LegacyStyledElement">
+        <modelElement href="../../../../../PIM-Server.uml#_ooGT3cTmEeOKd6_j8kcHyQ"/>
+      </stereotypes>
+      <stereotypes xmi:id="_wRaOwcTmEeOKd6_j8kcHyQ" name="Annotations">
+        <modelElement href="../../../../../PIM-Server.uml#_ooGT3sTmEeOKd6_j8kcHyQ"/>
+      </stereotypes>
+      <visibility xmi:id="_wRaOwsTmEeOKd6_j8kcHyQ" label="+"/>
+    </operations>
+    <operations xmi:id="_wRaOw8TmEeOKd6_j8kcHyQ" name="checkID">
+      <modelElement href="../../../../../PIM-Server.uml#_ooGT4MTmEeOKd6_j8kcHyQ"/>
+      <stereotypes xmi:id="_wRaOxMTmEeOKd6_j8kcHyQ" name="LegacyStyledElement">
+        <modelElement href="../../../../../PIM-Server.uml#_ooGT4cTmEeOKd6_j8kcHyQ"/>
+      </stereotypes>
+      <stereotypes xmi:id="_wRaOxcTmEeOKd6_j8kcHyQ" name="Annotations">
+        <modelElement href="../../../../../PIM-Server.uml#_ooGT4sTmEeOKd6_j8kcHyQ"/>
+      </stereotypes>
+      <visibility xmi:id="_wRaOxsTmEeOKd6_j8kcHyQ" label="+"/>
+    </operations>
+    <operations xmi:id="_wRaOx8TmEeOKd6_j8kcHyQ" name="checkResultName">
+      <modelElement href="../../../../../PIM-Server.uml#_ooGT5MTmEeOKd6_j8kcHyQ"/>
+      <stereotypes xmi:id="_wRaOyMTmEeOKd6_j8kcHyQ" name="LegacyStyledElement">
+        <modelElement href="../../../../../PIM-Server.uml#_ooGT5cTmEeOKd6_j8kcHyQ"/>
+      </stereotypes>
+      <stereotypes xmi:id="_wRaOycTmEeOKd6_j8kcHyQ" name="Annotations">
+        <modelElement href="../../../../../PIM-Server.uml#_ooGT5sTmEeOKd6_j8kcHyQ"/>
+      </stereotypes>
+      <visibility xmi:id="_wRaOysTmEeOKd6_j8kcHyQ" label="+"/>
+    </operations>
+  </nodes>
+  <nodes xsi:type="com.yattasolutions.uml.diagrams.classifier:ClassifierVisual" xmi:id="_wRj_mcTmEeOKd6_j8kcHyQ" name="ComicVineServiceTest" associationsOut="_wRaOy8TmEeOKd6_j8kcHyQ">
+    <modelElement href="../../../../../PIM-Server.uml#_ooGT6MTmEeOKd6_j8kcHyQ"/>
+    <visualProperties xmi:id="_wRj_msTmEeOKd6_j8kcHyQ" position="292.0,-14.0" size="-1.0,-1.0"/>
+    <visibility xmi:id="_wRj_m8TmEeOKd6_j8kcHyQ" label="+"/>
+    <attributes xmi:id="_wRj_nMTmEeOKd6_j8kcHyQ" name="comicVineService">
+      <modelElement href="../../../../../PIM-Server.uml#_otwP9sTmEeOKd6_j8kcHyQ"/>
+      <stereotypes xmi:id="_wRj_mMTmEeOKd6_j8kcHyQ" name="LegacyStyledElement">
+        <modelElement href="../../../../../PIM-Server.uml#_otwP98TmEeOKd6_j8kcHyQ"/>
+      </stereotypes>
+      <stereotypes xmi:id="_QbcbM8TpEeOiFpLkTAr_Dw" name="LegacyStyledElement">
+        <modelElement href="../../../../../PIM-Server.uml#_otwP98TmEeOKd6_j8kcHyQ"/>
+      </stereotypes>
+      <visibility xmi:id="_wRj_nsTmEeOKd6_j8kcHyQ" label="-"/>
+      <cardinality xmi:id="_wRj_n8TmEeOKd6_j8kcHyQ" label="1" max="1" min="1"/>
+      <type xmi:id="_wRj_oMTmEeOKd6_j8kcHyQ" name="ComicVineService">
+        <modelElement href="../../../../../PIM-Server.uml#_lOSfYsTmEeOKd6_j8kcHyQ"/>
+      </type>
+    </attributes>
+    <operations xmi:id="_wRj_ocTmEeOKd6_j8kcHyQ" name="setUp">
+      <modelElement href="../../../../../PIM-Server.uml#_ooGT6cTmEeOKd6_j8kcHyQ"/>
+      <stereotypes xmi:id="_wRj_osTmEeOKd6_j8kcHyQ" name="LegacyStyledElement">
+        <modelElement href="../../../../../PIM-Server.uml#_ooGT6sTmEeOKd6_j8kcHyQ"/>
+      </stereotypes>
+      <stereotypes xmi:id="_wRj_o8TmEeOKd6_j8kcHyQ" name="Annotations">
+        <modelElement href="../../../../../PIM-Server.uml#_ooGT68TmEeOKd6_j8kcHyQ"/>
+      </stereotypes>
+      <visibility xmi:id="_wRj_pMTmEeOKd6_j8kcHyQ" label="+"/>
+    </operations>
+    <operations xmi:id="_wRj_pcTmEeOKd6_j8kcHyQ" name="tearDown">
+      <modelElement href="../../../../../PIM-Server.uml#_ooGT7cTmEeOKd6_j8kcHyQ"/>
+      <stereotypes xmi:id="_wRj_psTmEeOKd6_j8kcHyQ" name="LegacyStyledElement">
+        <modelElement href="../../../../../PIM-Server.uml#_ooGT7sTmEeOKd6_j8kcHyQ"/>
+      </stereotypes>
+      <stereotypes xmi:id="_wRj_p8TmEeOKd6_j8kcHyQ" name="Annotations">
+        <modelElement href="../../../../../PIM-Server.uml#_ooGT78TmEeOKd6_j8kcHyQ"/>
+      </stereotypes>
+      <visibility xmi:id="_wRj_qMTmEeOKd6_j8kcHyQ" label="+"/>
+    </operations>
+    <operations xmi:id="_wRj_qcTmEeOKd6_j8kcHyQ" name="ConstructorTest">
+      <modelElement href="../../../../../PIM-Server.uml#_ooGT8cTmEeOKd6_j8kcHyQ"/>
+      <stereotypes xmi:id="_wRj_qsTmEeOKd6_j8kcHyQ" name="LegacyStyledElement">
+        <modelElement href="../../../../../PIM-Server.uml#_ooGT8sTmEeOKd6_j8kcHyQ"/>
+      </stereotypes>
+      <stereotypes xmi:id="_wRj_q8TmEeOKd6_j8kcHyQ" name="Annotations">
+        <modelElement href="../../../../../PIM-Server.uml#_ooGT88TmEeOKd6_j8kcHyQ"/>
+      </stereotypes>
+      <visibility xmi:id="_wRj_rMTmEeOKd6_j8kcHyQ" label="+"/>
+    </operations>
+    <operations xmi:id="_wRj_rcTmEeOKd6_j8kcHyQ" name="QueryTest">
+      <modelElement href="../../../../../PIM-Server.uml#_ooGT9cTmEeOKd6_j8kcHyQ"/>
+      <visibility xmi:id="_wRj_rsTmEeOKd6_j8kcHyQ" label="+"/>
+    </operations>
+    <operations xmi:id="_wRj_r8TmEeOKd6_j8kcHyQ" name="InsertionTest">
+      <modelElement href="../../../../../PIM-Server.uml#_ooGT9sTmEeOKd6_j8kcHyQ"/>
+      <stereotypes xmi:id="_wRj_sMTmEeOKd6_j8kcHyQ" name="LegacyStyledElement">
+        <modelElement href="../../../../../PIM-Server.uml#_ooGT98TmEeOKd6_j8kcHyQ"/>
+      </stereotypes>
+      <stereotypes xmi:id="_wRj_scTmEeOKd6_j8kcHyQ" name="Annotations">
+        <modelElement href="../../../../../PIM-Server.uml#_ooGT-MTmEeOKd6_j8kcHyQ"/>
+      </stereotypes>
+      <visibility xmi:id="_wRj_ssTmEeOKd6_j8kcHyQ" label="+"/>
+    </operations>
+    <operations xmi:id="_wRj_s8TmEeOKd6_j8kcHyQ" name="InsertVolume">
+      <modelElement href="../../../../../PIM-Server.uml#_ooGT-sTmEeOKd6_j8kcHyQ"/>
+      <stereotypes xmi:id="_wRj_tMTmEeOKd6_j8kcHyQ" name="LegacyStyledElement">
+        <modelElement href="../../../../../PIM-Server.uml#_ooGT-8TmEeOKd6_j8kcHyQ"/>
+      </stereotypes>
+      <stereotypes xmi:id="_wRj_tcTmEeOKd6_j8kcHyQ" name="Annotations">
+        <modelElement href="../../../../../PIM-Server.uml#_ooGT_MTmEeOKd6_j8kcHyQ"/>
+      </stereotypes>
+      <visibility xmi:id="_wRj_tsTmEeOKd6_j8kcHyQ" label="+"/>
+    </operations>
+  </nodes>
+</com.yattasolutions.uml.diagrams.classifier:ClassDiagram>

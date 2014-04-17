@@ -5,6 +5,8 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import org.mortbay.log.Log;
+
 public class CassandraConnector {
 
 	protected Connection connection = null;
@@ -19,6 +21,7 @@ public class CassandraConnector {
 			e.printStackTrace();
 		} catch (SQLException e) {
 			e.printStackTrace();
+			Log.info("Cassandra Server may not be started on Server");
 		}
 	}
 

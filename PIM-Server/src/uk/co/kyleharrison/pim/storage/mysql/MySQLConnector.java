@@ -53,7 +53,7 @@ public class MySQLConnector {
 	public boolean checkConnection() {
 		try {
 			//this.connection = datasource.getConnection();
-			this.connection = DriverManager.getConnection("jdbc:mysql://137.117.146.199:3306/pim", "admin","Atmitwwsu007");
+			this.connection = DriverManager.getConnection("jdbc:mysql://137.117.147.25:3306/pim", "admin","Atmitwwsu007");
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return false;

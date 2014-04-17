@@ -16,14 +16,17 @@ import com.omertron.omdbapi.model.OmdbVideoFull;
 
 import uk.co.kyleharrison.grapejuice.comicvine.ComicVineIssue;
 import uk.co.kyleharrison.grapejuice.comicvine.ComicVineVolume;
+import uk.co.kyleharrison.pim.cassandra.ComicvineConnector;
 
 public class MySQLFacade implements MySQLInterface {
 
 	private MySQLDAO mySQLDAO;
+	private ComicvineConnector comicvineConnector;
 
 	public MySQLFacade() {
 		super();
 		this.setNewConnection();
+		this.comicvineConnector = new ComicvineConnector();
 	}
 
 	public MySQLDAO getConnection() {
@@ -133,7 +136,8 @@ public class MySQLFacade implements MySQLInterface {
 			System.out.println("Inserting Attempt");
 			int currentID = Integer.parseInt(volumeID);
 			//System.out.println("TEST MYSQL FACADE : " +comicVineVolumes.get(0).getResults().getIssues().get(0).getCassandraMap());
-			return this.mySQLDAO.insertComicVineIssues(comicVineVolumes.get(0).getIssues(),currentID);
+			//return this.mySQLDAO.insertComicVineIssues(comicVineVolumes.get(0).getIssues(),currentID);
+			return this.comicvineConnector.insertComicVineIssues(comicVineVolumes.get(0).getIssues(),currentID);
 		} catch (SQLException e) {
 			System.out.println("Exception caught in MySQLFacade for Insert Volumes");
 			e.printStackTrace();
