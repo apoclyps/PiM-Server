@@ -37,8 +37,7 @@ public class ComicVineServiceTest {
 		assert(result==true);
 	}
 	
-	@Test
-	public void InsertVolume(){
+	public void checkVolumesInserted(){
 
 	}
 

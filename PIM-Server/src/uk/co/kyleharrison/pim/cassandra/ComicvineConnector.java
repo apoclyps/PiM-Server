@@ -28,7 +28,7 @@ public class ComicvineConnector extends CassandraConnector {
 				String name = cvv.getName().replaceAll("[()?:!.,;{}']", " ");
 				System.out.println(cvv.getName().replaceAll("[()?:!.,;{}']",
 						" "));
-				data += "insert into volumes (id,name,count_of_issues,start_year,image,first_issue) values ("
+				data += "insert into comicvinevolumes (id,name,count_of_issues,start_year,image,first_issue) values ("
 						+ cvv.getId()
 						+ ",'"
 						+ name
@@ -46,7 +46,7 @@ public class ComicvineConnector extends CassandraConnector {
 				// +"',"+cvv.getCount_of_issues()+","+ cvv.getStart_year()
 				// +","+cvv.getImage().getCassandraMap() +") \n");
 			} catch (Exception e) {
-				System.out.println("Default insert");
+				//System.out.println("Default insert");
 				data += "insert into volumes (id,name,count_of_issues,start_year) values ("
 						+ cvv.getId()
 						+ ",'"
@@ -84,7 +84,7 @@ public class ComicvineConnector extends CassandraConnector {
 		String data = "BEGIN BATCH \n";
 		for (ComicVineIssue cvi : issues) {
 			if (cvi.getId() != 0) {
-				System.out.println(cvi.getCassandraInsert());
+				//System.out.println(cvi.getCassandraInsert());
 				cvi.generateCassandraInsert();
 				data += "INSERT into comicvineissues(id,volume,name,site_detail_url,api_detail_url,issue_number,image_url,cover_date,description)"
 						+ " values (" + cvi.getCassandraInsert() + ")";
@@ -102,7 +102,7 @@ public class ComicvineConnector extends CassandraConnector {
 		ArrayList <ComicVineIssue> comicvineIssues = new ArrayList<ComicVineIssue>();
 		if (this.checkConnection()) {
 			try {
-				String data = "SELECT * FROM comicvineissues WHERE volume = "+volumeID+" limit 100 allow filtering";
+				String data = "SELECT * FROM comicvineissues WHERE volume = "+volumeID+" limit 50 allow filtering";
 				
 				Statement st = this.connection.createStatement();
 
@@ -127,7 +127,7 @@ public class ComicvineConnector extends CassandraConnector {
 				e.printStackTrace();
 			}
 		} else {
-			System.out.println("MYSQLDOA : Insert Channel : Connection Failed");
+			System.out.println("Cassandra : Insert Issues : Connection Failed");
 		}
 		if (connection != null) {
 			try {

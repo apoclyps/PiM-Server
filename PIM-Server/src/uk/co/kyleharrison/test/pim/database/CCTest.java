@@ -6,14 +6,10 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import org.apache.cassandra.cql3.statements.BatchStatement;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-
 import uk.co.kyleharrison.grapejuice.comicvine.ComicVineIssue;
 import uk.co.kyleharrison.grapejuice.comicvine.ComicVineVolume;
 import uk.co.kyleharrison.pim.cassandra.ComicvineConnector;

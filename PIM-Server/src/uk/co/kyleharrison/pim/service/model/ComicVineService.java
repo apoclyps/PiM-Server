@@ -7,8 +7,6 @@ import java.net.URLEncoder;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
-
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.ObjectWriter;
 import org.json.JSONArray;
@@ -22,12 +20,6 @@ import uk.co.kyleharrison.grapejuice.facade.GrapeVineFacade;
 import uk.co.kyleharrison.pim.cassandra.ComicvineConnector;
 import uk.co.kyleharrison.pim.connectors.DatabaseConnector;
 import uk.co.kyleharrison.pim.interfaces.ControllerServiceInterface;
-import uk.co.kyleharrison.pim.storage.mysql.MySQLFacade;
-import uk.co.kyleharrison.pim.storage.mysql.connector.ComicVineConnectorMySQL;
-//Finding Issues in a volume
-//http://www.comicvine.com/api/issues/?api_key=2736f1620710c52159ba0d0aea337c59bd273816&volume=796&format=json
-//Volume Query
-//http://www.comicvine.com/api/volume/4050-796/?api_key=2736f1620710c52159ba0d0aea337c59bd273816&format=json
 
 public class ComicVineService extends DatabaseConnector implements ControllerServiceInterface{
 
@@ -195,7 +187,7 @@ public class ComicVineService extends DatabaseConnector implements ControllerSer
 					//cvi.setImage_url(issues.get(i).getImage().getThumb_url());
 				}
 				tempIssues.add(cvi);
-				System.out.println("Issues Added"+cvi.getName());
+				//System.out.println("Issues Added"+cvi.getName());
 			}
 		}catch(Exception e){
 			e.printStackTrace();
@@ -205,16 +197,9 @@ public class ComicVineService extends DatabaseConnector implements ControllerSer
 	
 	
 	public ArrayList<ComicVineIssue> sortIssues(ArrayList<ComicVineIssue> issues){
-		Collections.sort(issues, new Comparator<ComicVineIssue>(){
-			@Override
-			public int compare(ComicVineIssue object1, ComicVineIssue object2) {
-		        return Integer.parseInt(object1.getIssue_number()) - Integer.parseInt(object2.getIssue_number());
-		    }
-		});
+		Collections.sort(issues);
 		return issues;
 	}
-	
-
 	
 	@SuppressWarnings("unchecked")
 	public String response(ArrayList<ComicVineIssue> issues,String volumeID,long startTime){
@@ -225,10 +210,7 @@ public class ComicVineService extends DatabaseConnector implements ControllerSer
 		issues = sortIssues(issues);
 		
 		try {
-			
 			generatedJson = ow.writeValueAsString(issues);
-			//System.out.println(this.cvv.get(0).getIssues().size());
-			//generatedJson = ow.writeValueAsString(this.cvv.get(0).getIssues());
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
@@ -349,7 +331,7 @@ public class ComicVineService extends DatabaseConnector implements ControllerSer
 				ComicVineIssue currentIssueSearch = new ComicVineIssue();
 				// Get currentIssueSearch
 				currentIssueSearch = requestImageForIssue(currentIssue.getId());
-				System.out.println(currentIssueSearch.getImage_url());
+				//System.out.println(currentIssueSearch.getImage_url());
 				issues.add(currentIssueSearch);
 			}
 			cvv.setIssues(issues);
@@ -391,7 +373,7 @@ public class ComicVineService extends DatabaseConnector implements ControllerSer
 		this.grapeVineFacade.PreformIssueImageQuery(issueQuery);
 		ComicVineIssue cvi = this.grapeVineFacade.getComicVineIssue();
 		
-		System.out.println("Request Image For Issue " +cvi.getImage().getThumb_url());
+		//System.out.println("Request Image For Issue " +cvi.getImage().getThumb_url());
 		//cvi.setImage_url(cvi.getImage().getSmall_url());
 		return cvi;
 	}

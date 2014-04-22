@@ -24,7 +24,7 @@ public class AsylumServiceTest {
 	
 	@Test
 	public void executeQuery(){
-		AsylumService as = new AsylumService(5000,5100);
+		AsylumService as = new AsylumService(5000,5001);
 		as.setNextRequestDelay(1500);
 		boolean success = as.executeQuery();
 		assert(success==true);

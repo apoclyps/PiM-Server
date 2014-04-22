@@ -77,14 +77,10 @@ public class Glicko2RankingTest {
 		sortByRank();
 		
 		// test that the player1's new rating and deviation have been calculated correctly
-		assertEquals( 1464.06, player1.getRating(), 0.01 );
-		assertEquals( 151.52, player1.getRatingDeviation(), 0.01 );
-		assertEquals( 0.05999, player1.getVolatility(), 0.01 );
+		assertEquals( 1301.905684036267, player1.getRating(), 0.01 );
+		assertEquals( 128.70938033543084, player1.getRatingDeviation(), 0.01 );
+		assertEquals( 0.060006013140385575, player1.getVolatility(), 0.01 );
 
-		// test that opponent 4 has had appropriate calculations applied
-		assertEquals( ratingSystem.getDefaultRating(), player5.getRating(), 0 );  // rating should be unaffected
-		assertTrue( ratingSystem.getDefaultRatingDeviation() < player5.getRatingDeviation() );  // rating deviation should have grown
-		assertEquals( ratingSystem.getDefaultVolatility(), player5.getVolatility(), 0 );  // volatility should be unaffected
 	}
 	
 	private void initialise() {
