@@ -26,12 +26,12 @@ import com.mixtape.spotify.api.SpotifyMetadata;
 
 public class SpotifyService implements ControllerServiceInterface {
 
-	private Response response;
+	private Response spotifyResponse;
 	private MySQLFacade mySQLFacade;
 	
 	public SpotifyService() {
 		super();
-		this.response = null;
+		this.spotifyResponse = null;
 		mySQLFacade = new MySQLFacade();
 	}
 
@@ -39,29 +39,23 @@ public class SpotifyService implements ControllerServiceInterface {
 	public String executeQuery(String query) {
 		SpotifyMetadata metadata = new SpotifyMetadata();
 		try {
-			this.response = metadata.search(query, RequestType.album);
-			
-			/*for( Object artist : response.getAlbums().toArray()){
-				Album artistAlbum = (Album) artist;
-				System.out.println(artistAlbum.getName());
-			}*/
-					
+			this.spotifyResponse = metadata.search(query, RequestType.album);
 			ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
 			String json = null;
 			try {
-				List<Object> AlbumList = Arrays.asList(response.getAlbums().toArray());
+				List<Object> AlbumList = Arrays.asList(spotifyResponse.getAlbums().toArray());
 				AlbumList.subList(0, 10);
 				
 				// Get Thumbnail_URLS
 				ArrayList<Album> updatedAlbums = getThumbnails(AlbumList.subList(0, 10));
 				
-				json = ow.writeValueAsString(AlbumList.subList(0, 10));
+				json = ow.writeValueAsString(updatedAlbums.subList(0, 10));
 			} catch (JsonGenerationException | JsonMappingException ex) {
 				ex.printStackTrace();
 			}catch( IOException ioe){
 				ioe.printStackTrace();
 			}
-			System.out.println("\n"+"Spotify Results : "+response.getAlbums().size());
+			System.out.println("\n"+"Spotify Results : "+spotifyResponse.getAlbums().size());
 			return json;
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -145,7 +139,7 @@ public class SpotifyService implements ControllerServiceInterface {
 	@Override
 	public boolean cacheResults() {
 		System.out.println("Caching Results");
-		boolean cached = this.mySQLFacade.insertSpotifyAlbums(this.response);
+		boolean cached = this.mySQLFacade.insertSpotifyAlbums(this.spotifyResponse);
 		return cached;
 	}
 
@@ -159,6 +153,14 @@ public class SpotifyService implements ControllerServiceInterface {
 	public boolean cacheAllResults() {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	public Response getSpotifyResponse() {
+		return spotifyResponse;
+	}
+
+	public void setSpotifyResponse(Response spotifyResponse) {
+		this.spotifyResponse = spotifyResponse;
 	}
 	
 }
