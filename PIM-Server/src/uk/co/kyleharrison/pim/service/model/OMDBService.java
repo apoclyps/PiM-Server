@@ -25,11 +25,13 @@ public class OMDBService implements ControllerServiceInterface {
 
 	private MySQLFacade mySQLFacade;
 	private List<OmdbVideoBasic> OMDBResults;
+	private ArrayList<OmdbVideoFull> searchResults;
 
 	public OMDBService() {
 		super();
 		this.mySQLFacade = new MySQLFacade();
 		this.OMDBResults = null;
+		this.setSearchResults(new ArrayList<OmdbVideoFull>());
 	}
 
 	@SuppressWarnings("unchecked")
@@ -88,13 +90,13 @@ public class OMDBService implements ControllerServiceInterface {
 					}
 	           }
 			}
+			this.setSearchResults(searchFull);
 		}else{
 			//return no results
 		}
 		
 		if(searchCache.size()>0){
 			System.out.println("Full Cache Update "+searchCache.size());
-			//System.out.println("Item"+searchCache.get(0).getImdbID() + " " +searchCache.get(0).getTitle());
 			cacheFullResults(searchCache);
 		}
 
@@ -164,6 +166,14 @@ public class OMDBService implements ControllerServiceInterface {
 	public boolean cacheAllResults() {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	public ArrayList<OmdbVideoFull> getSearchResults() {
+		return searchResults;
+	}
+
+	public void setSearchResults(ArrayList<OmdbVideoFull> searchResults) {
+		this.searchResults = searchResults;
 	}
 
 }
