@@ -7,12 +7,13 @@ import org.junit.runners.Suite.SuiteClasses;
 import uk.co.kyleharrison.test.pim.service.AsylumServiceTest;
 import uk.co.kyleharrison.test.pim.service.ComicVineIssueTest;
 import uk.co.kyleharrison.test.pim.service.ComicVineServiceTest;
+import uk.co.kyleharrison.test.pim.service.ISBNDBServiceTest;
 import uk.co.kyleharrison.test.pim.service.OmdbServiceTest;
 import uk.co.kyleharrison.test.pim.service.SpotifyServiceTest;
 
 @RunWith(Suite.class)
 @SuiteClasses({ AsylumServiceTest.class, ComicVineIssueTest.class,
-		ComicVineServiceTest.class,SpotifyServiceTest.class, OmdbServiceTest.class })
+		ComicVineServiceTest.class,SpotifyServiceTest.class, OmdbServiceTest.class,ISBNDBServiceTest.class })
 public class ServiceTestSuite {
 
 }

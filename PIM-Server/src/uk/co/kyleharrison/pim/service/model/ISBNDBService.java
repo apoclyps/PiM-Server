@@ -1,6 +1,7 @@
 package uk.co.kyleharrison.pim.service.model;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import net.scholnick.isbndb.BooksProxy;
@@ -18,7 +19,7 @@ import uk.co.kyleharrison.pim.storage.mysql.MySQLFacade;
 public class ISBNDBService implements ControllerServiceInterface {
 
 	private MySQLFacade mySQLFacade;
-	private List<Book> books;
+	private ArrayList<Book> books;
 	
 	public ISBNDBService() {
 		super();
@@ -30,7 +31,16 @@ public class ISBNDBService implements ControllerServiceInterface {
 		try {
 			BooksProxy.getInstance().setDeveloperKey("FB11MLN0");
 			// exact book by ISBN Book book =
-			Book bk = BooksProxy.getInstance().getBookByISBN("9780684853505");
+			Book bk = BooksProxy.getInstance().getBookByISBN("9781781160855");
+			this.books = new ArrayList<Book>();
+			try{
+				System.out.println("Found "+bk.toString());
+				this.books.add(0, bk);
+				System.out.println("Found "+bk.toString());
+			}catch(NullPointerException e){
+				System.out.println("Exception occured in lookupISBN whilst trying to add a book to the global list");
+			}
+
 
 			ObjectWriter ow = new ObjectMapper().writer()
 					.withDefaultPrettyPrinter();
@@ -45,6 +55,8 @@ public class ISBNDBService implements ControllerServiceInterface {
 			return json;
 		} catch (Exception e) {
 			e.printStackTrace();
+			System.out.println("Exception in lookupISBN "+ e.getMessage());
+		
 		}
 
 		return null;
@@ -55,7 +67,7 @@ public class ISBNDBService implements ControllerServiceInterface {
 		try {
 			BooksProxy.getInstance().setDeveloperKey("FB11MLN0"); // before any getBooks() calls
 			// all books with virus in the title
-			this.books = BooksProxy.getInstance().getBooks(query);
+			this.books = (ArrayList<Book>) BooksProxy.getInstance().getBooks(query);
 			/*
 			 * for(Book bk : books){ System.out.println(bk.getTitle()
 			 * +" : "+bk.getEdition() +" : " +bk.getPublisher()); }
@@ -70,7 +82,7 @@ public class ISBNDBService implements ControllerServiceInterface {
 			} catch (IOException ioe) {
 				ioe.printStackTrace();
 			}
-			System.out.println("\n" + "Spotify Results : " + books.size());
+			System.out.println("\n" + "ISBNDB Results : " + books.size());
 			return json;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -113,6 +125,14 @@ public class ISBNDBService implements ControllerServiceInterface {
 	public boolean cacheAllResults() {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	public List<Book> getBooks() {
+		return books;
+	}
+
+	public void setBooks(List<Book> books) {
+		this.books = (ArrayList<Book>) books;
 	}
 
 }
