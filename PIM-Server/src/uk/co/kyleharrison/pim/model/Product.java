@@ -1,6 +1,9 @@
 package uk.co.kyleharrison.pim.model;
 
+import com.eaio.uuid.UUID;
+
 public class Product {
+	protected UUID id;
 	protected String name;
 	protected long barcode;
 	protected int quantity;
@@ -65,6 +68,19 @@ public class Product {
 
 	public void setSuccess(boolean success) {
 		this.success = success;
+	}
+
+	public UUID getId() {
+		return id;
+	}
+
+	public void setId(UUID id) {
+		this.id = id;
+	}
+	
+	public UUID generateTimeUUID(){
+		this.id = new UUID();
+		return this.id;
 	}
 		
 }
