@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.mortbay.log.Log;
 
+import uk.co.kyleharrison.pim.cassandra.SystemConnector;
 import uk.co.kyleharrison.pim.model.Product;
 import uk.co.kyleharrison.pim.service.control.ProductService;
 import uk.co.kyleharrison.pim.utilities.JSONService;
@@ -48,23 +49,60 @@ public class ProductController extends HttpServlet {
 			e.printStackTrace();
 		}
 		
-		switch(requestType){
-		case "add" :
-			break;
-		case "remove" :
-			break;
-		case "update" :
-			break;
-		case "find" :
-			break;
-		case "default" :
-			break;
-		}
+		// Requesting Prouct information and creating product pojo
+		ProductService productService = new ProductService(request,response);
+		productService.createJSONProduct();
+		productService.createProduct();
+		System.out.println("Product "+ productService.getProduct().getBarcode());
 		
+		//Product Successfully Recieved
+		Product activeProduct = productService.getProduct();
+
+		
+		//Output
+		System.out.println("Request Type : " + requestType);
+		System.out.println("Media Type   : "+mediaType);
+		System.out.println("Content Name : "+content);
+		
+
+		SystemConnector systemConnector = new SystemConnector();
 		// Selecting the apprpriate media type for request.
 		switch(mediaType){
 		case "comic" : 
 			Log.info("Product Controller : Add Comic");
+			switch(requestType){
+				case "add" :
+					System.out.println(activeProduct.getBarcode());
+					Product retrievalItem = systemConnector.retrieveItem(activeProduct.getBarcode());
+					
+					try{
+						if(retrievalItem.getId().equals(null)){
+							System.out.println("Product being created");
+							systemConnector.insertItem(activeProduct);
+							activeProduct.setSuccess(true);
+						}
+					}
+					catch(NullPointerException e){
+						// Product Exists
+						System.out.println("Product does not exists");
+						activeProduct.setSuccess(false);
+					}
+					
+					activeProduct.generateTimeUUID();
+					if(systemConnector.insertItem(activeProduct)){
+						activeProduct.setSuccess(true);
+					}
+					
+					break;
+				case "remove" :
+					break;
+				case "update" :
+					break;
+				case "find" :
+					break;
+				case "default" :
+					break;
+				}
 			break;
 		case "dvd" :
 			Log.info("Product Controller : Add DVD");
@@ -82,26 +120,13 @@ public class ProductController extends HttpServlet {
 			Log.info("Product Controller : Add Other");
 			break;
 		default :
-			Log.info("Product Controller : Unkown Product");
-			System.out.println("Product Controller : Unkown Product");
+			Log.info("Product Controller : Unkown Product " + mediaType);
+			System.out.println("Product Controller : Unkown Product" + mediaType);
 			break;
 		}
 		
-		// Requesting Prouct information and creating product pojo
-		ProductService productService = new ProductService(request,response);
-		productService.createJSONProduct();
-		productService.createProduct();
-		System.out.println("Product "+ productService.getProduct().getBarcode());
-		
-		//Product Successfully Recieved
-		Product activeProduct = productService.getProduct();
-		activeProduct.setSuccess(true);
+
 		productService.setProduct(activeProduct);
-		
-		//Output
-		System.out.println("Request Type : " + requestType);
-		System.out.println("Media Type   : "+mediaType);
-		System.out.println("Content Name : "+content);
 		
 		/*try{
 			ucs.close();
