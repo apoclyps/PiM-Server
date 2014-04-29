@@ -98,11 +98,57 @@ public class ComicvineConnector extends CassandraConnector {
 		return true;
 	}
 	
+	public boolean removeComicVineIssues(ArrayList<ComicVineIssue> issues,String volumeID) throws SQLException {
+		if(this.checkConnection()){
+			System.out.println("Connection should be open");
+		}else{
+			System.out.println("Connection should be closed");
+		}
+		
+		if (issues.equals(null)) {
+			System.out.println("Empty Issue List");
+			return false;
+		}
+
+		int count = 0;
+		
+		String data = "BEGIN BATCH \n";
+
+		for (ComicVineIssue cvi : issues) {
+			if (cvi.getId() != 0) {
+				data += "DELETE FROM comicvineissues where id = "+ cvi.getId()+" and volume="+volumeID+"\n";
+				this.connection = this.getConnection();
+
+			}
+		}
+		data += "APPLY BATCH;";
+
+		Statement st;
+		int responseCode = 0;
+		boolean response = false;
+		try {
+			st = this.connection.createStatement();
+			responseCode = st.executeUpdate(data);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			response = false;
+		}
+
+		if(responseCode >= 1){
+			return true;
+		}else{
+			return false;
+		}
+		
+
+	}
+	
+
 	public ArrayList <ComicVineIssue> findAllIssues(String volumeID) {
 		ArrayList <ComicVineIssue> comicvineIssues = new ArrayList<ComicVineIssue>();
 		if (this.checkConnection()) {
 			try {
-				String data = "SELECT * FROM comicvineissues WHERE volume = "+volumeID+" limit 50 allow filtering";
+				String data = "SELECT * FROM comicvineissues WHERE volume = "+volumeID+" limit 1000 allow filtering";
 				
 				Statement st = this.connection.createStatement();
 

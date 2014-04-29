@@ -28,7 +28,7 @@ public class ComicvineAPITest {
 		//System.out.println(grapeVineFacade.getComicVineVolumes().size());
 		//System.out.println(grapeVineFacade.getComicVineVolumes().get(0).getName());
 		
-		assertEquals("Collection Size", grapeVineFacade.getComicVineVolumes().size(),351);
-		assertEquals("First Issue",grapeVineFacade.getComicVineVolumes().get(0).getName(),"Batman Junior");
+		assertEquals("Collection Size", grapeVineFacade.getComicVineVolumes().size(),353);
+		assertEquals("First Issue",grapeVineFacade.getComicVineVolumes().get(0).getName(),"Batman");
 	}
 }

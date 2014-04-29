@@ -7,6 +7,8 @@ import java.net.URLEncoder;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
+
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.ObjectWriter;
 import org.json.JSONArray;
@@ -29,15 +31,12 @@ public class ComicVineService extends DatabaseConnector implements ControllerSer
 	private ComicvineConnector cc;
 	private String resources = "name,id,first_issue,last_issue,count_of_issues,image,description,deck";
 	private String queryRequest = "http://www.comicvine.com/api/search/?api_key=2736f1620710c52159ba0d0aea337c59bd273816"
-			+ "&format=json&field_list="+resources+"&resources=volume&limit=10&query=";
+			+ "&format=json&field_list="+resources+"&resources=volume&limit=25&query=";
 	private boolean downloadImages = true;
-	//private ComicVineConnectorMySQL comicvineConnector;
 	
 	public ComicVineService() {
 		super();
 		try{
-		//this.mySQLFacade = new MySQLFacade();
-		//this.comicvineConnector = new ComicVineConnectorMySQL();
 		this.cc = new ComicvineConnector();
 		}catch(Exception e){
 			Log.info("Ensure Context.xml is accessible");
@@ -138,7 +137,7 @@ public class ComicVineService extends DatabaseConnector implements ControllerSer
 
 		//ArrayList<ComicVineIssue> issues = this.comicvineConnector.findAllIssues(volumeID);
 		ArrayList<ComicVineIssue> issues = this.cc.findAllIssues(volumeID);
-
+		
 		if(issues==null || issues.size()==0){
 			// Preform Issue Query to get images
 			System.out.println("\n\nVOLUME QUERY : "+volumeID);
@@ -149,10 +148,12 @@ public class ComicVineService extends DatabaseConnector implements ControllerSer
 
 			//Update current object with image strings
 			issues = updateIssues(this.cvv.get(0).getIssues());		
+			issues = issueSort(issues);	
 		}else{
 			System.out.println("CACHE ACCESSED");
 			ComicVineVolume tempComicVineVolume = new ComicVineVolume();
 			tempComicVineVolume.setId(Integer.parseInt(volumeID));
+			issues = issueSort(issues);
 			tempComicVineVolume.setIssues(issues);
 			this.cvv = new ArrayList<ComicVineVolume>();
 			this.cvv.add(tempComicVineVolume);
@@ -160,6 +161,19 @@ public class ComicVineService extends DatabaseConnector implements ControllerSer
 		
 		//Generate JSON Response
 		return response(issues, volumeID,startTime);
+	}
+	
+	public ArrayList<ComicVineIssue> issueSort(ArrayList<ComicVineIssue> issues){
+		 Collections.sort(issues, new Comparator<ComicVineIssue>(){
+			    @Override
+			    public int compare(final ComicVineIssue o1, final ComicVineIssue o2){
+			        // let your comparator look up your car's color in the custom order
+			        return Integer.valueOf(	(int) (Math.floor(	(	Double.valueOf(o1.getIssue_number()))	))
+			        		).compareTo(Integer.valueOf(	(int) (Math.floor(	(	Double.valueOf(o2.getIssue_number()))	))));
+			    }
+			});
+		
+		return new ArrayList<ComicVineIssue>( issues.subList(0, 150));
 	}
 	
 	public ArrayList<ComicVineIssue> updateIssues(ArrayList<ComicVineIssue> issues){
@@ -207,7 +221,7 @@ public class ComicVineService extends DatabaseConnector implements ControllerSer
 		JSONObject jsonResponse = new JSONObject();
 		String generatedJson = null;
 		
-		issues = sortIssues(issues);
+		issues = issueSort(issues);
 		
 		try {
 			generatedJson = ow.writeValueAsString(issues);
@@ -244,21 +258,23 @@ public class ComicVineService extends DatabaseConnector implements ControllerSer
 		long startTime = System.currentTimeMillis();
 		
 		query = encodeQuery(query);
-		ArrayList<ComicVineVolume> cvv = preformQuery(query);
+		ArrayList<ComicVineVolume> comicvineVolumesResponse = preformQuery(query);
+		comicvineVolumesResponse = volumeSort(comicvineVolumesResponse);
 		
 		ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
 		JSONObject jsonResponse = new JSONObject();
 		String generatedJson = null;
+		
 
 		try {
-			generatedJson = ow.writeValueAsString(cvv);
+			generatedJson = ow.writeValueAsString(comicvineVolumesResponse);
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
 		
 		try {
 			JSONArray cvvResults = new JSONArray(generatedJson);
-			jsonResponse.put("Results", cvv.size());
+			jsonResponse.put("Results", comicvineVolumesResponse.size());
 			jsonResponse.put("Query", URLDecoder.decode(query));
 			jsonResponse.put("COMICVINE", cvvResults);
 			jsonResponse.put("ResourceType", "Volume");
@@ -272,6 +288,19 @@ public class ComicVineService extends DatabaseConnector implements ControllerSer
 			e.printStackTrace();
 		}
 		return "{ \"ComicVine\": \"No Results\" }";
+	}
+	
+	public ArrayList<ComicVineVolume> volumeSort(ArrayList<ComicVineVolume> volumes){
+		 Collections.sort(volumes, new Comparator<ComicVineVolume>(){
+			    @Override
+			    public int compare(final ComicVineVolume o1, final ComicVineVolume o2){
+			        // let your comparator look up your car's color in the custom order
+			        return Integer.valueOf(	(int) (Math.floor(	(	Double.valueOf(o2.getCount_of_issues()))	))
+			        		).compareTo(Integer.valueOf(	(int) (Math.floor(	(	Double.valueOf(o1.getCount_of_issues()))	))));
+			    }
+			});
+		
+		return new ArrayList<ComicVineVolume>( volumes.subList(0, 15));
 	}
 	
 	@Override
@@ -342,7 +371,7 @@ public class ComicVineService extends DatabaseConnector implements ControllerSer
 	
 	public ArrayList<ComicVineVolume> preformIssueQuery(String volumeID) {
 		String issueQuery = "http://www.comicvine.com/api/volume/4050-"+volumeID+"/?api_key=2736f1620710c52159ba0d0aea337c59bd273816"
-				+ "&format=json&field_list=issues,id,name&sort=id&limit=10";
+				+ "&format=json&field_list=issues,id,name&sort=id&limit=15";
 		
 		System.out.println("ISSUE QUERY \n"+issueQuery);
 		this.grapeVineFacade = new GrapeVineFacade();

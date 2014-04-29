@@ -25,6 +25,7 @@ public class ComicVineServiceTest {
 		assert(this.comicVineService!=null);
 	}
 	
+	@Test
 	public void QueryTest(){
 		String results = this.comicVineService.executeQuery("Superman");
 		assert(!results.equals(null));
@@ -37,8 +38,4 @@ public class ComicVineServiceTest {
 		assert(result==true);
 	}
 	
-	public void checkVolumesInserted(){
-
-	}
-
 }
