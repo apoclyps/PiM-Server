@@ -91,7 +91,7 @@ public class ProductController extends HttpServlet {
 					activeProduct.generateTimeUUID();
 					if(systemConnector.insertItem(activeProduct)){
 						activeProduct.setSuccess(true);
-					}
+					}  
 					
 					break;
 				case "remove" :

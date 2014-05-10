@@ -98,9 +98,21 @@ public class SystemConnectorTest {
 		currentProduct.setBarcode(barcode);
 		systemConnector.deleteItem(currentProduct);
 	}
+	
+	@Test
+	public void EsimpleUpdate(){
+		SystemConnector systemConnector = new SystemConnector();
+		Product currentProduct = new Product();
+		currentProduct.setId(new UUID("3f9087a0-cfdf-11e3-ad4d-6c626d297ffa"));
+		long barcode = 75960607909302011L;
+		currentProduct.setBarcode(barcode);
+		currentProduct.setIssueID("1");;
+		
+		systemConnector.updateItem(currentProduct);
+	}
 
 	@Test
-	public void EproductDeletion(){
+	public void FproductDeletion(){
 		SystemConnector systemConnector = new SystemConnector();
 		assertNotNull("Instantising System Connector", systemConnector);
 		

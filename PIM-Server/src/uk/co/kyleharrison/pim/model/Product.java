@@ -9,6 +9,7 @@ public class Product {
 	protected int quantity;
 	protected String mediatype;
 	protected boolean success;
+	protected String issueID;
 	
 	public Product() {
 		super();
@@ -81,6 +82,14 @@ public class Product {
 	public UUID generateTimeUUID(){
 		this.id = new UUID();
 		return this.id;
+	}
+
+	public String getIssueID() {
+		return issueID;
+	}
+
+	public void setIssueID(String issueID) {
+		this.issueID = issueID;
 	}
 		
 }

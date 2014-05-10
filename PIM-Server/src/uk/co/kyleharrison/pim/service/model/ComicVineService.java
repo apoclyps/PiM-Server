@@ -173,7 +173,14 @@ public class ComicVineService extends DatabaseConnector implements ControllerSer
 			    }
 			});
 		
-		return new ArrayList<ComicVineIssue>( issues.subList(0, 150));
+		 if(issues.size()>150){
+			 return new ArrayList<ComicVineIssue>( issues.subList(0, 150));
+		 }else if (issues.size()-1>25){
+			 return new ArrayList<ComicVineIssue>( issues.subList(0, 25));
+		 }else{
+			 return issues; 
+		 }
+		 
 	}
 	
 	public ArrayList<ComicVineIssue> updateIssues(ArrayList<ComicVineIssue> issues){
